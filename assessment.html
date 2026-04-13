@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Readiness Assessment | Dr. Sergey Morozov</title>
+<!-- SEO -->
+<meta name="description" content="Evaluate your hospital's readiness for AI across six dimensions: infrastructure, workflow, regulatory, data integrity, and economics. Get your clinical readiness score."/>
+<link rel="canonical" href="https://medlogic.co/assessment.html"/>
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+<link rel="icon" type="image/png" href="logo.png"/>
+<!-- Open Graph -->
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://medlogic.co/assessment.html"/>
+<meta property="og:title" content="AI Readiness Assessment | Dr. Sergey Morozov"/>
+<meta property="og:description" content="Evaluate your hospital's readiness for AI across six dimensions: infrastructure, workflow, regulatory, data integrity, and economics."/>
+<meta property="og:image" content="https://medlogic.co/logo.png"/>
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="AI Readiness Assessment | Dr. Sergey Morozov"/>
+<meta name="twitter:description" content="Evaluate your hospital's readiness for AI across six dimensions: infrastructure, workflow, regulatory, data integrity, and economics."/>
+<meta name="twitter:image" content="https://medlogic.co/logo.png"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "on-secondary-container":"#004ab9","surface-variant":"#dde4e5","on-background":"#2d3435",
+          "on-surface":"#2d3435","background":"#f9f9f9","surface-container-lowest":"#ffffff",
+          "surface-container-high":"#e4e9ea","outline":"#757c7d","outline-variant":"#adb3b4",
+          "secondary-fixed":"#dae2ff","primary":"#5f5e5e","tertiary":"#006d48","secondary":"#0f57d0",
+          "surface-container-low":"#f2f4f4","on-secondary":"#f9f8ff","secondary-container":"#dae2ff",
+          "secondary-dim":"#004bbc","surface":"#f9f9f9","surface-container":"#ebeeef",
+          "tertiary-container":"#8af5be","on-tertiary-container":"#005c3c","on-surface-variant":"#5a6061",
+          "surface-container-highest":"#dde4e5"
+        },
+        borderRadius: { "DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem" },
+        fontFamily: { "headline":["Inter"],"body":["Inter"],"label":["Inter"] }
+      },
+    },
+  }
+</script>
+<style>
+  .material-symbols-outlined { font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24; vertical-align:middle; }
+  .editorial-shadow { box-shadow:0 8px 40px rgba(0,0,0,0.04); }
+  body { font-family:'Inter',sans-serif; background-color:#f9f9f9; color:#2d3435; }
+</style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+
+<!-- Navigation -->
+<nav class="sticky top-0 w-full z-50 bg-[#f9f9f9]/80 backdrop-blur-2xl shadow-[0_8px_40px_rgba(0,0,0,0.04)]">
+  <div class="max-w-[1280px] mx-auto flex justify-between items-center px-8 h-20">
+    <a href="index.html" class="text-xl font-bold tracking-tighter text-slate-900 uppercase">DR. MOROZOV</a>
+    <div class="hidden md:flex gap-8 items-center font-inter tracking-[-0.02em] font-medium">
+      <a class="text-slate-600 hover:text-slate-900 transition-all duration-300" href="index.html">Home</a>
+      <a class="text-slate-600 hover:text-slate-900 transition-all duration-300" href="about.html">About</a>
+      <a class="text-slate-600 hover:text-slate-900 transition-all duration-300" href="services.html">Services</a>
+      <a class="text-slate-600 hover:text-slate-900 transition-all duration-300" href="case-studies.html">Case Studies</a>
+      <a class="text-[#0f57d0] border-b-2 border-[#0f57d0] pb-1" href="assessment.html">AI Readiness Assessment</a>
+      <a class="text-slate-600 hover:text-slate-900 transition-all duration-300" href="insights.html">Insights</a>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="contact.html" class="hidden md:inline-block bg-secondary text-on-secondary px-6 py-2 rounded-DEFAULT font-medium active:scale-95 transition-transform">Contact</a>
+      <button id="menu-toggle" class="md:hidden p-2 text-slate-900 hover:text-[#0f57d0] transition-colors" aria-label="Open navigation menu" aria-expanded="false">
+        <span class="material-symbols-outlined text-3xl">menu</span>
+      </button>
+    </div>
+  </div>
+  <div class="bg-[#e4e9ea] h-[1px] opacity-20"></div>
+</nav>
+
+<!-- Mobile Navigation Drawer -->
+<div id="mobile-nav" class="hidden fixed inset-0 z-50 bg-[#f9f9f9] flex flex-col px-8 pt-8 pb-12 overflow-y-auto">
+  <div class="flex justify-between items-center mb-16">
+    <a href="index.html" class="text-xl font-bold tracking-tighter text-slate-900">DR. MOROZOV</a>
+    <button id="menu-close" class="p-2 text-slate-900 hover:text-[#0f57d0] transition-colors" aria-label="Close navigation menu">
+      <span class="material-symbols-outlined text-3xl">close</span>
+    </button>
+  </div>
+  <nav class="flex flex-col gap-8 flex-1">
+    <a class="text-4xl font-bold tracking-tight text-slate-700 hover:text-[#0f57d0] transition-colors" href="index.html">Home</a>
+    <a class="text-4xl font-bold tracking-tight text-slate-700 hover:text-[#0f57d0] transition-colors" href="about.html">About</a>
+    <a class="text-4xl font-bold tracking-tight text-slate-700 hover:text-[#0f57d0] transition-colors" href="services.html">Services</a>
+    <a class="text-4xl font-bold tracking-tight text-slate-700 hover:text-[#0f57d0] transition-colors" href="case-studies.html">Case Studies</a>
+    <a class="text-4xl font-bold tracking-tight text-[#0f57d0]" href="assessment.html">AI Readiness</a>
+    <a class="text-4xl font-bold tracking-tight text-slate-700 hover:text-[#0f57d0] transition-colors" href="insights.html">Insights</a>
+  </nav>
+  <a href="contact.html" class="mt-8 block bg-[#0f57d0] text-white px-8 py-5 rounded-sm font-bold text-center text-xl hover:opacity-90 transition-opacity">Contact</a>
+</div>
+<script>
+  (function(){
+    var t=document.getElementById('menu-toggle'),c=document.getElementById('menu-close'),n=document.getElementById('mobile-nav');
+    function openMenu(){n.classList.remove('hidden');t.setAttribute('aria-expanded','true');document.body.style.overflow='hidden';}
+    function closeMenu(){n.classList.add('hidden');t.setAttribute('aria-expanded','false');document.body.style.overflow='';}
+    if(t)t.addEventListener('click',openMenu);
+    if(c)c.addEventListener('click',closeMenu);
+  })();
+</script>
+
+<main class="max-w-[1280px] mx-auto px-8 py-16">
+  <!-- Hero Section -->
+  <header class="mb-24 max-w-4xl">
+    <span class="uppercase tracking-[0.05em] text-secondary font-bold mb-4 block text-sm">Strategic Evaluation</span>
+    <h1 class="text-6xl md:text-7xl font-extrabold tracking-[-0.04em] text-on-surface leading-tight mb-8">
+      How Ready Is Your <br/><span class="text-outline-variant">Hospital for AI?</span>
+    </h1>
+    <p class="text-xl text-on-surface-variant leading-relaxed max-w-2xl">
+      Deploying artificial intelligence in clinical settings requires more than just software. We evaluate your institution across six critical dimensions to ensure sustainable, scalable implementation.
+    </p>
+  </header>
+
+  <!-- Bento Dimensions Grid -->
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-32">
+    <div class="bg-surface-container-low p-8 rounded-lg flex flex-col justify-between aspect-square md:aspect-auto">
+      <span class="material-symbols-outlined text-4xl text-secondary mb-8 block">clarify</span>
+      <div>
+        <h3 class="text-xl font-bold mb-2">Infrastructure</h3>
+        <p class="text-sm text-on-surface-variant">Cloud capacity, edge computing, and hardware latency requirements for real-time diagnostics.</p>
+      </div>
+    </div>
+    <div class="bg-surface-container-lowest editorial-shadow p-8 rounded-lg flex flex-col justify-between">
+      <span class="material-symbols-outlined text-4xl text-secondary mb-8 block">account_tree</span>
+      <div>
+        <h3 class="text-xl font-bold mb-2">Workflow</h3>
+        <p class="text-sm text-on-surface-variant">Integration of AI insights into existing EMR/PACS systems without physician burnout.</p>
+      </div>
+    </div>
+    <div class="bg-surface-container-low p-8 rounded-lg flex flex-col justify-between">
+      <span class="material-symbols-outlined text-4xl text-secondary mb-8 block">gavel</span>
+      <div>
+        <h3 class="text-xl font-bold mb-2">Regulatory</h3>
+        <p class="text-sm text-on-surface-variant">Compliance with GDPR, HIPAA, and medical device classification standards.</p>
+      </div>
+    </div>
+    <div class="bg-surface-container-lowest editorial-shadow p-8 rounded-lg md:col-span-2 flex flex-col md:flex-row gap-8 items-center">
+      <div class="flex-1">
+        <span class="material-symbols-outlined text-4xl text-secondary mb-8 block">database</span>
+        <h3 class="text-xl font-bold mb-2">Data Integrity</h3>
+        <p class="text-sm text-on-surface-variant">Standardized labeling, curation pipelines, and historical data accessibility for model training and validation.</p>
+      </div>
+      <div class="w-full md:w-1/3 h-32 bg-surface-container-high rounded-sm overflow-hidden relative">
+        <img class="w-full h-full object-cover opacity-60" alt="Abstract visualization of clinical data streams with blue glowing nodes and neural network patterns" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCF3CdwYSAJLU1v4V79Hnf7_A0oBG5FqeRl-W-QoupcfU7Ab_cZPJNYAHIYxxwSIDnXhrIAgSe0mly5OU8PwOwQKBg4lVHfjk62eVhtWi0u5S_fWGd-0kl_7zyOuNKj8881RDSNrUSHNRgY7j0gZ3uWZq2-vPLcRPjYwilauPsMEyfrF02iP_Q7S9MO3E0T8ZTa1tF28rSNFZZ9PBACUrM4rVSwW2FXuNzlyxY2XSulWWVfpmRTN6KhpWZo5JkMe6gtiUE9SG_pVA"/>
+      </div>
+    </div>
+    <div class="bg-surface-container-low p-8 rounded-lg flex flex-col justify-between">
+      <span class="material-symbols-outlined text-4xl text-secondary mb-8 block">analytics</span>
+      <div>
+        <h3 class="text-xl font-bold mb-2">Economics</h3>
+        <p class="text-sm text-on-surface-variant">ROI modeling, billing codes, and long-term maintenance budgets.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Multi-Step Assessment Form Section -->
+  <section class="flex flex-col lg:flex-row gap-16 items-start mb-32">
+    <div class="flex-1 w-full">
+      <div class="mb-12">
+        <div class="flex justify-between items-end mb-4">
+          <span class="text-sm font-bold uppercase tracking-widest text-secondary">Step 01 / 06</span>
+          <span class="text-sm text-on-surface-variant">Dimension: Infrastructure</span>
+        </div>
+        <div class="w-full h-[2px] bg-surface-container-high">
+          <div class="h-full bg-secondary w-1/6"></div>
+        </div>
+      </div>
+      <form class="space-y-12">
+        <fieldset>
+          <legend class="text-2xl font-bold block mb-6 leading-tight">Does your facility currently utilize a centralized GPU-enabled local server or a medical-grade cloud environment?</legend>
+          <div class="grid grid-cols-1 sm:grid-cols-5 gap-4">
+            <label class="group cursor-pointer">
+              <input class="hidden peer" name="q1" type="radio" value="1"/>
+              <div class="p-4 border border-outline-variant/20 peer-checked:bg-secondary peer-checked:text-on-secondary transition-all text-center rounded-sm">
+                <span class="block text-xs uppercase font-bold mb-1">1</span>
+                <span class="text-xs">No Cloud/GPU</span>
+              </div>
+            </label>
+            <label class="group cursor-pointer">
+              <input class="hidden peer" name="q1" type="radio" value="2"/>
+              <div class="p-4 border border-outline-variant/20 peer-checked:bg-secondary peer-checked:text-on-secondary transition-all text-center rounded-sm">
+                <span class="block text-xs uppercase font-bold mb-1">2</span>
+                <span class="text-xs">Limited</span>
+              </div>
+            </label>
+            <label class="group cursor-pointer">
+              <input checked class="hidden peer" name="q1" type="radio" value="3"/>
+              <div class="p-4 border border-outline-variant/20 peer-checked:bg-secondary peer-checked:text-on-secondary transition-all text-center rounded-sm">
+                <span class="block text-xs uppercase font-bold mb-1">3</span>
+                <span class="text-xs">Transitioning</span>
+              </div>
+            </label>
+            <label class="group cursor-pointer">
+              <input class="hidden peer" name="q1" type="radio" value="4"/>
+              <div class="p-4 border border-outline-variant/20 peer-checked:bg-secondary peer-checked:text-on-secondary transition-all text-center rounded-sm">
+                <span class="block text-xs uppercase font-bold mb-1">4</span>
+                <span class="text-xs">Robust</span>
+              </div>
+            </label>
+            <label class="group cursor-pointer">
+              <input class="hidden peer" name="q1" type="radio" value="5"/>
+              <div class="p-4 border border-outline-variant/20 peer-checked:bg-secondary peer-checked:text-on-secondary transition-all text-center rounded-sm">
+                <span class="block text-xs uppercase font-bold mb-1">5</span>
+                <span class="text-xs">Advanced</span>
+              </div>
+            </label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend class="text-2xl font-bold block mb-6 leading-tight">What is the current latency of your hospital-wide PACS/RIS synchronization?</legend>
+          <div class="space-y-4">
+            <label class="flex items-center gap-4 p-4 bg-surface-container-low cursor-pointer hover:bg-surface-container-high transition-colors rounded-sm">
+              <input class="w-5 h-5 text-secondary focus:ring-secondary border-outline-variant" name="q2" type="radio" value="high-speed"/>
+              <span class="font-medium text-lg">Under 500ms (High Speed)</span>
+            </label>
+            <label class="flex items-center gap-4 p-4 bg-surface-container-low cursor-pointer hover:bg-surface-container-high transition-colors rounded-sm">
+              <input class="w-5 h-5 text-secondary focus:ring-secondary border-outline-variant" name="q2" type="radio" value="standard"/>
+              <span class="font-medium text-lg">500ms - 2 seconds (Standard)</span>
+            </label>
+            <label class="flex items-center gap-4 p-4 bg-surface-container-low cursor-pointer hover:bg-surface-container-high transition-colors rounded-sm">
+              <input class="w-5 h-5 text-secondary focus:ring-secondary border-outline-variant" name="q2" type="radio" value="high-latency"/>
+              <span class="font-medium text-lg">Over 2 seconds (High Latency)</span>
+            </label>
+          </div>
+        </fieldset>
+        <div class="flex justify-between pt-8">
+          <button class="text-outline hover:text-on-surface transition-colors font-medium" type="button">Save for later</button>
+          <button class="bg-secondary text-on-secondary px-10 py-4 rounded-sm font-bold flex items-center gap-2 active:scale-95 transition-transform shadow-lg" type="button">
+            Next Dimension
+            <span class="material-symbols-outlined">arrow_forward</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Score Dial -->
+    <div class="w-full lg:w-96 bg-surface-container-highest p-10 rounded-sm sticky top-32">
+      <h4 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-8">Preliminary Readiness</h4>
+      <div class="relative flex justify-center items-center mb-10">
+        <svg class="w-48 h-48 -rotate-90">
+          <circle class="text-surface-variant" cx="96" cy="96" fill="transparent" r="88" stroke="currentColor" stroke-width="8"></circle>
+          <circle class="text-secondary" cx="96" cy="96" fill="transparent" r="88" stroke="currentColor" stroke-dasharray="552.92" stroke-dashoffset="380" stroke-width="12"></circle>
+        </svg>
+        <div class="absolute text-center">
+          <span class="text-5xl font-black block tracking-tighter">32%</span>
+          <span class="text-[10px] uppercase font-bold text-on-surface-variant">Index</span>
+        </div>
+      </div>
+      <div class="space-y-6">
+        <div>
+          <div class="flex justify-between text-[11px] font-bold uppercase mb-2">
+            <span>Infrastructure</span>
+            <span class="text-secondary">Low-Mid</span>
+          </div>
+          <div class="w-full h-1 bg-surface-variant"><div class="h-full bg-secondary w-1/3"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between text-[11px] font-bold uppercase mb-2">
+            <span>Workflow Alignment</span>
+            <span class="text-outline">Pending</span>
+          </div>
+          <div class="w-full h-1 bg-surface-variant"></div>
+        </div>
+      </div>
+      <p class="mt-12 text-xs text-on-surface-variant leading-relaxed italic">
+        "Infrastructure is currently your primary bottleneck. AI models require significant IOPS that legacy RIS systems cannot provide."
+      </p>
+    </div>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-[#172B4D] text-white w-full mt-40">
+  <div class="max-w-[1280px] mx-auto px-8 py-24 grid grid-cols-1 md:grid-cols-3 gap-16">
+    <div>
+      <a href="index.html" class="text-lg font-bold tracking-tight text-white mb-4 block uppercase">DR. MOROZOV</a>
+      <p class="text-slate-300 text-sm leading-relaxed mb-8">Bridging the gap between clinical excellence and technological advancement.</p>
+      <a href="https://www.linkedin.com/in/sergey-morozov" target="_blank" rel="noopener noreferrer" class="w-10 h-10 border border-white/20 flex items-center justify-center hover:bg-secondary transition-colors">
+        <span class="material-symbols-outlined text-sm">share</span>
+      </a>
+    </div>
+    <div>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">Navigation</h4>
+      <ul class="space-y-4 text-sm">
+        <li><a class="text-slate-300 hover:text-blue-400 transition-colors" href="index.html">Home</a></li>
+        <li><a class="text-slate-300 hover:text-blue-400 transition-colors" href="about.html">About</a></li>
+        <li><a class="text-slate-300 hover:text-blue-400 transition-colors" href="services.html">Services</a></li>
+        <li><a class="text-white font-bold underline underline-offset-4" href="assessment.html">AI Readiness Assessment</a></li>
+        <li><a class="text-slate-300 hover:text-blue-400 transition-colors" href="insights.html">Insights</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">Get Your Full Report</h4>
+      <p class="text-xs text-slate-400 mb-4">Submit your details to receive a comprehensive strategic roadmap for AI implementation.</p>
+      <form class="space-y-4" action="https://formspree.io/f/mrerzzpz" method="POST">
+        <input type="hidden" name="_subject" value="Assessment report request — medlogic.co"/>
+        <input class="w-full bg-white/5 border-b border-white/20 px-0 py-2 focus:outline-none focus:border-blue-400 transition-colors text-sm" placeholder="Full Name" type="text" name="name" required/>
+        <input class="w-full bg-white/5 border-b border-white/20 px-0 py-2 focus:outline-none focus:border-blue-400 transition-colors text-sm" placeholder="Institutional Email" type="email" name="email" required/>
+        <button class="w-full bg-secondary text-on-secondary py-3 text-xs font-bold uppercase tracking-widest hover:bg-secondary-dim transition-colors" type="submit">Request Analysis</button>
+      </form>
+    </div>
+  </div>
+  <div class="max-w-[1280px] mx-auto px-8 pb-12">
+    <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+      <p class="text-xs text-slate-500">© 2026 Dr. Sergey Morozov. Clinical Curator &amp; AI Strategist.</p>
+      <div class="flex gap-8 text-xs text-slate-500 uppercase tracking-widest">
+        <a class="hover:text-white transition-colors" href="#">Privacy</a>
+        <a class="hover:text-white transition-colors" href="#">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

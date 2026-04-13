@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dr. Sergey Morozov | Clinical AI Strategist</title>
+<!-- SEO -->
+<meta name="description" content="Dr. Sergey Morozov — Clinical AI Strategist and Curator based in Brussels. Turning healthcare AI implementation into measurable clinical impact and financial ROI."/>
+<link rel="canonical" href="https://medlogic.co/index.html"/>
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+<link rel="icon" type="image/png" href="logo.png"/>
+<!-- Open Graph -->
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://medlogic.co/index.html"/>
+<meta property="og:title" content="Dr. Sergey Morozov | Clinical AI Strategist"/>
+<meta property="og:description" content="Turning healthcare AI implementation into measurable clinical impact and financial ROI through rigorous curation, deployment strategy, and monitoring."/>
+<meta property="og:image" content="https://medlogic.co/logo.png"/>
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Dr. Sergey Morozov | Clinical AI Strategist"/>
+<meta name="twitter:description" content="Turning healthcare AI implementation into measurable clinical impact and financial ROI through rigorous curation, deployment strategy, and monitoring."/>
+<meta name="twitter:image" content="https://medlogic.co/logo.png"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "error-container":"#fe8983","on-secondary-container":"#004ab9","surface-variant":"#dde4e5",
+          "on-error":"#fff7f6","on-background":"#2d3435","on-tertiary-fixed":"#00472d","tertiary-dim":"#00603e",
+          "on-error-container":"#752121","on-secondary-fixed":"#003993","on-primary-container":"#525151",
+          "inverse-primary":"#ffffff","primary-container":"#e5e2e1","on-primary-fixed-variant":"#5c5b5b",
+          "tertiary-fixed-dim":"#7ce6b1","on-tertiary-fixed-variant":"#006744","on-surface":"#2d3435",
+          "on-tertiary":"#e6ffee","background":"#f9f9f9","tertiary-fixed":"#8af5be",
+          "surface-container-lowest":"#ffffff","on-primary":"#faf7f6","primary-fixed-dim":"#d7d4d3",
+          "surface-container-high":"#e4e9ea","primary-dim":"#535252","outline":"#757c7d",
+          "outline-variant":"#adb3b4","error":"#9f403d","secondary-fixed":"#dae2ff",
+          "secondary-fixed-dim":"#c6d3ff","surface-dim":"#d4dbdd","primary":"#5f5e5e",
+          "on-primary-fixed":"#403f3f","primary-fixed":"#e5e2e1","tertiary":"#006d48",
+          "secondary":"#0f57d0","surface-container-low":"#f2f4f4","on-secondary":"#f9f8ff",
+          "secondary-container":"#dae2ff","secondary-dim":"#004bbc","inverse-on-surface":"#9c9d9d",
+          "inverse-surface":"#0c0f0f","surface":"#f9f9f9","surface-container":"#ebeeef",
+          "surface-bright":"#f9f9f9","tertiary-container":"#8af5be","on-tertiary-container":"#005c3c",
+          "error-dim":"#4e0309","surface-tint":"#5f5e5e","on-surface-variant":"#5a6061",
+          "on-secondary-fixed-variant":"#0253cd","surface-container-highest":"#dde4e5"
+        },
+        borderRadius: { "DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem" },
+        fontFamily: { "headline":["Inter"],"body":["Inter"],"label":["Inter"] }
+      },
+    },
+  }
+</script>
+<style>
+  .material-symbols-outlined { font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24; vertical-align:middle; }
+  body { font-family:'Inter',sans-serif; background-color:#f9f9f9; color:#2d3435; }
+  .clinical-gradient { background:linear-gradient(135deg,#0f57d0 0%,#004bbc 100%); }
+</style>
+</head>
+<body class="selection:bg-secondary-container selection:text-on-secondary-container">
+
+<!-- Navigation -->
+<header class="sticky top-0 w-full z-50 bg-[#f9f9f9]/80 backdrop-blur-2xl shadow-[0_8px_40px_rgba(0,0,0,0.04)]">
+  <div class="max-w-[1280px] mx-auto flex justify-between items-center px-8 h-20">
+    <a href="index.html" class="text-xl font-bold tracking-tighter text-slate-900">DR. MOROZOV</a>
+    <nav class="hidden md:flex items-center space-x-8 font-inter tracking-[-0.02em] font-medium">
+      <a class="text-[#0f57d0] border-b-2 border-[#0f57d0] pb-1 transition-all duration-300" href="index.html">Home</a>
+      <a class="text-slate-600 hover:text-slate-900 transition-all duration-300" href="about.html">About</a>
+      <a class="text-slate-600 hover:text-slate-900 transition-all duration-300" href="services.html">Services</a>
+      <a class="text-slate-600 hover:text-slate-900 transition-all duration-300" href="case-studies.html">Case Studies</a>
+      <a class="text-slate-600 hover:text-slate-900 transition-all duration-300" href="assessment.html">AI Readiness Assessment</a>
+      <a class="text-slate-600 hover:text-slate-900 transition-all duration-300" href="insights.html">Insights</a>
+    </nav>
+    <div class="flex items-center gap-3">
+      <a href="contact.html" class="hidden md:inline-block bg-[#0f57d0] text-white px-6 py-2.5 rounded-sm font-medium hover:opacity-70 active:scale-95 transition-all duration-300">Contact</a>
+      <button id="menu-toggle" class="md:hidden p-2 text-slate-900 hover:text-[#0f57d0] transition-colors" aria-label="Open navigation menu" aria-expanded="false">
+        <span class="material-symbols-outlined text-3xl">menu</span>
+      </button>
+    </div>
+  </div>
+  <div class="bg-[#e4e9ea] h-[1px] opacity-20"></div>
+</header>
+
+<!-- Mobile Navigation Drawer -->
+<div id="mobile-nav" class="hidden fixed inset-0 z-50 bg-[#f9f9f9] flex flex-col px-8 pt-8 pb-12 overflow-y-auto">
+  <div class="flex justify-between items-center mb-16">
+    <a href="index.html" class="text-xl font-bold tracking-tighter text-slate-900">DR. MOROZOV</a>
+    <button id="menu-close" class="p-2 text-slate-900 hover:text-[#0f57d0] transition-colors" aria-label="Close navigation menu">
+      <span class="material-symbols-outlined text-3xl">close</span>
+    </button>
+  </div>
+  <nav class="flex flex-col gap-8 flex-1">
+    <a class="text-4xl font-bold tracking-tight text-[#0f57d0]" href="index.html">Home</a>
+    <a class="text-4xl font-bold tracking-tight text-slate-700 hover:text-[#0f57d0] transition-colors" href="about.html">About</a>
+    <a class="text-4xl font-bold tracking-tight text-slate-700 hover:text-[#0f57d0] transition-colors" href="services.html">Services</a>
+    <a class="text-4xl font-bold tracking-tight text-slate-700 hover:text-[#0f57d0] transition-colors" href="case-studies.html">Case Studies</a>
+    <a class="text-4xl font-bold tracking-tight text-slate-700 hover:text-[#0f57d0] transition-colors" href="assessment.html">AI Readiness</a>
+    <a class="text-4xl font-bold tracking-tight text-slate-700 hover:text-[#0f57d0] transition-colors" href="insights.html">Insights</a>
+  </nav>
+  <a href="contact.html" class="mt-8 block bg-[#0f57d0] text-white px-8 py-5 rounded-sm font-bold text-center text-xl hover:opacity-90 transition-opacity">Contact</a>
+</div>
+<script>
+  (function(){
+    var t=document.getElementById('menu-toggle'),c=document.getElementById('menu-close'),n=document.getElementById('mobile-nav');
+    function openMenu(){n.classList.remove('hidden');t.setAttribute('aria-expanded','true');document.body.style.overflow='hidden';}
+    function closeMenu(){n.classList.add('hidden');t.setAttribute('aria-expanded','false');document.body.style.overflow='';}
+    if(t)t.addEventListener('click',openMenu);
+    if(c)c.addEventListener('click',closeMenu);
+  })();
+</script>
+
+<main>
+  <!-- Hero Section -->
+  <section class="relative min-h-[870px] flex items-center overflow-hidden pt-12">
+    <div class="absolute inset-0 z-0">
+      <img class="w-full h-full object-cover mix-blend-multiply grayscale brightness-105 contrast-110 opacity-30" alt="High-precision abstract medical background with clinical neural pathways." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-FWHY5X7I5Qh5156SxGZKsxQorGBySS-4jVm0A550ZTESlCImL4_ftnwyTVwggI1eTI4dAWFfrdpXnP0FodLHBElRH3zadpHIe3CBgXA6aaTm1Vo_uO7dZdKK7gE5UAheLNsMtA2el-U45vdoov_ujKJV3hCIAuhzEtoNClYYFcYwOTs0XQ5eOXzrzEtt_SyHVGK94UcgbiZfXEKhtJbioeUtYX6ozqg6iOEdktNzU95yVxbFI8qv1uUuKn80kAL0SpDZLB49cQ"/>
+      <div class="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent"></div>
+    </div>
+    <div class="max-w-[1280px] mx-auto px-8 relative z-10 w-full">
+      <div class="max-w-4xl">
+        <span class="inline-block bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase mb-6">Clinical AI Strategy</span>
+        <h1 class="text-6xl md:text-8xl font-bold tracking-[-0.03em] leading-[0.95] text-on-surface mb-8">
+          Making AI <span class="text-secondary">Actually Work</span> in the Clinic
+        </h1>
+        <p class="text-xl md:text-2xl text-on-surface-variant max-w-2xl leading-relaxed mb-12 font-light">
+          Turning healthcare AI Implementation Costs into measurable clinical impact and financial ROI through rigorous curation, deployment strategy, and monitoring.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="assessment.html" class="clinical-gradient text-white px-8 py-4 rounded-sm font-semibold tracking-tight hover:shadow-xl transition-all duration-300 active:scale-[0.98] inline-block text-center">
+            Take the AI Readiness Assessment
+          </a>
+          <a href="services.html" class="bg-surface-container-highest text-on-surface px-8 py-4 rounded-sm font-semibold tracking-tight hover:bg-surface-container-high transition-all duration-300 inline-block text-center">
+            Explore Services
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem Statement -->
+  <section class="py-24 bg-surface-container-low">
+    <div class="max-w-[1280px] mx-auto px-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-end">
+        <div class="col-span-1">
+          <h2 class="text-sm font-bold uppercase tracking-widest text-outline mb-4">The Implementation Gap</h2>
+          <p class="text-2xl font-light text-on-surface leading-snug">Most AI fails at the clinical threshold. We bridge the gap between innovation and practice.</p>
+        </div>
+        <div class="md:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-8">
+          <div class="bg-surface p-8 rounded-sm">
+            <div class="text-5xl font-bold text-secondary mb-2 tracking-tighter">67%</div>
+            <p class="text-sm text-on-surface-variant leading-relaxed">of AI algorithms degrade in real-world clinical performance within 12 months.</p>
+          </div>
+          <div class="bg-surface p-8 rounded-sm">
+            <div class="text-5xl font-bold text-secondary mb-2 tracking-tighter">16%</div>
+            <p class="text-sm text-on-surface-variant leading-relaxed">of institutions actively monitor AI drift after initial deployment.</p>
+          </div>
+          <div class="bg-surface p-8 rounded-sm">
+            <div class="text-5xl font-bold text-secondary mb-2 tracking-tighter">21%</div>
+            <p class="text-sm text-on-surface-variant leading-relaxed">gap in clinical adoption between curated vs. non-curated AI solutions.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Sergey -->
+  <section class="py-32 bg-surface">
+    <div class="max-w-[1280px] mx-auto px-8">
+      <div class="max-w-3xl">
+        <div class="space-y-8">
+          <h2 class="text-5xl font-bold tracking-tight">Bridging Medical Expertise &amp; Machine Intelligence</h2>
+          <div class="space-y-6 text-lg text-on-surface-variant leading-relaxed">
+            <p>As a Clinical Curator and AI Strategist, Dr. Sergey Morozov brings the unique perspective of a physician executive who has overseen the deployment of AI across massive healthcare networks.</p>
+            <p>With oversight of over 1.3 million diagnostic exams and leadership roles in networks of 100+ diagnostic centers, he understands that AI is not a software purchase—it is a clinical process transformation.</p>
+            <p>His methodology focuses on Clinical Curation: ensuring that technology serves the physician, the patient, and the institution — delivering clinical integrity, operational efficiency, and executive accountability in equal measure.</p>
+          </div>
+          <div class="pt-8 border-t border-outline-variant/20 overflow-hidden">
+            <div class="flex flex-wrap gap-x-12 gap-y-4 items-center">
+              <div class="flex flex-col">
+                <span class="text-2xl font-bold">250+</span>
+                <span class="text-xs uppercase tracking-widest text-outline">Publications</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-2xl font-bold">3,100+</span>
+                <span class="text-xs uppercase tracking-widest text-outline">Citations</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-2xl font-bold text-secondary">EuSoMII</span>
+                <span class="text-xs uppercase tracking-widest text-outline">Past President</span>
+              </div>
+            </div>
+          </div>
+          <a href="about.html" class="inline-flex items-center gap-2 text-secondary font-bold group mt-4">
+            Learn More About Dr. Morozov
+            <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+          </a>
+        </div>
+    </div>
+  </section>
+
+  <!-- Proof Points Banner -->
+  <section class="py-20 clinical-gradient text-white">
+    <div class="max-w-[1280px] mx-auto px-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-16 text-center">
+        <div>
+          <div class="text-7xl font-extrabold tracking-tighter mb-2">4x</div>
+          <p class="text-secondary-fixed text-sm uppercase tracking-[0.2em] font-medium">Return on AI Implementation Costs</p>
+        </div>
+        <div>
+          <div class="text-7xl font-extrabold tracking-tighter mb-2">-33%</div>
+          <p class="text-secondary-fixed text-sm uppercase tracking-[0.2em] font-medium">Turnaround Time Reduction</p>
+        </div>
+        <div>
+          <div class="text-7xl font-extrabold tracking-tighter mb-2">&gt;90%</div>
+          <p class="text-secondary-fixed text-sm uppercase tracking-[0.2em] font-medium">Clinical User Adoption</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Preview -->
+  <section class="py-32 bg-surface-container-low">
+    <div class="max-w-[1280px] mx-auto px-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
+        <div class="max-w-2xl">
+          <h2 class="text-5xl font-bold tracking-tight mb-6">Execution Services</h2>
+          <p class="text-xl text-on-surface-variant font-light">Bespoke strategic consulting for healthcare systems and technology providers looking to de-risk AI implementation.</p>
+        </div>
+        <a class="text-secondary font-bold inline-flex items-center group" href="services.html">
+          View All Services
+          <span class="material-symbols-outlined ml-2 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+        </a>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <a href="services.html" class="bg-surface p-12 rounded-sm group hover:shadow-2xl transition-all duration-500 border-b-4 border-transparent hover:border-secondary block">
+          <span class="material-symbols-outlined text-4xl text-secondary mb-8 block">verified</span>
+          <h3 class="text-2xl font-bold mb-4">Compliance &amp; Safety</h3>
+          <p class="text-on-surface-variant leading-relaxed mb-8">Rigorous clinical validation and safety frameworks to ensure AI adheres to medical standards and regulatory demands.</p>
+          <div class="text-sm font-bold uppercase tracking-widest text-outline">Clinical Quality</div>
+        </a>
+        <a href="services.html" class="bg-surface p-12 rounded-sm group hover:shadow-2xl transition-all duration-500 border-b-4 border-transparent hover:border-secondary block">
+          <span class="material-symbols-outlined text-4xl text-secondary mb-8 block">monetization_on</span>
+          <h3 class="text-2xl font-bold mb-4">ROI Optimization</h3>
+          <p class="text-on-surface-variant leading-relaxed mb-8">Identifying high-value clinical use cases and optimizing workflows to capture tangible economic and operational gains.</p>
+          <div class="text-sm font-bold uppercase tracking-widest text-outline">Efficiency</div>
+        </a>
+        <a href="services.html" class="bg-surface p-12 rounded-sm group hover:shadow-2xl transition-all duration-500 border-b-4 border-transparent hover:border-secondary block">
+          <span class="material-symbols-outlined text-4xl text-secondary mb-8 block">architecture</span>
+          <h3 class="text-2xl font-bold mb-4">AI Strategy</h3>
+          <p class="text-on-surface-variant leading-relaxed mb-8">End-to-end roadmap design from infrastructure readiness to clinician training and sustainable performance monitoring.</p>
+          <div class="text-sm font-bold uppercase tracking-widest text-outline">Infrastructure</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lead Magnet Banner -->
+  <section class="py-24 max-w-[1280px] mx-auto px-8">
+    <div class="bg-[#172B4D] rounded-sm p-12 md:p-20 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-12">
+      <div class="absolute top-0 right-0 w-1/2 h-full opacity-10">
+        <img class="w-full h-full object-cover" alt="Complex data visualization showing interconnected nodes and healthcare metrics" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnWFMsBvsCPvrRHbye1wis3g5QU6Ibu5apVZmtYouL4k4lx7In_gzjJDQFbv7rHWBw8QYTHp_rasS6_54uMgr2ZkuBGgVJ4XdMVplBqy-REyUVxHE7rpXboYRuu2lx_QIGveOFd5LjlQawvWT9bzvnjqpVF1kGMfIHmPwhcoEXsbmTDWdkTzkoEfSkP0Rl-06Uk-vO7NF0meFlQZUS0d_5gVmCugV4oPSihkRinByzb_Mb0SjffxJyrj9c9qmaHnQcxOgcyBzQTg"/>
+      </div>
+      <div class="relative z-10 max-w-xl">
+        <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">How Ready Is Your Organization for AI?</h2>
+        <p class="text-slate-300 text-lg mb-8 leading-relaxed">Receive a customized clinical readiness score and immediate strategic recommendations based on your current infrastructure.</p>
+        <a href="assessment.html" class="inline-block bg-white text-[#172B4D] px-8 py-4 rounded-sm font-bold hover:bg-blue-50 transition-colors">Start Assessment</a>
+      </div>
+      <div class="relative z-10 hidden lg:block">
+        <div class="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-sm">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 rounded-full bg-secondary flex items-center justify-center">
+              <span class="material-symbols-outlined text-white">analytics</span>
+            </div>
+            <div>
+              <div class="text-white font-bold">Readiness Score</div>
+              <div class="text-secondary-fixed text-xs">Diagnostic Analysis</div>
+            </div>
+          </div>
+          <div class="h-2 w-48 bg-white/20 rounded-full overflow-hidden">
+            <div class="h-full bg-secondary w-2/3"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Signals -->
+  <section class="py-24 border-t border-outline-variant/10">
+    <div class="max-w-[1280px] mx-auto px-8">
+      <p class="text-center text-xs font-bold uppercase tracking-[0.3em] text-outline mb-16">Trusted by Industry Leaders &amp; Institutions</p>
+      <div class="flex flex-wrap justify-center items-center gap-12 md:gap-20 opacity-40 grayscale contrast-125">
+        <span class="text-2xl font-extrabold tracking-tighter">GE Healthcare</span>
+        <span class="text-2xl font-extrabold tracking-tighter">Siemens</span>
+        <span class="text-2xl font-extrabold tracking-tighter">ACR</span>
+        <span class="text-2xl font-extrabold tracking-tighter">EuSoMII</span>
+        <span class="text-2xl font-extrabold tracking-tighter">Lunit</span>
+        <span class="text-2xl font-extrabold tracking-tighter">Philips</span>
+        <span class="text-2xl font-extrabold tracking-tighter">3R Swiss Imaging Network</span>
+        <span class="text-2xl font-extrabold tracking-tighter">Vital Radiology Services</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-[#172B4D] w-full mt-40">
+  <div class="max-w-[1280px] mx-auto px-8 py-24 grid grid-cols-1 md:grid-cols-3 gap-16">
+    <div>
+      <a href="index.html" class="text-lg font-bold tracking-tight text-white mb-4 block">DR. MOROZOV</a>
+      <p class="text-slate-300 text-sm leading-relaxed mb-8 max-w-xs">Advancing healthcare through the clinical curation of medical intelligence.</p>
+      <a href="https://www.linkedin.com/in/sergey-morozov" target="_blank" rel="noopener noreferrer" class="text-slate-300 hover:text-blue-400 transition-colors">
+        <span class="material-symbols-outlined">share</span>
+      </a>
+    </div>
+    <div>
+      <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-widest">Navigation</h4>
+      <ul class="space-y-4">
+        <li><a class="text-white font-bold text-sm" href="index.html">Home</a></li>
+        <li><a class="text-slate-300 hover:text-blue-400 transition-colors text-sm" href="about.html">About</a></li>
+        <li><a class="text-slate-300 hover:text-blue-400 transition-colors text-sm" href="services.html">Services</a></li>
+        <li><a class="text-slate-300 hover:text-blue-400 transition-colors text-sm" href="case-studies.html">Case Studies</a></li>
+        <li><a class="text-slate-300 hover:text-blue-400 transition-colors text-sm" href="assessment.html">AI Readiness Assessment</a></li>
+        <li><a class="text-slate-300 hover:text-blue-400 transition-colors text-sm" href="insights.html">Insights</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-widest">Contact</h4>
+      <p class="text-slate-300 text-sm mb-6">Inquiries for consulting, speaking engagements, or advisory roles.</p>
+      <a class="text-white font-bold underline underline-offset-4 hover:text-blue-400 transition-colors js-email"></a>
+    </div>
+  </div>
+  <div class="max-w-[1280px] mx-auto px-8 pb-12">
+    <div class="bg-white/10 h-[1px] w-full mb-8"></div>
+    <p class="text-slate-300 text-sm">© 2026 Dr. Sergey Morozov. Clinical Curator &amp; AI Strategist.</p>
+  </div>
+</footer>
+
+<script>
+  (function(){var u='sergey',d='medlogic.co',e=u+'@'+d;document.querySelectorAll('.js-email').forEach(function(a){a.href='mailto:'+e;a.textContent=e;});})();
+</script>
+</body>
+</html>

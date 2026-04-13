@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Insights | Dr. Sergey Morozov</title>
+<!-- SEO -->
+<meta name="description" content="Clinical AI strategy, regulation, and ROI analysis from Dr. Sergey Morozov. Peer-reviewed perspective on what actually works in healthcare AI—beyond the hype."/>
+<link rel="canonical" href="https://medlogic.co/insights.html"/>
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+<link rel="icon" type="image/png" href="logo.png"/>
+<!-- Open Graph -->
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://medlogic.co/insights.html"/>
+<meta property="og:title" content="Insights | Dr. Sergey Morozov"/>
+<meta property="og:description" content="Clinical AI strategy, regulation, and ROI analysis. Peer-reviewed perspective on what actually works in healthcare AI—beyond the hype."/>
+<meta property="og:image" content="https://medlogic.co/logo.png"/>
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Insights | Dr. Sergey Morozov"/>
+<meta name="twitter:description" content="Clinical AI strategy, regulation, and ROI analysis. Peer-reviewed perspective on what actually works in healthcare AI—beyond the hype."/>
+<meta name="twitter:image" content="https://medlogic.co/logo.png"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "on-secondary-container": "#004ab9", "surface-variant": "#dde4e5", "on-background": "#2d3435",
+          "on-surface": "#2d3435", "background": "#f9f9f9", "surface-container-lowest": "#ffffff",
+          "surface-container-high": "#e4e9ea", "outline": "#757c7d", "outline-variant": "#adb3b4",
+          "secondary-fixed": "#dae2ff", "primary": "#5f5e5e", "tertiary": "#006d48",
+          "secondary": "#0f57d0", "surface-container-low": "#f2f4f4", "on-secondary": "#f9f8ff",
+          "secondary-container": "#dae2ff", "secondary-dim": "#004bbc", "surface": "#f9f9f9",
+          "surface-container": "#ebeeef", "tertiary-container": "#8af5be",
+          "on-tertiary-container": "#005c3c", "on-surface-variant": "#5a6061",
+          "surface-container-highest": "#dde4e5"
+        },
+        "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+        "fontFamily": { "headline": ["Inter"], "body": ["Inter"], "label": ["Inter"] }
+      },
+    },
+  }
+</script>
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+  body { font-family: 'Inter', sans-serif; background-color: #f9f9f9; color: #2d3435; }
+  .clinical-gradient { background: linear-gradient(135deg, #0f57d0 0%, #004bbc 100%); }
+</style>
+</head>
+<body class="bg-surface text-on-surface">
+
+<!-- Navigation -->
+<header class="sticky top-0 w-full z-50 bg-[#f9f9f9]/80 backdrop-blur-2xl shadow-[0_8px_40px_rgba(0,0,0,0.04)]">
+  <div class="max-w-[1280px] mx-auto flex justify-between items-center px-8 h-20">
+    <a href="index.html" class="text-xl font-bold tracking-tighter text-slate-900">DR. MOROZOV</a>
+    <nav class="hidden md:flex items-center space-x-8 font-inter tracking-[-0.02em] font-medium">
+      <a class="text-slate-600 hover:text-slate-900 transition-all duration-300" href="index.html">Home</a>
+      <a class="text-slate-600 hover:text-slate-900 transition-all duration-300" href="about.html">About</a>
+      <a class="text-slate-600 hover:text-slate-900 transition-all duration-300" href="services.html">Services</a>
+      <a class="text-slate-600 hover:text-slate-900 transition-all duration-300" href="case-studies.html">Case Studies</a>
+      <a class="text-slate-600 hover:text-slate-900 transition-all duration-300" href="assessment.html">AI Readiness Assessment</a>
+      <a class="text-[#0f57d0] border-b-2 border-[#0f57d0] pb-1" href="insights.html">Insights</a>
+    </nav>
+    <div class="flex items-center gap-3">
+      <a href="contact.html" class="hidden md:inline-block bg-[#0f57d0] text-white px-6 py-2.5 rounded-sm font-medium hover:opacity-70 active:scale-95 transition-all duration-300">Contact</a>
+      <button id="menu-toggle" class="md:hidden p-2 text-slate-900 hover:text-[#0f57d0] transition-colors" aria-label="Open navigation menu" aria-expanded="false">
+        <span class="material-symbols-outlined text-3xl">menu</span>
+      </button>
+    </div>
+  </div>
+  <div class="bg-[#e4e9ea] h-[1px] opacity-20"></div>
+</header>
+
+<!-- Mobile Navigation Drawer -->
+<div id="mobile-nav" class="hidden fixed inset-0 z-50 bg-[#f9f9f9] flex flex-col px-8 pt-8 pb-12 overflow-y-auto">
+  <div class="flex justify-between items-center mb-16">
+    <a href="index.html" class="text-xl font-bold tracking-tighter text-slate-900">DR. MOROZOV</a>
+    <button id="menu-close" class="p-2 text-slate-900 hover:text-[#0f57d0] transition-colors" aria-label="Close navigation menu">
+      <span class="material-symbols-outlined text-3xl">close</span>
+    </button>
+  </div>
+  <nav class="flex flex-col gap-8 flex-1">
+    <a class="text-4xl font-bold tracking-tight text-slate-700 hover:text-[#0f57d0] transition-colors" href="index.html">Home</a>
+    <a class="text-4xl font-bold tracking-tight text-slate-700 hover:text-[#0f57d0] transition-colors" href="about.html">About</a>
+    <a class="text-4xl font-bold tracking-tight text-slate-700 hover:text-[#0f57d0] transition-colors" href="services.html">Services</a>
+    <a class="text-4xl font-bold tracking-tight text-slate-700 hover:text-[#0f57d0] transition-colors" href="case-studies.html">Case Studies</a>
+    <a class="text-4xl font-bold tracking-tight text-slate-700 hover:text-[#0f57d0] transition-colors" href="assessment.html">AI Readiness</a>
+    <a class="text-4xl font-bold tracking-tight text-[#0f57d0]" href="insights.html">Insights</a>
+  </nav>
+  <a href="contact.html" class="mt-8 block bg-[#0f57d0] text-white px-8 py-5 rounded-sm font-bold text-center text-xl hover:opacity-90 transition-opacity">Contact</a>
+</div>
+<script>
+  (function(){
+    var t=document.getElementById('menu-toggle'),c=document.getElementById('menu-close'),n=document.getElementById('mobile-nav');
+    function openMenu(){n.classList.remove('hidden');t.setAttribute('aria-expanded','true');document.body.style.overflow='hidden';}
+    function closeMenu(){n.classList.add('hidden');t.setAttribute('aria-expanded','false');document.body.style.overflow='';}
+    if(t)t.addEventListener('click',openMenu);
+    if(c)c.addEventListener('click',closeMenu);
+  })();
+</script>
+
+<main class="max-w-[1280px] mx-auto px-8">
+  <!-- Hero -->
+  <section class="py-24 md:py-32 max-w-4xl">
+    <span class="inline-block px-3 py-1 bg-surface-container-high text-secondary text-xs font-bold tracking-widest uppercase rounded-full mb-6">Clinical AI Intelligence</span>
+    <h1 class="text-5xl md:text-7xl font-bold tracking-tighter text-on-surface leading-[1.05] mb-8">
+      Insights &amp; <span class="text-secondary">Analysis</span>
+    </h1>
+    <p class="text-xl text-on-surface-variant leading-relaxed font-light max-w-2xl">
+      Peer-reviewed perspective on what actually works in healthcare AI—beyond the hype. Articles and analysis coming soon.
+    </p>
+  </section>
+
+  <!-- Topic Teaser Grid -->
+  <section class="pb-32 grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="bg-surface-container-low p-10 rounded-sm group hover:shadow-2xl transition-all duration-500 border-b-4 border-transparent hover:border-secondary">
+      <span class="material-symbols-outlined text-3xl text-secondary mb-6 block">trending_down</span>
+      <span class="text-xs font-bold uppercase tracking-widest text-secondary mb-3 block">AI Drift</span>
+      <h3 class="text-xl font-bold tracking-tight mb-3">Why 67% of Clinical AI Models Fail Within 12 Months</h3>
+      <p class="text-on-surface-variant text-sm leading-relaxed">The hidden performance degradation problem that vendors don't talk about—and what to do about it.</p>
+      <div class="mt-6 inline-flex items-center gap-2 text-sm text-outline font-medium">
+        <span class="material-symbols-outlined text-base">schedule</span>
+        Article coming soon
+      </div>
+    </div>
+
+    <div class="bg-surface-container-low p-10 rounded-sm group hover:shadow-2xl transition-all duration-500 border-b-4 border-transparent hover:border-secondary">
+      <span class="material-symbols-outlined text-3xl text-secondary mb-6 block">gavel</span>
+      <span class="text-xs font-bold uppercase tracking-widest text-secondary mb-3 block">Regulation</span>
+      <h3 class="text-xl font-bold tracking-tight mb-3">The EU AI Act: A Practitioner's Guide for Radiology Departments</h3>
+      <p class="text-on-surface-variant text-sm leading-relaxed">Compliance broken down into actionable steps for clinical leaders navigating the new regulatory landscape.</p>
+      <div class="mt-6 inline-flex items-center gap-2 text-sm text-outline font-medium">
+        <span class="material-symbols-outlined text-base">schedule</span>
+        Article coming soon
+      </div>
+    </div>
+
+    <div class="bg-surface-container-low p-10 rounded-sm group hover:shadow-2xl transition-all duration-500 border-b-4 border-transparent hover:border-secondary">
+      <span class="material-symbols-outlined text-3xl text-secondary mb-6 block">monitoring</span>
+      <span class="text-xs font-bold uppercase tracking-widest text-secondary mb-3 block">ROI</span>
+      <h3 class="text-xl font-bold tracking-tight mb-3">The Revenue Recovery Audit: Finding AI's Hidden Financial Value</h3>
+      <p class="text-on-surface-variant text-sm leading-relaxed">How a systematic audit of billing accuracy and throughput unlocks measurable ROI in the first 90 days.</p>
+      <div class="mt-6 inline-flex items-center gap-2 text-sm text-outline font-medium">
+        <span class="material-symbols-outlined text-base">schedule</span>
+        Article coming soon
+      </div>
+    </div>
+
+    <div class="bg-surface-container-low p-10 rounded-sm group hover:shadow-2xl transition-all duration-500 border-b-4 border-transparent hover:border-secondary">
+      <span class="material-symbols-outlined text-3xl text-secondary mb-6 block">account_tree</span>
+      <span class="text-xs font-bold uppercase tracking-widest text-secondary mb-3 block">Workflow</span>
+      <h3 class="text-xl font-bold tracking-tight mb-3">Last-Mile Integration: Why AI Stops at the EHR Login Screen</h3>
+      <p class="text-on-surface-variant text-sm leading-relaxed">The physician workflow barrier that kills AI adoption—and the integration blueprint that achieves 91% adoption.</p>
+      <div class="mt-6 inline-flex items-center gap-2 text-sm text-outline font-medium">
+        <span class="material-symbols-outlined text-base">schedule</span>
+        Article coming soon
+      </div>
+    </div>
+
+    <div class="bg-surface-container-low p-10 rounded-sm group hover:shadow-2xl transition-all duration-500 border-b-4 border-transparent hover:border-secondary">
+      <span class="material-symbols-outlined text-3xl text-secondary mb-6 block">verified_user</span>
+      <span class="text-xs font-bold uppercase tracking-widest text-secondary mb-3 block">Vendor Selection</span>
+      <h3 class="text-xl font-bold tracking-tight mb-3">Don't Buy on Demo: The 3D Framework for AI Vendor Evaluation</h3>
+      <p class="text-on-surface-variant text-sm leading-relaxed">Clinical accuracy, technical resilience, and operational fit—the three dimensions that matter before you sign.</p>
+      <div class="mt-6 inline-flex items-center gap-2 text-sm text-outline font-medium">
+        <span class="material-symbols-outlined text-base">schedule</span>
+        Article coming soon
+      </div>
+    </div>
+
+    <div class="bg-surface-container-low p-10 rounded-sm group hover:shadow-2xl transition-all duration-500 border-b-4 border-transparent hover:border-secondary">
+      <span class="material-symbols-outlined text-3xl text-secondary mb-6 block">database</span>
+      <span class="text-xs font-bold uppercase tracking-widest text-secondary mb-3 block">Data Strategy</span>
+      <h3 class="text-xl font-bold tracking-tight mb-3">The Clinical Data Curation Manifesto</h3>
+      <p class="text-on-surface-variant text-sm leading-relaxed">Why the model is the last thing that fails—and how standardized labeling and data governance determine AI success.</p>
+      <div class="mt-6 inline-flex items-center gap-2 text-sm text-outline font-medium">
+        <span class="material-symbols-outlined text-base">schedule</span>
+        Article coming soon
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter CTA -->
+  <section class="mb-32 bg-[#172B4D] rounded-sm p-12 md:p-20 text-white">
+    <div class="max-w-xl">
+      <h2 class="text-4xl font-bold tracking-tight mb-6">Get Notified When Articles Publish</h2>
+      <p class="text-slate-300 text-lg mb-8 leading-relaxed">Clinical AI strategy, regulation, and ROI analysis—delivered directly to your institutional inbox.</p>
+      <form class="flex flex-col sm:flex-row gap-4" action="https://formspree.io/f/mrerzzpz" method="POST">
+        <input type="hidden" name="_subject" value="Insights notification request — medlogic.co"/>
+        <input class="flex-1 bg-white/10 border border-white/20 px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-secondary transition-colors rounded-sm" placeholder="Your institutional email" type="email" name="email" required/>
+        <button class="bg-secondary text-on-secondary px-8 py-3 rounded-sm font-bold hover:bg-secondary-dim transition-colors whitespace-nowrap" type="submit">Notify Me</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-[#172B4D] w-full mt-40">
+  <div class="max-w-[1280px] mx-auto px-8 py-24 grid grid-cols-1 md:grid-cols-3 gap-16">
+    <div>
+      <a href="index.html" class="text-lg font-bold tracking-tight text-white mb-4 block">DR. MOROZOV</a>
+      <p class="text-slate-300 text-sm leading-relaxed mb-8 max-w-xs">Advancing healthcare through the clinical curation of medical intelligence.</p>
+    </div>
+    <div>
+      <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-widest">Navigation</h4>
+      <ul class="space-y-4">
+        <li><a class="text-slate-300 hover:text-blue-400 transition-colors text-sm" href="index.html">Home</a></li>
+        <li><a class="text-slate-300 hover:text-blue-400 transition-colors text-sm" href="about.html">About</a></li>
+        <li><a class="text-slate-300 hover:text-blue-400 transition-colors text-sm" href="services.html">Services</a></li>
+        <li><a class="text-slate-300 hover:text-blue-400 transition-colors text-sm" href="case-studies.html">Case Studies</a></li>
+        <li><a class="text-slate-300 hover:text-blue-400 transition-colors text-sm" href="assessment.html">AI Readiness Assessment</a></li>
+        <li><a class="text-white font-bold text-sm" href="insights.html">Insights</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-widest">Contact</h4>
+      <p class="text-slate-300 text-sm mb-6">Inquiries for consulting, speaking engagements, or advisory roles.</p>
+      <a class="text-white font-bold underline underline-offset-4 hover:text-blue-400 transition-colors js-email"></a>
+    </div>
+  </div>
+  <div class="max-w-[1280px] mx-auto px-8 pb-12">
+    <div class="bg-white/10 h-[1px] w-full mb-8"></div>
+    <p class="text-slate-300 text-sm">© 2026 Dr. Sergey Morozov. Clinical Curator &amp; AI Strategist.</p>
+  </div>
+</footer>
+
+<script>
+  (function(){var u='sergey',d='medlogic.co',e=u+'@'+d;document.querySelectorAll('.js-email').forEach(function(a){a.href='mailto:'+e;a.textContent=e;});})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Monitoring: Trust Through Verification | Dr. Sergey Morozov</title>
+<meta name="description" content="The lifecycle approach to AI monitoring and governance in clinical radiology. By Prof. Dr. Sergey Morozov, Medlogic / 3R Swiss Imaging Network."/>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy:    #0d2137;
+    --navy2:   #112240;
+    --navy3:   #1a3a5c;
+    --blue:    #0f57d0;
+    --blue2:   #1565c0;
+    --blue3:   #1e88e5;
+    --cyan:    #26c6da;
+    --red:     #c62828;
+    --red2:    #e53935;
+    --orange:  #e65100;
+    --green:   #2e7d32;
+    --white:   #ffffff;
+    --off:     #f4f6f8;
+    --muted:   #90a4ae;
+    --text:    #e8eaf0;
+    --border:  rgba(255,255,255,0.10);
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: var(--navy); color: var(--text); line-height: 1.6; }
+
+  /* ── NAV ── */
+  nav.topnav { position: sticky; top: 0; z-index: 100; background: rgba(13,33,55,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+  nav.topnav a.brand { font-weight: 800; font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--white); text-decoration: none; }
+  nav.topnav .chapters { display: flex; gap: 1.5rem; }
+  nav.topnav .chapters a { font-size: 0.75rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  nav.topnav .chapters a:hover { color: var(--white); }
+  nav.topnav .back { font-size: 0.75rem; color: var(--blue3); text-decoration: none; font-weight: 600; }
+
+  /* ── LAYOUT ── */
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+  /* ── CHAPTER DIVIDER ── */
+  .chapter { background: linear-gradient(135deg, var(--navy2) 0%, var(--navy3) 100%); border-top: 3px solid var(--red2); padding: 3.5rem 2rem 2.5rem; text-align: center; }
+  .chapter .ch-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red2); margin-bottom: 0.75rem; }
+  .chapter h2 { font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 900; color: var(--white); letter-spacing: -0.03em; }
+  .chapter p { margin-top: 1rem; color: var(--muted); max-width: 640px; margin-left: auto; margin-right: auto; font-size: 1.05rem; }
+
+  /* ── HERO ── */
+  .hero { background: linear-gradient(160deg, #071520 0%, var(--navy2) 50%, #0a2240 100%); min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 5rem 2rem; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 70% 40%, rgba(15,87,208,0.15) 0%, transparent 70%); pointer-events: none; }
+  .hero .logos { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 3rem; flex-wrap: wrap; }
+  .hero .pill { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; border: 1px solid var(--border); padding: 0.35rem 0.9rem; border-radius: 2rem; color: var(--muted); }
+  .hero h1 { font-size: clamp(2.8rem, 7vw, 5.5rem); font-weight: 900; letter-spacing: -0.04em; color: var(--white); line-height: 1.02; margin-bottom: 1.25rem; }
+  .hero h1 span { color: var(--red2); }
+  .hero .subtitle { font-size: 1.3rem; color: var(--muted); font-weight: 300; margin-bottom: 3rem; max-width: 600px; }
+  .hero .speaker { background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 0.5rem; padding: 1.25rem 1.75rem; display: inline-block; }
+  .hero .speaker strong { display: block; font-size: 1.05rem; font-weight: 700; color: var(--white); }
+  .hero .speaker span { font-size: 0.85rem; color: var(--muted); }
+  .hero .event-badge { position: absolute; bottom: 2.5rem; right: 2rem; text-align: right; }
+  .hero .event-badge p { font-size: 0.75rem; color: var(--muted); }
+  .hero .event-badge strong { font-size: 0.8rem; color: var(--blue3); }
+
+  /* ── SLIDE CONTENT AREA ── */
+  .slides { padding: 4rem 0; display: flex; flex-direction: column; gap: 3rem; }
+
+  /* ── CARD ── */
+  .card { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 0.5rem; padding: 2.5rem; }
+  .card.accent { border-left: 4px solid var(--blue); }
+  .card.warn { border-left: 4px solid var(--red2); }
+  .card.success { border-left: 4px solid #4caf50; }
+  .card h3 { font-size: 1.4rem; font-weight: 800; color: var(--white); margin-bottom: 1rem; letter-spacing: -0.02em; }
+  .card h4 { font-size: 1rem; font-weight: 700; color: var(--blue3); margin-bottom: 0.5rem; }
+  .card p { color: var(--text); font-size: 0.95rem; line-height: 1.7; }
+  .card ul { padding-left: 1.25rem; color: var(--text); font-size: 0.95rem; line-height: 1.8; }
+  .card ul li { margin-bottom: 0.25rem; }
+
+  /* ── SLIDE TITLE ── */
+  .slide-title { font-size: clamp(1.3rem, 3vw, 2rem); font-weight: 800; color: var(--white); letter-spacing: -0.03em; margin-bottom: 1.5rem; }
+  .slide-title span { color: var(--red2); }
+
+  /* ── GRID ── */
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+  .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; }
+  .grid4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; }
+
+  /* ── STAT BLOCK ── */
+  .stat { background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 0.5rem; padding: 1.5rem; text-align: center; }
+  .stat .num { font-size: 2.8rem; font-weight: 900; color: var(--blue3); line-height: 1; margin-bottom: 0.5rem; display: block; }
+  .stat .num.red { color: var(--red2); }
+  .stat .num.green { color: #4caf50; }
+  .stat .num.orange { color: #ff9800; }
+  .stat .lbl { font-size: 0.82rem; color: var(--muted); font-weight: 500; }
+
+  /* ── TABLE ── */
+  .tbl-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  th { background: var(--navy3); color: var(--blue3); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+  td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: top; }
+  tr:hover td { background: rgba(255,255,255,0.03); }
+  td.highlight { color: #4caf50; font-weight: 700; }
+  td.warn-cell { color: var(--red2); font-weight: 700; }
+
+  /* ── BADGE ── */
+  .badge { display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.25rem 0.65rem; border-radius: 0.2rem; }
+  .badge.blue { background: rgba(15,87,208,0.25); color: var(--blue3); }
+  .badge.red { background: rgba(198,40,40,0.25); color: var(--red2); }
+  .badge.green { background: rgba(76,175,80,0.2); color: #81c784; }
+  .badge.orange { background: rgba(230,81,0,0.25); color: #ffb74d; }
+
+  /* ── CALLOUT ── */
+  .callout { background: rgba(198,40,40,0.12); border: 1px solid rgba(198,40,40,0.3); border-radius: 0.5rem; padding: 1.25rem 1.75rem; }
+  .callout.blue { background: rgba(15,87,208,0.1); border-color: rgba(15,87,208,0.3); }
+  .callout.green { background: rgba(46,125,50,0.12); border-color: rgba(76,175,80,0.3); }
+  .callout p { font-size: 1rem; color: var(--white); font-weight: 600; line-height: 1.5; }
+  .callout .author { font-size: 0.8rem; color: var(--muted); margin-top: 0.5rem; font-weight: 400; font-style: italic; }
+
+  /* ── FLOW DIAGRAM ── */
+  .flow { display: flex; flex-wrap: wrap; gap: 0; align-items: stretch; }
+  .flow-item { flex: 1; min-width: 150px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 1.25rem; position: relative; text-align: center; }
+  .flow-item + .flow-item::before { content: '→'; position: absolute; left: -0.65rem; top: 50%; transform: translateY(-50%); color: var(--blue3); font-size: 1.2rem; z-index: 1; }
+  .flow-item .fi-icon { font-size: 1.8rem; margin-bottom: 0.5rem; display: block; }
+  .flow-item strong { display: block; font-size: 0.85rem; font-weight: 700; color: var(--white); margin-bottom: 0.3rem; }
+  .flow-item span { font-size: 0.75rem; color: var(--muted); }
+
+  /* ── LAYER CARD ── */
+  .layer { display: flex; gap: 1.5rem; align-items: flex-start; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 0.5rem; padding: 1.75rem; }
+  .layer .layer-num { font-size: 2.5rem; font-weight: 900; color: var(--blue); opacity: 0.4; line-height: 1; flex-shrink: 0; width: 2.5rem; text-align: center; }
+  .layer .layer-body h4 { font-size: 1.05rem; font-weight: 700; color: var(--white); margin-bottom: 0.4rem; }
+  .layer .layer-body p { font-size: 0.9rem; color: var(--text); }
+  .layer .layer-body ul { padding-left: 1.1rem; font-size: 0.9rem; color: var(--text); }
+
+  /* ── COMPARISON ── */
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .compare-col { padding: 1.5rem; border-radius: 0.5rem; }
+  .compare-col.before { background: rgba(198,40,40,0.1); border: 1px solid rgba(198,40,40,0.2); }
+  .compare-col.after { background: rgba(46,125,50,0.1); border: 1px solid rgba(76,175,80,0.2); }
+  .compare-col h4 { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem; }
+  .compare-col.before h4 { color: var(--red2); }
+  .compare-col.after h4 { color: #81c784; }
+  .compare-col ul { padding-left: 1.1rem; font-size: 0.9rem; color: var(--text); line-height: 1.9; }
+
+  /* ── PYRAMID ── */
+  .pyramid { display: flex; flex-direction: column; gap: 0.5rem; max-width: 480px; margin: 0 auto; }
+  .pyramid-tier { padding: 0.9rem 1.5rem; text-align: center; border-radius: 0.25rem; font-weight: 700; font-size: 0.9rem; }
+
+  /* ── QUOTE ── */
+  blockquote { border-left: 3px solid var(--red2); padding-left: 1.5rem; margin: 1.5rem 0; }
+  blockquote p { font-size: 1.1rem; font-style: italic; color: var(--white); font-weight: 600; }
+  blockquote cite { font-size: 0.8rem; color: var(--muted); margin-top: 0.5rem; display: block; font-style: normal; }
+
+  /* ── METRIC ROW ── */
+  .metric-row { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 0; border-bottom: 1px solid var(--border); }
+  .metric-row:last-child { border-bottom: none; }
+  .metric-row .label { font-size: 0.9rem; color: var(--text); }
+  .metric-row .value { font-size: 1.1rem; font-weight: 700; color: var(--blue3); }
+  .metric-row .value.red { color: var(--red2); }
+  .metric-row .value.green { color: #81c784; }
+
+  /* ── SECTION LABEL ── */
+  .section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red2); margin-bottom: 0.75rem; display: block; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .compare { grid-template-columns: 1fr; }
+    nav.topnav .chapters { display: none; }
+    .hero { min-height: auto; padding: 3rem 1.25rem 4rem; }
+    .wrap { padding: 0 1.25rem; }
+  }
+
+  /* ── FOOTER ── */
+  footer { background: #060e18; border-top: 1px solid var(--border); padding: 3rem 2rem; text-align: center; }
+  footer p { font-size: 0.82rem; color: var(--muted); }
+  footer a { color: var(--blue3); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="topnav">
+  <a href="insights.html" class="back">← Back to Insights</a>
+  <div class="chapters">
+    <a href="#methodology">Methodology</a>
+    <a href="#defense">Defense</a>
+    <a href="#metrics">Metrics</a>
+    <a href="#results">Results</a>
+    <a href="#scale">Proof of Scale</a>
+    <a href="#portfolio">Portfolio</a>
+  </div>
+  <a href="index.html" class="brand">DR. MOROZOV</a>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════ HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="logos">
+      <span class="pill">Romion Health</span>
+      <span class="pill">3R Group Switzerland</span>
+      <span class="pill">April 2026</span>
+    </div>
+    <h1><span>AI</span> Monitoring</h1>
+    <p class="subtitle">Trust Through Verification: The Lifecycle Approach to AI Monitoring and Governance</p>
+    <div class="speaker">
+      <strong>Prof. Dr. Sergey Morozov</strong>
+      <span>Medlogic / 3R Swiss Imaging Network</span>
+    </div>
+    <div class="event-badge">
+      <strong>Romion Health · Utrecht Science Park · UtrechtInc</strong>
+      <p>26 January 2026</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ METHODOLOGY -->
+<div id="methodology" class="chapter">
+  <div class="ch-label">Part 1</div>
+  <h2>The Methodology</h2>
+  <p>The Morozov Approach to AI quality assurance, performance tracking, and post-deployment surveillance.</p>
+</div>
+
+<div class="wrap slides">
+
+  <!-- Slide: A Methodology for AI Implementation -->
+  <div>
+    <h2 class="slide-title">A Methodology for the <span>AI Implementation</span></h2>
+    <div class="grid2">
+      <div class="card accent">
+        <h4>Quality Assurance (Pre-Deployment)</h4>
+        <p>Ensuring quality during development through testing, validation, and verification. Focus: standards compliance.<br><br><em>Example: Validating a tumor detection model.</em></p>
+      </div>
+      <div class="card accent">
+        <h4>Performance Tracking (Post-Deployment)</h4>
+        <p>Monitoring performance in real-world scenarios via monitoring, feedback, and retraining. Focus: long-term reliability.<br><br><em>Example: Tracking tumor detection rates.</em></p>
+      </div>
+    </div>
+    <div class="grid3" style="margin-top:1.5rem">
+      <div class="stat"><span class="num">★★★★</span><span class="lbl">User Satisfaction — Radiologist feedback per study</span></div>
+      <div class="stat"><span class="num blue3">⏱</span><span class="lbl">Efficiency — Reading speed and report turnaround time</span></div>
+      <div class="stat"><span class="num">◎</span><span class="lbl">Diagnostic Accuracy — AI Index Test vs. Reference Standard</span></div>
+    </div>
+    <div class="card" style="margin-top:1.5rem">
+      <h4>Post-Marketing Surveillance of SaMD-AI</h4>
+      <p>Three pillars: <strong style="color:var(--blue3)">Feedback</strong> (adverse events, user feedback) → <strong style="color:var(--blue3)">Technical Monitoring</strong> (identification of flaws in SaMD-AI operations) → <strong style="color:var(--blue3)">Clinical Validation</strong> (calculation of performance indicators)</p>
+      <p style="margin-top:0.75rem;font-size:0.8rem;color:var(--muted)">References: doi.org/10.17691/stm2022.14.5.02 · doi.org/10.1007/s11548-022-02669-1</p>
+    </div>
+  </div>
+
+  <!-- Slide: Implementation Gap -->
+  <div>
+    <h2 class="slide-title">The <span>Implementation Gap</span></h2>
+    <p style="margin-bottom:1.5rem;color:var(--muted)">Research Lab vs. Clinical Reality</p>
+    <div class="compare">
+      <div class="compare-col before">
+        <h4>🔬 Lab</h4>
+        <ul>
+          <li>94% AUC</li>
+          <li>Balanced datasets</li>
+          <li>Expert annotations</li>
+          <li>Controlled conditions</li>
+        </ul>
+      </div>
+      <div class="compare-col after">
+        <h4>🏥 Clinic</h4>
+        <ul>
+          <li>73% AUC (−21 points)</li>
+          <li>Real-world data</li>
+          <li>Variable quality</li>
+          <li>Mixed populations</li>
+        </ul>
+      </div>
+    </div>
+    <h3 style="margin:1.75rem 0 1rem;color:var(--white);font-size:1.1rem;font-weight:700;">Why the Gap?</h3>
+    <div class="grid4">
+      <div class="card warn"><h4>Data Drift (45%)</h4><p>New scanners, changed protocols</p></div>
+      <div class="card warn"><h4>Concept Drift (25%)</h4><p>Definitions and standards evolve</p></div>
+      <div class="card warn"><h4>Shortcut Learning (18%)</h4><p>Spurious correlations in training data</p></div>
+      <div class="card warn"><h4>Integration (12%)</h4><p>Workflow mismatch at deployment</p></div>
+    </div>
+    <div class="callout green" style="margin-top:1.5rem">
+      <p>✓ SOLUTION: Real-time monitoring detects drift in days, not months.</p>
+    </div>
+  </div>
+
+  <!-- Slide: Typical AI Failure Scenarios -->
+  <div>
+    <h2 class="slide-title">Typical <span>AI Failure</span> Scenarios</h2>
+    <div class="card warn">
+      <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:0.9rem;">
+        <li style="display:flex;gap:1rem;align-items:flex-start;"><span style="background:var(--red2);color:white;font-weight:800;font-size:0.8rem;padding:0.1rem 0.5rem;border-radius:0.2rem;flex-shrink:0;margin-top:0.1rem;">1</span><span>The pilot shows "promising results" but does not transition to routine use — no integration, owner, or implementation budget.</span></li>
+        <li style="display:flex;gap:1rem;align-items:flex-start;"><span style="background:var(--red2);color:white;font-weight:800;font-size:0.8rem;padding:0.1rem 0.5rem;border-radius:0.2rem;flex-shrink:0;margin-top:0.1rem;">2</span><span>The model works on test data but fails in a real clinical workflow.</span></li>
+        <li style="display:flex;gap:1rem;align-items:flex-start;"><span style="background:var(--red2);color:white;font-weight:800;font-size:0.8rem;padding:0.1rem 0.5rem;border-radius:0.2rem;flex-shrink:0;margin-top:0.1rem;">3</span><span>Physicians formally gain access to AI but do not rely on it because it slows down work or is not integrated into the usual workflow.</span></li>
+        <li style="display:flex;gap:1rem;align-items:flex-start;"><span style="background:var(--red2);color:white;font-weight:800;font-size:0.8rem;padding:0.1rem 0.5rem;border-radius:0.2rem;flex-shrink:0;margin-top:0.1rem;">4</span><span>Management purchases AI "for innovation" but without a clear <strong style="color:var(--white)">use case, KPI, baseline metrics, and change management</strong>.</span></li>
+        <li style="display:flex;gap:1rem;align-items:flex-start;"><span style="background:var(--red2);color:white;font-weight:800;font-size:0.8rem;padding:0.1rem 0.5rem;border-radius:0.2rem;flex-shrink:0;margin-top:0.1rem;">5</span><span>Difficulties proving safety, result provenance, or override logs — creating problems for quality, compliance, and payers.</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide: Standard IT Security Fails -->
+  <div>
+    <h2 class="slide-title">Why Standard IT Security <span>Fails</span> for Probabilistic Models</h2>
+    <div class="compare">
+      <div class="compare-col before">
+        <h4>Traditional Threat</h4>
+        <ul>
+          <li>Malware &amp; Phishing</li>
+          <li>Mitigation: Firewalls &amp; Patching</li>
+        </ul>
+      </div>
+      <div class="compare-col" style="background:rgba(198,40,40,0.1);border:1px solid rgba(198,40,40,0.2);">
+        <h4 style="color:var(--red2)">AI-Specific Threat</h4>
+        <ul>
+          <li>Adversarial Perturbation</li>
+          <li>Prompt Injection</li>
+          <li><strong style="color:var(--red2)">Mitigation: None in standard firewalls</strong></li>
+        </ul>
+      </div>
+    </div>
+    <div class="grid3" style="margin-top:1.5rem">
+      <div class="card warn">
+        <h4>Adversarial Attack</h4>
+        <p>0.001% pixel change <strong style="color:var(--red2)">reverses diagnosis</strong></p>
+      </div>
+      <div class="card warn">
+        <h4>Injection: "HashJack"</h4>
+        <p>Attacks manipulate instructions <strong style="color:var(--red2)">via URLs</strong></p>
+      </div>
+      <div class="card warn">
+        <h4>Model Drift</h4>
+        <p>Performance degrades <strong style="color:var(--red2)">rapidly with data shifts</strong> (e.g., COVID-19 onset)</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide: EU AI Act -->
+  <div>
+    <h2 class="slide-title">EU AI Act &amp; <span>International Considerations</span></h2>
+    <div class="grid2">
+      <div class="card accent">
+        <h4>"High-Risk" Medical AI Classification — Requirements</h4>
+        <ul>
+          <li>Well-defined scope and documentation of intended use cases</li>
+          <li>Representative and well-documented training data accessible to monitoring agencies</li>
+          <li>Human oversight mechanisms with ability to override AI decisions</li>
+          <li>Specification of expected model lifetime and computational requirements</li>
+          <li>Continuous monitoring and validation protocols</li>
+        </ul>
+      </div>
+      <div class="card warn">
+        <h4>Implications for International Compliance</h4>
+        <p>U.S. products may lack documentation and transparency features required for EU compliance.</p>
+        <p style="margin-top:0.75rem"><strong style="color:var(--white)">Significant implications for AI vendor selection.</strong></p>
+        <div class="callout" style="margin-top:1rem">
+          <p style="font-size:0.9rem">All medical AI systems in the EU are classified as high-risk under Regulation 2024/1689, mandating strict post-market safety reporting.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /wrap slides -->
+
+<!-- ═══════════════════════════════════════════════════ DEFENSE -->
+<div id="defense" class="chapter">
+  <div class="ch-label">Part 2</div>
+  <h2>The Defense</h2>
+  <p>A layered "Swiss Cheese" architecture to protect medical AI from silent failures, cyber threats, and regulatory non-compliance.</p>
+</div>
+
+<div class="wrap slides">
+
+  <!-- Slide: Swiss Cheese Defense -->
+  <div>
+    <h2 class="slide-title">The <span>'Swiss Cheese'</span> Defense: A Layered Architecture</h2>
+    <p style="margin-bottom:2rem;color:var(--muted)">To mitigate silent failure, we deploy three distinct lines of defense. If a hazard passes through one layer, the next arrests it.</p>
+    <div class="flow">
+      <div class="flow-item"><span class="fi-icon">📡</span><strong>Raw Imaging Data</strong><span>Input stream</span></div>
+      <div class="flow-item"><span class="fi-icon">🛡️</span><strong>Layer 1: Data Perimeter</strong><span>Univariate Drift · Covariate Shift · Domain Shift</span></div>
+      <div class="flow-item"><span class="fi-icon">📊</span><strong>Layer 2: System Vital Signs</strong><span>Predictive Divergence · MMC+ · Temporal Stability</span></div>
+      <div class="flow-item"><span class="fi-icon">🔬</span><strong>Layer 3: Safety Valve</strong><span>BDNNs · MC Dropout · Conformal Triage</span></div>
+      <div class="flow-item"><span class="fi-icon">✅</span><strong>Safe Clinical Decision</strong><span>Output</span></div>
+    </div>
+  </div>
+
+  <!-- Layer 1 -->
+  <div>
+    <h2 class="slide-title">Layer 1: The <span>Data Perimeter</span> — Technical &amp; Data Monitoring</h2>
+    <div class="callout blue" style="margin-bottom:1.5rem">
+      <p>Core Concept: Detecting when the 'world' changes. If P(X) changes, the model operates Out-Of-Distribution (OOD).</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:1rem;">
+      <div class="layer">
+        <div class="layer-num">1</div>
+        <div class="layer-body">
+          <h4>Univariate Drift</h4>
+          <p>Tracking shifts in single metadata features.<br><em style="color:var(--muted)">Example: A sudden drop in median patient age or change in CT slice thickness.</em></p>
+        </div>
+      </div>
+      <div class="layer">
+        <div class="layer-num">2</div>
+        <div class="layer-body">
+          <h4>Covariate Shift (Data Drift)</h4>
+          <p>Changes in input feature distribution P(X) while P(Y|X) remains constant. The model encounters data it was not trained on.</p>
+        </div>
+      </div>
+      <div class="layer">
+        <div class="layer-num">3</div>
+        <div class="layer-body">
+          <h4>Domain Shift (The Scanner Gap)</h4>
+          <p>Performance degradation when moving between manufacturers (e.g., Siemens to GE) or acquisition settings (portable vs. fixed X-ray).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Layer 2 -->
+  <div>
+    <h2 class="slide-title">Layer 2: <span>System Vital Signs</span> — Statistical Divergence</h2>
+    <div class="callout blue" style="margin-bottom:1.5rem">
+      <p>Key Insight: Ground Truth arrives too late. We need Surrogate Accuracy metrics now.</p>
+    </div>
+    <div class="grid2">
+      <div class="card accent">
+        <h4>1. Predictive Divergence</h4>
+        <p>Compare the main model against "support models" (ensembles). If the main model disagrees with the ensemble, trust drops.</p>
+        <p style="margin-top:0.75rem"><span class="badge blue">Metric</span> Kullback-Leibler (KL) or Jensen-Shannon (JS) Divergence — High KL Divergence = Low Trust</p>
+      </div>
+      <div class="card accent">
+        <h4>2. Temporal Stability</h4>
+        <p>Compare current prediction distributions against a historical moving average.</p>
+        <p style="margin-top:0.75rem"><span class="badge orange">Flag</span> A sudden spike in "positive" pneumonia diagnoses likely indicates model drift or technical error, not a disease outbreak.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MMC+ Framework -->
+  <div>
+    <h2 class="slide-title">Constructing the Diagnostic Tool: <span>The MMC+ Framework</span></h2>
+    <p style="margin-bottom:1.5rem;color:var(--muted)">Scalable Drift Monitoring in Medical Imaging AI — comparing a Reference Set (Known Performance) against the live Deployed Data Stream through a Detection Window.</p>
+    <div class="grid3">
+      <div class="card accent">
+        <h4>Appearance</h4>
+        <p>Foundation Model Embeddings — detect visual distribution shifts</p>
+      </div>
+      <div class="card accent">
+        <h4>Predictions</h4>
+        <p>Probability Distribution monitoring — detect output drift</p>
+      </div>
+      <div class="card accent">
+        <h4>Metadata</h4>
+        <p>DICOM Tags: Scanner, View, Patient Sex — detect input context shifts</p>
+      </div>
+    </div>
+    <div class="callout" style="margin-top:1.5rem">
+      <p>⚠️ If Concordance Rate (CR) drops below 90%, it triggers a physics review (Rohren et al. 2025)</p>
+    </div>
+  </div>
+
+  <!-- Data Drift Detection Workflow -->
+  <div>
+    <h2 class="slide-title">Data Drift Detection Workflow for <span>Medical Imaging AI</span></h2>
+    <div class="compare">
+      <div class="compare-col" style="background:rgba(15,87,208,0.08);border:1px solid rgba(15,87,208,0.2);">
+        <h4 style="color:var(--blue3)">Statistical Methods</h4>
+        <ul>
+          <li><strong>Distribution Comparison</strong> — K-S, Chi-Square tests</li>
+          <li><strong>Feature Analysis</strong> — Mean, Variance, Skewness check</li>
+          <li><strong>Threshold Detection</strong> — Fixed thresholds, Outlier counts</li>
+        </ul>
+      </div>
+      <div class="compare-col" style="background:rgba(15,87,208,0.08);border:1px solid rgba(15,87,208,0.2);">
+        <h4 style="color:var(--blue3)">ML-Based Methods</h4>
+        <ul>
+          <li><strong>Autoencoder Reconstruction Error</strong> — Loss monitoring, Anomalies</li>
+          <li><strong>Classifier Confidence Monitoring</strong> — Probability scores, Entropy</li>
+          <li><strong>Embedding Distance</strong> — Dimensionality reduction, Shift distance</li>
+        </ul>
+      </div>
+    </div>
+    <div class="flow" style="margin-top:1.5rem">
+      <div class="flow-item"><strong>Alert Triggered</strong><span>Drift detector fires</span></div>
+      <div class="flow-item"><span style="color:var(--blue3)">🔍</span><strong>Human Review</strong><span>Specialist assessment, root cause analysis, data labeling</span></div>
+      <div class="flow-item"><span style="color:#81c784">🔄</span><strong>Automated Retraining</strong><span>Retrain model, update weights, revalidate performance</span></div>
+      <div class="flow-item"><span style="color:#81c784">📈</span><strong>Feedback Loop</strong><span>Accuracy, F1-Score, False Positives</span></div>
+    </div>
+  </div>
+
+  <!-- Generative AI / LLMs -->
+  <div>
+    <h2 class="slide-title">Generative AI <span>(LLMs)</span> — Hallucination Risk &amp; Evaluation</h2>
+    <div class="grid3">
+      <div class="card warn">
+        <h4>⚠️ The Hallucination Risk</h4>
+        <p>LLMs invent facts ("confabulation") — producing plausible but clinically wrong outputs.</p>
+        <p style="margin-top:0.75rem;font-size:0.85rem;color:var(--muted)">Success factors: Prompt engineering · Context grounding · Confidence rate · Human in the loop</p>
+      </div>
+      <div class="card accent">
+        <h4>Metric: Faithfulness (RAG Eval)</h4>
+        <p>Does the AI summary contradict the EHR notes?</p>
+        <p style="margin-top:0.75rem"><span class="badge blue">FactScore</span> — Is the answer supported by retrieved context?</p>
+        <p style="margin-top:0.5rem"><span class="badge blue">MED-F1</span> — Did it actually answer the doctor's question?</p>
+        <p style="margin-top:0.5rem"><span class="badge blue">Precision@k</span> — Did the system pull the right guidelines?</p>
+      </div>
+      <div class="card accent">
+        <h4>Tool: LLM-as-a-Judge</h4>
+        <p>Use a powerful model (GPT-4) to grade outputs of a smaller model (Llama-3) for clinical accuracy and safety.</p>
+        <p style="margin-top:0.75rem">Metrics: <strong style="color:var(--blue3)">Faithfulness · Answer Relevance · Context Relevance</strong></p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /wrap slides -->
+
+<!-- ═══════════════════════════════════════════════════ METRICS -->
+<div id="metrics" class="chapter">
+  <div class="ch-label">Part 3</div>
+  <h2>The Metrics</h2>
+  <p>A comprehensive framework spanning clinical performance, fairness, impact, technical reliability, and interpretability.</p>
+</div>
+
+<div class="wrap slides">
+
+  <!-- Key Metrics Overview -->
+  <div>
+    <h2 class="slide-title">Key <span>Metrics</span> Overview</h2>
+    <p style="margin-bottom:1.5rem;color:var(--muted)">Reference: metrics-reloaded.dkfz.de</p>
+    <div class="grid3">
+      <div class="card accent">
+        <h4>🩺 Clinical Performance</h4>
+        <ul>
+          <li>Specificity: SpPin</li>
+          <li>Sensitivity/Recall: SnNout</li>
+          <li>PPV / NPV</li>
+          <li><strong style="color:var(--blue3)">+ Concordance Rate (AI→LLM vs. Rad report)</strong></li>
+        </ul>
+      </div>
+      <div class="card accent">
+        <h4>⚖️ Fairness Metrics</h4>
+        <ul>
+          <li>Parity: Equal outcomes across groups</li>
+          <li>Equal Odds: Equal TPR/FPR across groups</li>
+          <li>Representativeness: Reflects target population</li>
+        </ul>
+      </div>
+      <div class="card success">
+        <h4>💰 Impact Metrics</h4>
+        <ul>
+          <li>ROI: Financial return vs. cost</li>
+          <li>Cost Effectiveness: Outcome vs. cost</li>
+        </ul>
+      </div>
+      <div class="card accent">
+        <h4>⚙️ Technical Metrics</h4>
+        <ul>
+          <li>Success Rate: Tasks completed successfully</li>
+          <li>Latency/TAT: Delay between request/response</li>
+          <li>Throughput: Tasks completed in time</li>
+        </ul>
+      </div>
+      <div class="card accent">
+        <h4>🤝 Acceptability Metrics</h4>
+        <ul>
+          <li>Acceptability Rate: Outputs meeting criteria</li>
+          <li>Kappa/Pearson: Agreement/correlation measure</li>
+        </ul>
+      </div>
+      <div class="card accent">
+        <h4>🧠 Interpretability &amp; UX</h4>
+        <ul>
+          <li>NPS: Likelihood of recommendation</li>
+          <li>SHAP: Explains feature contributions</li>
+          <li>Saliency Maps: Highlights key inputs</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- The Lazy AI Paradox -->
+  <div>
+    <h2 class="slide-title">The <span>"Lazy AI" Paradox</span> &amp; Accuracy vs. Utility</h2>
+    <div class="grid2">
+      <div class="card warn">
+        <h4>When "Accuracy" is Meaningless</h4>
+        <p>Scenario: 99% of screening mammograms are negative.<br><br>A "dumb model" that always predicts NEGATIVE achieves 99% accuracy — but has <strong style="color:var(--red2)">0% clinical utility</strong>.</p>
+        <div class="callout" style="margin-top:1rem">
+          <p style="font-size:0.9rem">High accuracy does not guarantee clinical value in imbalanced data.</p>
+        </div>
+      </div>
+      <div class="card warn">
+        <h4>Exposing the Deceptive Model</h4>
+        <div class="metric-row"><span class="label">Concordance (Raw Agreement)</span><span class="value green">99%</span></div>
+        <div class="metric-row"><span class="label">Kappa (Chance-Adjusted Skill)</span><span class="value red">0.00</span></div>
+        <div class="callout" style="margin-top:1rem">
+          <p style="font-size:0.9rem">Kappa exposes the "Lazy" model that just guesses the majority class.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI Deployment Thresholds -->
+  <div>
+    <h2 class="slide-title">AI Deployment Thresholds: <span>Success &amp; Governance</span></h2>
+    <div class="grid2">
+      <div class="card success">
+        <h4>✅ Success Criteria — Thresholds for Go-Live</h4>
+        <div class="metric-row"><span class="label">NPV &gt; 99%</span><span class="value green">→ SAFETY</span></div>
+        <div class="metric-row"><span class="label">Concordance &gt; 95%</span><span class="value green">→ WORKFLOW</span></div>
+        <div class="metric-row"><span class="label">Burden (NND) &lt; 5</span><span class="value green">→ EFFICIENT</span></div>
+        <div class="callout green" style="margin-top:1rem"><p style="font-size:0.9rem">All three criteria must be met before GO-LIVE.</p></div>
+      </div>
+      <div class="card warn">
+        <h4>🔴 Governance: The "Kill Switch"</h4>
+        <div class="metric-row"><span class="label">Kappa &lt; 0.4</span><span class="value red">→ DISABLE</span></div>
+        <div class="metric-row"><span class="label">NND &gt; 1:10</span><span class="value red">→ RECALIBRATE</span></div>
+        <div class="metric-row"><span class="label">Bias Gap &gt; 15%</span><span class="value red">→ BLOCK SLICE</span></div>
+        <div class="callout" style="margin-top:1rem"><p style="font-size:0.9rem">Any of these triggers immediate safeguard activation.</p></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /wrap slides -->
+
+<!-- ═══════════════════════════════════════════════════ RESULTS -->
+<div id="results" class="chapter">
+  <div class="ch-label">Part 4</div>
+  <h2>The Results</h2>
+  <p>Real-world data from the 3R Swiss Imaging Network: 20 centers, 60+ radiologists, 10+ AI solutions, 400,000+ studies (2021–2025).</p>
+</div>
+
+<div class="wrap slides">
+
+  <!-- AI Latency -->
+  <div>
+    <span class="section-label">Results II — AI Latency</span>
+    <h2 class="slide-title">Illustrative Cases of Variations in <span>AI Latency</span></h2>
+    <div class="grid2">
+      <div class="card warn">
+        <h4>🔴 PACS offline — AI entirely halted</h4>
+        <p>Complete workflow stoppage. The AI workflow was entirely halted due to PACS being offline.</p>
+      </div>
+      <div class="card warn">
+        <h4>🟠 PACS malfunction — moderate delay</h4>
+        <p>Causing a moderate delay in the AI workflow.</p>
+      </div>
+      <div class="card success">
+        <h4>🟢 Consistent delivery with occasional interruptions</h4>
+        <p>Stable baseline performance maintained across most sessions.</p>
+      </div>
+      <div class="card warn">
+        <h4>🔴 Inconsistent and highly variable</h4>
+        <p>AI behavior that is inconsistent and highly variable — a sign of Q&amp;R architecture.</p>
+      </div>
+    </div>
+    <div class="callout green" style="margin-top:1.5rem">
+      <p>✓ Switching from Q&amp;R to Push speeds up execution and reduces variability.</p>
+    </div>
+  </div>
+
+  <!-- AI vs Human Timing -->
+  <div>
+    <span class="section-label">Results III — AI vs Human Timing</span>
+    <h2 class="slide-title">AI ↔ Radiologist <span>Temporal Dynamics</span></h2>
+    <p style="margin-bottom:1.5rem;color:var(--muted)">Critical Finding: Early availability is crucial for clinical workflow integration, LLM-generated reporting, and advanced analytics.</p>
+    <h3 style="color:var(--white);font-size:1rem;font-weight:700;margin-bottom:1rem;">AI Result Availability Before Report Creation:</h3>
+    <div class="grid4">
+      <div class="stat"><span class="num green">96.5%</span><span class="lbl">Bone Age XR</span></div>
+      <div class="stat"><span class="num green">86%</span><span class="lbl">MSK Metrics XR</span></div>
+      <div class="stat"><span class="num green">82%</span><span class="lbl">Knee MRI</span></div>
+      <div class="stat"><span class="num green">81.7%</span><span class="lbl">Trauma XR</span></div>
+      <div class="stat"><span class="num orange">55.8%</span><span class="lbl">Chest CT</span></div>
+      <div class="stat"><span class="num orange">46.9%</span><span class="lbl">Mammography</span></div>
+    </div>
+    <div class="grid2" style="margin-top:1.5rem">
+      <div class="stat"><span class="num green">95.6%</span><span class="lbl">Available before report validation — slows reporting</span></div>
+      <div class="stat"><span class="num red">4.4%</span><span class="lbl">Arrive after validation → liability risk for radiologist</span></div>
+    </div>
+  </div>
+
+  <!-- AI Outputs Distribution Monitoring -->
+  <div>
+    <span class="section-label">Results IV — AI Outputs</span>
+    <h2 class="slide-title">AI Outputs <span>Distribution Monitoring</span></h2>
+    <p style="margin-bottom:1.5rem;color:var(--muted)">Tracking the proportions of NO FINDING / DOUBT / FINDINGS over time detects model version changes and data drift.</p>
+    <div class="grid2">
+      <div class="card accent">
+        <h4>Knee MR — Stable distribution</h4>
+        <p>Consistent output distribution across monitoring periods with expected variance.</p>
+      </div>
+      <div class="card warn">
+        <h4>Chest CT — ~15% variation detected</h4>
+        <p>Significant output distribution variation observed — triggered investigation.</p>
+      </div>
+      <div class="card accent">
+        <h4>Trauma XR — Expected baseline</h4>
+        <p>Normal distribution of findings with low doubt rate.</p>
+      </div>
+      <div class="card warn">
+        <h4>MMG AI — New version with higher sensitivity</h4>
+        <p>Model update caused measurable shift in positive prediction rate — <strong style="color:var(--red2)">must be tracked</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI Sentiment -->
+  <div>
+    <span class="section-label">Results V — AI Sentiment</span>
+    <h2 class="slide-title">Subjective Assessments — <span>NPS for AI Solutions</span></h2>
+    <div class="grid2">
+      <div>
+        <h3 style="color:var(--white);font-size:1rem;margin-bottom:1rem;">Overall Network NPS</h3>
+        <div class="stat" style="max-width:200px"><span class="num green">42%</span><span class="lbl">Net Promoter Score (62% Promoters − 20% Detractors)</span></div>
+        <p style="margin-top:1rem;font-size:0.85rem;color:var(--muted)">N=609 total responses across all AI solutions</p>
+      </div>
+      <div>
+        <h3 style="color:var(--white);font-size:1rem;margin-bottom:1rem;">NPS by Solution</h3>
+        <div class="metric-row"><span class="label">Bone Age XR (n=30)</span><span class="value green">High positive</span></div>
+        <div class="metric-row"><span class="label">MSK Metrics XR (n=46)</span><span class="value green">High positive</span></div>
+        <div class="metric-row"><span class="label">Chest CT (n=39)</span><span class="value green">Positive</span></div>
+        <div class="metric-row"><span class="label">Trauma XR (n=48)</span><span class="value green">Positive</span></div>
+        <div class="metric-row"><span class="label">Mammography (n=28)</span><span class="value orange">Borderline</span></div>
+        <div class="metric-row"><span class="label">Knee MR (n=39)</span><span class="value red">Negative</span></div>
+        <div class="metric-row"><span class="label">Chest XR (n=44)</span><span class="value red">Negative</span></div>
+        <div class="metric-row"><span class="label">AI Delivery/Integration (n=25)</span><span class="value red">Negative</span></div>
+        <div class="metric-row"><span class="label">Spine MR (n=38)</span><span class="value red">Most negative</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Statistical Significance Table -->
+  <div>
+    <h2 class="slide-title">AI Solution Performance &amp; <span>Statistical Significance</span></h2>
+    <p style="margin-bottom:1.5rem;color:var(--muted)">NPS comparison: June 2025 vs. October 2025</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>AI Solution</th><th>NPS Jun 2025</th><th>N June</th><th>NPS Oct 2025</th><th>N Oct</th><th>Change</th><th>P-Value</th><th>Significance</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Bone Age X-ray</td><td class="highlight">87</td><td>30</td><td class="highlight">86</td><td>29</td><td>−1</td><td>0.063</td><td>NS</td></tr>
+          <tr><td>MSK Measurements</td><td class="highlight">65</td><td>46</td><td class="highlight">66</td><td>44</td><td>+1</td><td>0.184</td><td>NS</td></tr>
+          <tr><td>Trauma X-Ray</td><td class="highlight">27</td><td>48</td><td class="highlight">30</td><td>47</td><td>+3</td><td>0.867</td><td>NS</td></tr>
+          <tr><td>Multiple Sclerosis MRI</td><td>24</td><td>25</td><td>13</td><td>23</td><td>−11</td><td>0.567</td><td>NS</td></tr>
+          <tr><td>Mammography</td><td>11</td><td>28</td><td>7</td><td>29</td><td>−4</td><td>0.654</td><td>NS</td></tr>
+          <tr><td><strong>Chest CT Lung Nodules</strong></td><td class="highlight">38</td><td>39</td><td class="warn-cell">−3</td><td>39</td><td class="warn-cell">−41</td><td style="color:#ff9800;font-weight:700">0.043</td><td style="color:#ff9800;font-weight:700">Significant (P&lt;0.05)</td></tr>
+          <tr><td><strong>Aorta CT</strong></td><td class="highlight">22</td><td>23</td><td class="warn-cell">−25</td><td>24</td><td class="warn-cell">−47</td><td style="color:#ff9800;font-weight:700">0.048</td><td style="color:#ff9800;font-weight:700">Significant (P&lt;0.05)</td></tr>
+          <tr><td>Knee MRI</td><td class="warn-cell">−33</td><td>39</td><td class="warn-cell">−26</td><td>39</td><td>+7</td><td>0.82</td><td>NS</td></tr>
+          <tr><td>Brain Volumetry MRI</td><td class="warn-cell">−17</td><td>23</td><td class="warn-cell">−28</td><td>25</td><td>−11</td><td>0.254</td><td>NS</td></tr>
+          <tr><td>Chest XR</td><td class="warn-cell">−39</td><td>44</td><td class="warn-cell">−47</td><td>43</td><td>−8</td><td>0.751</td><td>NS</td></tr>
+          <tr><td>AI Platform Services</td><td class="warn-cell">−44</td><td>25</td><td class="warn-cell">−47</td><td>34</td><td>−3</td><td>0.913</td><td>NS</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div><!-- /wrap slides -->
+
+<!-- ═══════════════════════════════════════════════════ SUSTAINABILITY -->
+<div class="chapter">
+  <div class="ch-label">Part 5</div>
+  <h2>The Sustainability</h2>
+  <p>Four pillars of enduring AI monitoring and the governance structures that make them work.</p>
+</div>
+
+<div class="wrap slides">
+
+  <!-- Four Pillars -->
+  <div>
+    <h2 class="slide-title">The <span>Four Pillars</span> of AI Monitoring</h2>
+    <p style="margin-bottom:1.5rem;color:var(--muted)">(Faust et al. 2024)</p>
+    <div class="grid4">
+      <div class="card accent" style="text-align:center;">
+        <div style="font-size:2rem;margin-bottom:0.75rem;">⚙️</div>
+        <h4>1. Feasibility</h4>
+        <p style="font-size:0.85rem">Is monitoring achievable?</p>
+      </div>
+      <div class="card accent" style="text-align:center;">
+        <div style="font-size:2rem;margin-bottom:0.75rem;">📐</div>
+        <h4>2. Design</h4>
+        <p style="font-size:0.85rem">What metrics to track?</p>
+      </div>
+      <div class="card accent" style="text-align:center;">
+        <div style="font-size:2rem;margin-bottom:0.75rem;">🔄</div>
+        <h4>3. Implementation</h4>
+        <p style="font-size:0.85rem">How to operationalize?</p>
+      </div>
+      <div class="card accent" style="text-align:center;">
+        <div style="font-size:2rem;margin-bottom:0.75rem;">⚖️</div>
+        <h4>4. Policy</h4>
+        <p style="font-size:0.85rem">Governance frameworks</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Steering Committee -->
+  <div>
+    <h2 class="slide-title">The Hospital-Wide <span>Steering Committee</span></h2>
+    <div class="callout blue" style="margin-bottom:1.5rem">
+      <p>Key insight: Monitoring is not a software problem; it's a people problem. Without a designated team to review alerts, the dashboard is useless.</p>
+    </div>
+    <div class="grid2">
+      <div class="card accent">
+        <h4>AI Medical Director</h4>
+        <p><strong style="color:var(--white)">Responsibility:</strong> Clinical Oversight &amp; Approval<br><strong style="color:var(--white)">Frequency:</strong> Monthly Review</p>
+      </div>
+      <div class="card accent">
+        <h4>Technical Lead</h4>
+        <p><strong style="color:var(--white)">Responsibility:</strong> Drift Detection &amp; Dashboard Maintenance<br><strong style="color:var(--white)">Frequency:</strong> Daily Monitoring</p>
+      </div>
+      <div class="card accent">
+        <h4>Quality Officer (Clinical Champions)</h4>
+        <p><strong style="color:var(--white)">Responsibility:</strong> User Feedback &amp; Workflow Optimization<br><strong style="color:var(--white)">Frequency:</strong> Ad-hoc / Ongoing</p>
+      </div>
+      <div class="card accent">
+        <h4>Quality Officer (Adverse Events)</h4>
+        <p><strong style="color:var(--white)">Responsibility:</strong> Adverse Event Tracking<br><strong style="color:var(--white)">Frequency:</strong> Weekly Reports</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:1.5rem;text-align:center;">
+      <p>All four roles report to the central <strong style="color:var(--blue3)">AI Governance Committee</strong> — responsible for Policy, Vendor Management, and Strategic Decisions.</p>
+      <p style="font-size:0.8rem;color:var(--muted);margin-top:0.5rem">Source: Brady et al., 2024</p>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div>
+    <h2 class="slide-title">AI Implementation &amp; <span>Monitoring Dashboard</span></h2>
+    <div class="grid3">
+      <div class="card accent"><h4>🎯 AI Goals</h4><p>SMART Metrics — Technical, Clinical, Operational, Economic</p></div>
+      <div class="card accent"><h4>🤖 Secure Local LLM</h4><p>e.g. Llama-3: Read radiology reports &amp; feed 'Concordance Rate'</p></div>
+      <div class="card warn"><h4>📉 Drift Metrics</h4><p>Detect Input Deviation — New scanners, demographics, etc.</p></div>
+      <div class="card accent"><h4>⚖️ Fairness Audit</h4><p>Segment performance by patient age, gender, anatomy</p></div>
+      <div class="card accent"><h4>⏱️ Latency &amp; Sentiment</h4><p>Monitor latency &amp; User NPS — arrive on time</p></div>
+      <div class="card accent"><h4>📊 Usage Metrics</h4><p>Adoption Rate, Rewriting Rate, Time Gain</p></div>
+      <div class="card accent"><h4>🔧 Conformal Prediction</h4><p>Adjust threshold (e.g., 95% PPV or 5% Doubts) with vendor</p></div>
+      <div class="card warn"><h4>🎫 User Feedback Tickets</h4><p>Issue for AI failures, NAEs, and hallucinations</p></div>
+      <div class="card accent"><h4>🔒 Audit-Ready Logs</h4><p>Ensure IT establishes secure, compliant logging</p></div>
+    </div>
+  </div>
+
+  <!-- Vendor Management -->
+  <div>
+    <h2 class="slide-title"><span>Vendor Management</span> — Before Signing</h2>
+    <p style="margin-bottom:1.5rem;color:var(--muted)">Choose an <strong style="color:var(--white)">understandable AI</strong> by reviewing a vendor against CLAIM checklist and asking for monitoring tools/metrics/SLAs.</p>
+    <div class="grid4">
+      <div class="card accent" style="text-align:center;"><div style="font-size:1.8rem;margin-bottom:0.75rem;">📈</div><h4>Performance Guarantees</h4></div>
+      <div class="card accent" style="text-align:center;"><div style="font-size:1.8rem;margin-bottom:0.75rem;">⚖️</div><h4>Fairness Guarantees</h4></div>
+      <div class="card accent" style="text-align:center;"><div style="font-size:1.8rem;margin-bottom:0.75rem;">🔒</div><h4>Security (SOC2, GDPR)</h4></div>
+      <div class="card accent" style="text-align:center;"><div style="font-size:1.8rem;margin-bottom:0.75rem;">👁️</div><h4>Monitoring Access</h4></div>
+      <div class="card accent" style="text-align:center;"><div style="font-size:1.8rem;margin-bottom:0.75rem;">⏱️</div><h4>SLA — 99.5% Uptime</h4></div>
+    </div>
+  </div>
+
+  <!-- Feedback Loops -->
+  <div>
+    <h2 class="slide-title">Feedback Loops &amp; <span>Continuous Validation</span></h2>
+    <div class="grid2">
+      <div class="card accent">
+        <ul style="line-height:2.2;">
+          <li>🔄 Radiologist feedback integration mechanism</li>
+          <li>📝 NLP-based concordance/discordance tracking</li>
+          <li>✅ Ground truth collection from verified cases</li>
+          <li>📅 Weekly review cycles for trend analysis</li>
+          <li>🤝 Vendor communication for model updates</li>
+        </ul>
+      </div>
+      <div class="card accent">
+        <h4>Continuous Validation Cycle</h4>
+        <div class="flow" style="flex-direction:column;gap:0.5rem;">
+          <div style="background:rgba(255,255,255,0.05);border:1px solid var(--border);padding:0.75rem;text-align:center;border-radius:0.25rem;">Radiologist Feedback</div>
+          <div style="text-align:center;color:var(--blue3)">↓</div>
+          <div style="background:rgba(255,255,255,0.05);border:1px solid var(--border);padding:0.75rem;text-align:center;border-radius:0.25rem;">NLP Tracking</div>
+          <div style="text-align:center;color:var(--blue3)">↓</div>
+          <div style="background:rgba(255,255,255,0.05);border:1px solid var(--border);padding:0.75rem;text-align:center;border-radius:0.25rem;">Ground Truth Collection</div>
+          <div style="text-align:center;color:var(--blue3)">↓</div>
+          <div style="background:rgba(255,255,255,0.05);border:1px solid var(--border);padding:0.75rem;text-align:center;border-radius:0.25rem;">Weekly Review → Vendor Communication</div>
+        </div>
+        <p style="margin-top:0.75rem;font-size:0.8rem;color:var(--muted)">Ten Essential Metrics 2024</p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /wrap slides -->
+
+<!-- ═══════════════════════════════════════════════════ PROOF OF SCALE -->
+<div id="scale" class="chapter">
+  <div class="ch-label">Part 6</div>
+  <h2>The Proof of Scale</h2>
+  <p>Dismantling the AI Productivity Paradox — a clinical &amp; commercial blueprint from 20 Swiss imaging centers and 400,000+ studies.</p>
+</div>
+
+<div class="wrap slides">
+
+  <!-- Managing AI Portfolio -->
+  <div>
+    <h2 class="slide-title">Managing the AI Portfolio in Radiology</h2>
+    <p style="font-size:1.1rem;color:var(--muted);margin-bottom:2rem;font-style:italic">From Tech Hype to Operational Efficiency</p>
+    <div class="callout blue" style="margin-bottom:2rem">
+      <p>The 80/20 Rule: AI implementation success is <strong>80% psychology and workflow integration</strong>, and only 20% algorithms.</p>
+    </div>
+    <div class="grid4">
+      <div class="stat"><span class="num">20</span><span class="lbl">Clinical Centers</span></div>
+      <div class="stat"><span class="num">60</span><span class="lbl">Radiologists</span></div>
+      <div class="stat"><span class="num">10+</span><span class="lbl">AI Solutions</span></div>
+      <div class="stat"><span class="num green">389K</span><span class="lbl">Annual Studies</span></div>
+    </div>
+  </div>
+
+  <!-- AI Productivity Paradox -->
+  <div>
+    <h2 class="slide-title">The <span>AI Productivity Paradox</span></h2>
+    <div class="grid3">
+      <div class="card warn">
+        <h4>Management (Economics)</h4>
+        <p>ROI remains flat. Initial invisible financial impact despite high multi-vendor software costs.</p>
+        <div class="metric-row"><span class="label">Spine MRI NPS</span><span class="value red">−55.3</span></div>
+      </div>
+      <div class="card warn">
+        <h4>Doctors (Culture)</h4>
+        <p>Radiologist sentiment is intensely polarized, ranging from total workflow rejection to extreme enthusiasm.</p>
+        <div style="display:flex;justify-content:space-between;margin-top:0.75rem;">
+          <div class="stat" style="flex:1;margin-right:0.5rem"><span class="num red" style="font-size:1.5rem">−55.3</span><span class="lbl">Spine MRI</span></div>
+          <div class="stat" style="flex:1"><span class="num green" style="font-size:1.5rem">+86.7</span><span class="lbl">Bone Age</span></div>
+        </div>
+      </div>
+      <div class="card warn">
+        <h4>IT (Infrastructure)</h4>
+        <p>Infrastructure operates opaquely, resulting in unpredictable AI behavior, routing errors, and high latency.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- The "Too Late" Metric -->
+  <div>
+    <h2 class="slide-title">Uncovering the <span>'Too Late' Metric</span></h2>
+    <div class="flow">
+      <div class="flow-item"><span class="fi-icon">🔬</span><strong>Scan Complete</strong></div>
+      <div class="flow-item"><span class="fi-icon">📝</span><strong>Draft Report</strong></div>
+      <div class="flow-item" style="background:rgba(46,125,50,0.15);border-color:rgba(76,175,80,0.3)"><span class="fi-icon">✅</span><strong>Doctor Signs &amp; Validates</strong></div>
+      <div class="flow-item" style="background:rgba(198,40,40,0.15);border-color:rgba(198,40,40,0.3)"><span class="fi-icon">🔴</span><strong>AI Result Arrives (Too Late)</strong></div>
+    </div>
+    <div class="grid2" style="margin-top:1.5rem">
+      <div class="stat"><span class="num orange">7.2%</span><span class="lbl">Global "Too Late" Failure Rate — AI arrives after report is signed</span></div>
+      <div class="stat"><span class="num red">13.2%</span><span class="lbl">Failure Rate for Chest CTs — The Critical Bottleneck</span></div>
+    </div>
+    <blockquote>
+      <p>"If the best AI is not on time, it is worthless."</p>
+      <cite>— Dr. Sergey Morozov</cite>
+    </blockquote>
+  </div>
+
+  <!-- Hidden Liability Threat -->
+  <div>
+    <h2 class="slide-title">The <span>Hidden Liability</span> Threat</h2>
+    <div class="flow">
+      <div class="flow-item" style="background:rgba(15,87,208,0.1);border-color:rgba(15,87,208,0.3)"><strong>Clinical Event</strong><span>AI successfully detects a critical finding (e.g., cancer)</span></div>
+      <div class="flow-item" style="background:rgba(230,81,0,0.1);border-color:rgba(230,81,0,0.3)"><strong>IT Failure</strong><span>AI result is delayed by manual routing and latency — the 'Too Late' metric</span></div>
+      <div class="flow-item" style="background:rgba(198,40,40,0.15);border-color:rgba(198,40,40,0.3)"><strong>Human Action</strong><span>Doctor, unaware of the AI finding, misses the anomaly and signs off</span></div>
+    </div>
+    <div class="callout" style="margin-top:1.5rem">
+      <p>🔴 RED RISK ZONE: Severe Patient Harm + Hospital Legal Liability</p>
+      <p class="author">Compliance Risk: High vulnerability under the EU AI Act (Regulation 2024/1689), mandating strict post-market safety reporting for high-risk diagnostics.</p>
+    </div>
+  </div>
+
+  <!-- Workflow Epiphany -->
+  <div>
+    <h2 class="slide-title">The <span>Workflow Epiphany</span></h2>
+    <div class="card" style="text-align:center;padding:3rem;">
+      <div style="font-size:1.5rem;color:var(--white);font-weight:900;margin-bottom:1.5rem;">
+        (World-Class Algorithm Accuracy) × <span style="color:var(--red2)">(Broken Workflow Timing)</span> = <span style="color:var(--red2)">0 ROI</span>
+      </div>
+      <div class="grid3" style="text-align:left;margin-top:1.5rem;">
+        <div class="card accent"><p>Algorithm accuracy is no longer the primary differentiator; vendors have largely solved this.</p></div>
+        <div class="card accent"><p>The actual product being managed and optimized is the <strong style="color:var(--white)">workflow architecture</strong>.</p></div>
+        <div class="card success"><p>The solution requires dismantling the passive IT setup and building an active, <strong style="color:#81c784">automated pipeline</strong>.</p></div>
+      </div>
+    </div>
+    <div class="callout blue" style="margin-top:1.5rem">
+      <p>AI is not a software you buy; it is a workflow you build.</p>
+    </div>
+  </div>
+
+  <!-- Auto-Push -->
+  <div>
+    <h2 class="slide-title">Step 1: Architectural Overhaul <span>(Auto-Push)</span></h2>
+    <div class="compare">
+      <div class="compare-col before">
+        <h4>Before: "Query/Retrieve" Pull System</h4>
+        <ul>
+          <li>Scan → PACS Storage (slow)</li>
+          <li>Manual initiation of AI query</li>
+          <li>AI Server queries PACS</li>
+          <li>PACS retrieves to workstation</li>
+          <li>High latency, inconsistent execution</li>
+        </ul>
+      </div>
+      <div class="compare-col after">
+        <h4>After: "100% Auto-Push" Push System</h4>
+        <ul>
+          <li>Scan &amp; Auto-Push — seamless</li>
+          <li>Cloud AI — instant processing</li>
+          <li>RIS/PACS Workstation — zero-click routing</li>
+          <li>No manual steps</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout green" style="margin-top:1.5rem">
+      <p>Hero Metric: This singular switch resulted in <strong>96% of AI results becoming available before report validation</strong>.</p>
+    </div>
+  </div>
+
+  <!-- Deep Text Integration -->
+  <div>
+    <h2 class="slide-title">Step 2: <span>Deep Text Integration</span></h2>
+    <p style="margin-bottom:1.5rem;color:var(--muted)">Shifting AI from a visual alarm to an integrated text assistant.</p>
+    <div class="compare">
+      <div class="compare-col before">
+        <h4>Passive Overlay</h4>
+        <ul>
+          <li>AI shows visual overlay on image</li>
+          <li>Radiologist must switch screens</li>
+          <li>Separate login/interface</li>
+          <li><strong>Result: 0% Time Saved</strong></li>
+        </ul>
+      </div>
+      <div class="compare-col after">
+        <h4>Active Pre-population</h4>
+        <ul>
+          <li>AI pre-fills RIS report editor</li>
+          <li>Radiologist edits in-line</li>
+          <li>Real-time human-AI interaction</li>
+          <li><strong>Result: Up to 33% Time Saved</strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Integration Value Realization -->
+  <div>
+    <h2 class="slide-title">The Integration <span>Value Realization</span></h2>
+    <div class="grid4">
+      <div class="stat">
+        <span class="num">25→<span style="color:#81c784">20.6</span></span>
+        <span class="lbl">Knee MRI (min) — 17.5% savings</span>
+      </div>
+      <div class="stat">
+        <span class="num">18→<span style="color:#81c784">14</span></span>
+        <span class="lbl">Foot XR (min) — 22% savings</span>
+      </div>
+      <div class="stat">
+        <span class="num">22→<span style="color:#81c784">17</span></span>
+        <span class="lbl">Shoulder XR (min) — 23% savings</span>
+      </div>
+      <div class="stat">
+        <span class="num">15→<span style="color:#81c784">11</span></span>
+        <span class="lbl">Wrist XR (min) — 27% savings</span>
+      </div>
+    </div>
+    <div class="callout green" style="margin-top:1.5rem">
+      <p>Overall Impact: <strong>16% to 33% reduction in turnaround time (TAT)</strong> across modalities. Transforms a theoretical gain into real minutes saved on daily clinical routines.</p>
+    </div>
+  </div>
+
+  <!-- Report TAT Improvements -->
+  <div>
+    <span class="section-label">Results IV — AI Reporting</span>
+    <h2 class="slide-title">Report Turnaround Time <span>Improvements with AI</span></h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>AI Use Case</th><th>Sample w/out AI</th><th>Sample with AI</th><th>Median TAT w/out AI</th><th>Median TAT with AI</th><th>Reduction</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Trauma XR</td><td>3,549</td><td>82,214</td><td>6.00 min</td><td class="highlight">4.00 min</td><td class="highlight">−33.3%</td></tr>
+          <tr><td>Chest XR</td><td>719</td><td>18,120</td><td>4.00 min</td><td class="highlight">3.00 min</td><td class="highlight">−25.0%</td></tr>
+          <tr><td>Knee MR</td><td>678</td><td>11,995</td><td>19.00 min</td><td class="highlight">16.00 min</td><td class="highlight">−15.8%</td></tr>
+          <tr><td>Chest CT</td><td>601</td><td>9,249</td><td>29.00 min</td><td>29.00 min</td><td style="color:var(--muted)">0.0%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:1rem;font-size:0.82rem;color:var(--muted)">W/out AI: Exams without patient consent for AI use. With AI: Exams that received an HL7 receptor containing an AI-generated result.</p>
+  </div>
+
+  <!-- The Wins -->
+  <div>
+    <h2 class="slide-title">The Wins: <span>Patient · Radiologist · C-Suite</span></h2>
+    <div class="grid3">
+      <div class="card success">
+        <h4>🏥 The Patient Win</h4>
+        <p>AI operates invisibly in the background like an automated spellchecker for diagnostics — unprecedented speed with zero workflow delays.</p>
+        <div class="stat" style="margin-top:1rem"><span class="num green">53%</span><span class="lbl">Reduction in radiation dose through AI-optimized imaging</span></div>
+      </div>
+      <div class="card success">
+        <h4>👨‍⚕️ The Radiologist Win</h4>
+        <p>Radical reduction in cognitive load and alert fatigue. AI is no longer a competitor; it is a stress-reducing workflow enhancer.</p>
+        <div class="stat" style="margin-top:1rem"><span class="num green">91%</span><span class="lbl">Network-wide radiologist adoption rate</span></div>
+        <div class="stat" style="margin-top:0.75rem"><span class="num green">71%</span><span class="lbl">of doctors rely on AI as their daily "Safety Belt"</span></div>
+      </div>
+      <div class="card success">
+        <h4>💼 The C-Suite Win</h4>
+        <p>Fully prepared for EU AI Act audits. The "wild-west" IT setup is now a measurable, de-risked financial asset.</p>
+        <div class="stat" style="margin-top:1rem"><span class="num green">1.04 FTE</span><span class="lbl">Capacity generated — ROI measured at 4×</span></div>
+        <div class="stat" style="margin-top:0.75rem"><span class="num green">123 kCHF</span><span class="lbl">Annual savings via direct purchasing &amp; automation</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3R Integration Framework -->
+  <div>
+    <h2 class="slide-title">The 3R AI <span>Integration Framework</span></h2>
+    <div class="pyramid">
+      <div class="pyramid-tier" style="background:rgba(15,87,208,0.15);border:1px solid rgba(15,87,208,0.3);width:100%;">
+        <strong style="color:var(--blue3)">The Ultimate Asset</strong> — High ROI, Zero Legal Risk, Clinical Safety
+      </div>
+      <div class="pyramid-tier" style="background:rgba(15,87,208,0.12);border:1px solid rgba(15,87,208,0.25);width:100%;">
+        <strong style="color:var(--white)">Deep Integration (Pre-populated Text)</strong><br><span style="font-size:0.8rem;color:var(--muted)">Moving AI from visual overlays to native workflow assistance</span>
+      </div>
+      <div class="pyramid-tier" style="background:rgba(15,87,208,0.1);border:1px solid rgba(15,87,208,0.2);width:100%;">
+        <strong style="color:var(--white)">Architectural Speed (100% Auto-Push)</strong><br><span style="font-size:0.8rem;color:var(--muted)">Eliminating latency is the non-negotiable foundation</span>
+      </div>
+    </div>
+    <div class="callout blue" style="margin-top:1.5rem;text-align:center">
+      <p style="font-size:1.1rem;">AI is not a software you buy; it is a workflow you build.</p>
+    </div>
+  </div>
+
+  <!-- Executive Summary Table -->
+  <div>
+    <h2 class="slide-title"><span>Executive Summary</span> Table</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Dimension</th><th>Current State</th><th>Benchmark</th><th>Gap</th><th>Priority</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Adoption Rate</strong></td><td>60.3% routine</td><td>ESR 48%</td><td class="highlight">+12.3 pp ✓</td><td>Maintain; deepen</td></tr>
+          <tr><td><strong>Operational Cost</strong></td><td>—</td><td>—</td><td>—</td><td class="warn-cell">Urgent renegotiation</td></tr>
+          <tr><td><strong>FTE Savings</strong></td><td>0.84 FTE</td><td>2–7 min/exam</td><td class="warn-cell">−75% ↓</td><td class="warn-cell">Investigate root cause</td></tr>
+          <tr><td><strong>Portfolio ROI</strong></td><td>5.33×</td><td>3–5×</td><td class="highlight">Acceptable ✓</td><td>Monitor drift</td></tr>
+          <tr><td><strong>User Attitude</strong></td><td>3.10/5</td><td>3.9/5 (ESR)</td><td class="warn-cell">−0.8</td><td>Governance + transparency</td></tr>
+          <tr><td><strong>Processing Rate</strong></td><td>63.1%</td><td>80%</td><td class="warn-cell">−17 pp</td><td>On-premise expansion 2027</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Overcoming Productivity Paradox -->
+  <div>
+    <h2 class="slide-title">Overcoming the <span>Productivity Paradox</span></h2>
+    <div class="grid2">
+      <div>
+        <h3 style="color:var(--white);font-size:1rem;margin-bottom:1rem;">Objective RIS Data</h3>
+        <div class="metric-row"><span class="label">Report TAT — Trauma X-rays</span><span class="value green">−33.3%</span></div>
+        <div class="metric-row"><span class="label">Report TAT — Chest X-rays</span><span class="value green">−25.0%</span></div>
+        <h3 style="color:var(--white);font-size:1rem;margin:1.25rem 0 1rem;">Subjective Assessment</h3>
+        <div class="metric-row"><span class="label">Perceived AI productivity impact</span><span class="value green">+47%</span></div>
+        <div style="font-size:0.85rem;color:var(--muted);margin-top:0.5rem">Within 3 months (from 2.0 to 2.94 out of 5)</div>
+      </div>
+      <div class="callout green">
+        <p>The Operational Catalyst: Success was unlocked by reducing the 'PACS speed/latency' technical barrier from <strong>28.8% to 20.3%</strong> — not by changing the algorithms.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12-Metric Framework -->
+  <div>
+    <h2 class="slide-title">Implementing a Strict <span>12-Metric Monitoring Framework</span></h2>
+    <div class="grid3">
+      <div class="card" style="border-left:4px solid #ff9800;">
+        <span class="badge orange">Operations</span>
+        <h4 style="margin-top:0.75rem;color:var(--white);">Workflow Sync (Bottleneck)</h4>
+        <p>Critical failure point: AI results arriving after the doctor begins reporting.</p>
+        <p style="margin-top:0.75rem;font-size:0.85rem;color:var(--red2)">Only 46.9% of Mammography AI and 55.8% of Chest CT results arrive on time.</p>
+      </div>
+      <div class="card success">
+        <span class="badge green">Usage</span>
+        <h4 style="margin-top:0.75rem;color:var(--white);">Adoption Tracking</h4>
+        <p>Sustained adoption tracking and volume monitoring.</p>
+        <p style="margin-top:0.75rem;font-size:0.85rem;color:var(--muted)">Currently at 60.3% routine use. System tracks daily trends to detect silent abandonment.</p>
+      </div>
+      <div class="card warn">
+        <span class="badge red">Quality</span>
+        <h4 style="margin-top:0.75rem;color:var(--white);">Drift Detection</h4>
+        <p>Automated tracking to catch AI failures during PACS updates or equipment swaps.</p>
+        <div class="metric-row"><span class="label">Target</span><span class="value green">Pearson &gt; 0.85</span></div>
+        <div class="metric-row"><span class="label">Alert</span><span class="value red">Wasserstein distance exceeded</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Champion Retention Crisis -->
+  <div>
+    <h2 class="slide-title">The Champion Retention Crisis &amp; <span>Vendor Management</span></h2>
+    <div class="grid2">
+      <div class="card warn">
+        <h4>🔴 The Retention Crisis</h4>
+        <div class="stat"><span class="num red">53%</span><span class="lbl">of hyper-active users downgraded intensity within 3 months</span></div>
+        <div class="callout" style="margin-top:1rem">
+          <p style="font-size:0.9rem">Root Cause: "Tool Fatigue" driven by a rise in false-positive alerts (+3.4 pp).</p>
+        </div>
+      </div>
+      <div class="card success">
+        <h4>🟢 Radical Vendor Pruning — Scale Proven Leaders</h4>
+        <div class="metric-row"><span class="label">Gleamer</span><span class="value green">&gt;96% NPS</span></div>
+        <div class="metric-row"><span class="label">Visiana</span><span class="value green">&gt;96% NPS</span></div>
+        <div class="metric-row"><span class="label">Transpara</span><span class="value green">&gt;90 NPS</span></div>
+        <div class="metric-row"><span class="label">Columbo</span><span class="value red">NPS −55.3 → Immediate Discontinuation</span></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /wrap slides -->
+
+<!-- ═══════════════════════════════════════════════════ LLM PILOT -->
+<div id="portfolio" class="chapter">
+  <div class="ch-label">Part 7</div>
+  <h2>3 LLMs vs Dragon Dictate</h2>
+  <p>A six-slide executive business case to choose the safest and most scalable reporting solution for French-language radiology workflows at 3R.</p>
+</div>
+
+<div class="wrap slides">
+
+  <div>
+    <h2 class="slide-title">This Pilot is a Production Decision, <span>Not a Tech Demo</span></h2>
+    <div class="grid4">
+      <div class="stat"><span class="num">10</span><span class="lbl">Radiologists</span></div>
+      <div class="stat"><span class="num">4</span><span class="lbl">Conditions: Dragon + 3 LLMs</span></div>
+      <div class="stat"><span class="num">3,600</span><span class="lbl">Cases in design</span></div>
+      <div class="stat"><span class="num">3</span><span class="lbl">Core exam types</span></div>
+    </div>
+    <div class="grid2" style="margin-top:1.5rem">
+      <div class="card accent">
+        <h4>The Business Question</h4>
+        <ul>
+          <li>Can an LLM reduce reporting time vs. Dragon-only workflow?</li>
+          <li>Can it do so safely in French-language reporting?</li>
+          <li>Can it fit into RIS/PACS without adding hidden manual work?</li>
+          <li>Which vendor deserves scale-up at 3R?</li>
+        </ul>
+      </div>
+      <div class="card accent">
+        <h4>The Workflow Reality</h4>
+        <ul>
+          <li>Chest CT: tests synthesis of multiple findings</li>
+          <li>Spine MRI: tests structured template-driven reporting</li>
+          <li>Chest X-ray: tests whether LLM latency destroys value in short reports</li>
+          <li>Final value depends on review burden, not generation alone</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="slide-title">Five Decision Domains for <span>Vendor Choice</span></h2>
+    <div class="grid3">
+      <div class="card accent"><h4>⚡ Speed</h4><p>TAT, dictation time, LLM latency, review/edit time</p></div>
+      <div class="card accent"><h4>🇫🇷 French Accuracy</h4><p>Medical French recognition, negation, laterality, numbers, edit burden</p></div>
+      <div class="card accent"><h4>🔗 RIS Integration</h4><p>Single-flow use, draft insertion, logging, fallback workflow</p></div>
+      <div class="card warn"><h4>⚠️ Error Control</h4><p>Hallucinations, anatomy errors, unsafe recommendations, audit trail</p></div>
+      <div class="card accent"><h4>👥 Adoption</h4><p>Training, user comfort, trust, willingness to continue</p></div>
+    </div>
+    <h3 style="color:var(--white);margin:1.75rem 0 1rem;font-size:1rem;">Three Make-or-Break Risks</h3>
+    <div class="grid3">
+      <div class="card warn"><h4>French Speech Recognition</h4><p>If the input transcript is weak, the LLM will produce polished but clinically wrong text. True KPI = downstream editing effort and safety-critical corrections.</p></div>
+      <div class="card warn"><h4>RIS/PACS Fit</h4><p>Any need for copy-paste, extra logins, manual triggering, or poor logging can erase the time savings promised by the model.</p></div>
+      <div class="card warn"><h4>Error Control</h4><p>No vendor should scale without raw draft retention, edit traceability, safety flagging, and a clear way to review hallucinations or critical content errors.</p></div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="slide-title">Use a <span>Weighted Decision Model</span>, Not a Subjective Preference Vote</h2>
+    <div class="grid2">
+      <div class="card accent">
+        <h4>Suggested Weighting for Final Selection</h4>
+        <div class="metric-row"><span class="label">Speed and TAT impact</span><span class="value">30%</span></div>
+        <div class="metric-row"><span class="label">Clinical quality and safety</span><span class="value">30%</span></div>
+        <div class="metric-row"><span class="label">French-language accuracy / edit burden</span><span class="value">15%</span></div>
+        <div class="metric-row"><span class="label">RIS integration quality</span><span class="value">15%</span></div>
+        <div class="metric-row"><span class="label">User comfort and adoption</span><span class="value">10%</span></div>
+      </div>
+      <div class="card">
+        <h4>Go / No-Go Rules</h4>
+        <div class="callout green" style="margin-bottom:0.75rem"><p style="font-size:0.85rem">✅ GO: Faster than baseline, clinically acceptable, adopted by radiologists</p></div>
+        <div class="callout blue" style="margin-bottom:0.75rem"><p style="font-size:0.85rem">🟡 CONDITIONAL GO: Fast, but requires integration fixes or stronger onboarding</p></div>
+        <div class="callout"><p style="font-size:0.85rem">🔴 NO-GO: High edit burden, unstable French output, weak audit trail, or unresolved safety issues</p></div>
+      </div>
+    </div>
+    <div class="callout blue" style="margin-top:1.5rem">
+      <p>Recommendation: Prove net time savings · Do not compromise safety · Choose workflow fit over hype</p>
+    </div>
+  </div>
+
+</div><!-- /wrap slides -->
+
+<!-- ═══════════════════════════════════════════════════ 2026 PLAYBOOK -->
+<div class="chapter">
+  <div class="ch-label">Part 8</div>
+  <h2>The 2026 Playbook</h2>
+  <p>Actionable roadmap for innovation directors scaling AI across multi-center radiology networks.</p>
+</div>
+
+<div class="wrap slides">
+
+  <div>
+    <h2 class="slide-title">Methodology for <span>100% of Radiologists</span> Benefitting from AI</h2>
+    <p style="margin-bottom:1.5rem;color:var(--muted)">Technology Maturity Pyramid + PDCA Cycle</p>
+    <div class="pyramid">
+      <div class="pyramid-tier" style="background:rgba(230,81,0,0.25);border:1px solid rgba(230,81,0,0.4);color:#ffb74d">Efficiency — AI-augmented workflows</div>
+      <div class="pyramid-tier" style="background:rgba(15,87,208,0.2);border:1px solid rgba(15,87,208,0.3);">Integrate AI-pre-populated reports</div>
+      <div class="pyramid-tier" style="background:rgba(156,39,176,0.2);border:1px solid rgba(156,39,176,0.3);">Improving AI alarms in RIS</div>
+      <div class="pyramid-tier" style="background:rgba(46,125,50,0.2);border:1px solid rgba(76,175,80,0.3);color:#81c784"><strong>Improve pre-report AI delivery and AI visibility by default</strong></div>
+    </div>
+    <div class="grid2" style="margin-top:1.5rem">
+      <div class="card accent">
+        <h4>PDCA Governance Cadence</h4>
+        <div class="metric-row"><span class="label">Weekly</span><span class="value green">Site visits + staff training</span></div>
+        <div class="metric-row"><span class="label">Bi-monthly</span><span class="value green">Meetings with AI distributor</span></div>
+        <div class="metric-row"><span class="label">Monthly</span><span class="value green">Management review of AI dashboard</span></div>
+        <div class="metric-row"><span class="label">Quarterly</span><span class="value green">Usage questionnaire</span></div>
+      </div>
+      <div class="card accent">
+        <h4>Key Results Achieved</h4>
+        <div class="metric-row"><span class="label">Adoption Rate</span><span class="value green">60.3% routine (vs. ESR 48%)</span></div>
+        <div class="metric-row"><span class="label">Portfolio ROI</span><span class="value green">5.33× (benchmark 3–5×)</span></div>
+        <div class="metric-row"><span class="label">TAT reduction — Trauma XR</span><span class="value green">−33.3%</span></div>
+        <div class="metric-row"><span class="label">AI pre-report delivery</span><span class="value green">96% on-time after Auto-Push</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="slide-title">The 2026 Playbook for <span>Portfolio Scaling</span></h2>
+    <div class="grid3">
+      <div class="card accent">
+        <div style="font-size:2rem;margin-bottom:0.75rem;text-align:center">🔗</div>
+        <h4>1. Peer-to-Peer Mentoring</h4>
+        <p>Pair <strong style="color:#81c784">20 high-intensity "Champion" doctors</strong> with <strong style="color:#ff9800">19 "Resistant/Light" colleagues</strong>. Directly combat psychological barriers by building trust and dismantling skepticism.</p>
+      </div>
+      <div class="card accent">
+        <div style="font-size:2rem;margin-bottom:0.75rem;text-align:center">⚙️</div>
+        <h4>2. Deep Routine Automation</h4>
+        <p>Eliminate the "extra click" penalty. Develop pre-filled reports and integrate LLM models to reduce the secretarial and copy-paste workload by <strong style="color:#81c784">30–50%</strong>.</p>
+      </div>
+      <div class="card accent">
+        <div style="font-size:2rem;margin-bottom:0.75rem;text-align:center">🎯</div>
+        <h4>3. Specialty-Targeted Interventions</h4>
+        <p>Close the <strong style="color:var(--red2)">37-point adoption gap</strong> between Abdominal Radiology (<strong style="color:#81c784">87.5%</strong> adoption) and Neuroradiology (<strong style="color:#ff9800">50%</strong>) by redesigning the specific clinical pathway.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Closing / Team -->
+  <div>
+    <h2 class="slide-title">3R <span>Reinvents Diagnostics</span> with AI</h2>
+    <div class="grid2">
+      <div class="card accent">
+        <h4>Network Leadership</h4>
+        <div class="metric-row"><span class="label">Daniel Pinto dos Santos</span><span class="value">President 2025–2027</span></div>
+        <div class="metric-row"><span class="label">Merel Huisman</span><span class="value">Vice President 2025–2027</span></div>
+        <div class="metric-row"><span class="label">Elmar Kotter</span><span class="value">Treasurer 2025–2027</span></div>
+        <div class="metric-row"><span class="label">Jacob Visser</span><span class="value">Secretary 2025–2027</span></div>
+        <div class="metric-row"><span class="label">Peter van Ooijen</span><span class="value">Past President 2025–2027</span></div>
+      </div>
+      <div class="card">
+        <p style="font-size:0.85rem;line-height:1.9;color:var(--muted)">Roger Aebi · Marcelo Aguilar · Mourad Amor · Marcela Anchante · Anne-Catherine Bafort · Anastasia Barras · Hachem Ben Bouzid · Pierre Benedict · Olivier Berrebi · Iheb Bougamra · Johann Carrard · Ana Caruso · Theofilos Christoforidis · Monica Oana Deac · Sofiane Derrouis · Amira Dhouib · Luca Duc · Victor Fernandes · Dominique Fournier · Julien Galley · Matteo Gandalini · Marc Giraud · Cécile Grandin · Arnaud Grégoire · Enrico Guidetti · Catrina Hansen-Pham · Maria Kebets · Peter Kelemen · Romain Kohler · Amine Korchi · Georges Krompecher · Vincent Lenoir · Gibran Manasseh · Marc Mazilu · Benoît Morel · Patricia Nin · Mehmet O. Oksuz · Kahina Ouamer · Alain Pellaton · Jacques Perrin · Bahar Popal · Miriam Pyka · Diana Ribeiro · Benoît Rizk · Anna Maria Rosanò · Diego San Millan · Patrique Santos Oliveira · Abdulhakim Sarraj · Anne Laure Saverot · Caroline Schütz Schweizer · Georgios Sgourdos · Jean-Marc Steity · Aphrodite Syrogiannopoulou · Catherine Waeber von der Weid · Lorena Zamora</p>
+        <p style="margin-top:1rem;font-size:0.78rem;color:var(--blue3);font-weight:600">EuSoMII — European Society of Medical Imaging Informatics</p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /wrap slides -->
+
+<!-- ═══════════════════════════════════════════════════ FOOTER -->
+<footer>
+  <p style="margin-bottom:0.5rem"><strong style="color:var(--white)">Prof. Dr. Sergey Morozov</strong> — Medlogic / 3R Swiss Imaging Network</p>
+  <p style="margin-bottom:1rem">Romion Health · Utrecht Science Park · UtrechtInc · April 2026</p>
+  <p><a href="insights.html">← Back to Insights</a> &nbsp;·&nbsp; <a href="index.html">medlogic.co</a></p>
+  <p style="margin-top:1.5rem">© 2026 Dr. Sergey Morozov. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -la /Users/sergemoroz/code/website/*.html)",
+      "Bash(grep -hoh 'href=\"[a-z][^\"]*\\\\.html\"' /Users/sergemoroz/code/website/*.html)",
+      "Bash(grep -n \"2024\\\\|120+\\\\|1\\\\.3 million clinical\\\\|bottom line simultaneously\\\\|HealthCare\\\\|SIEMENS\\\\|LUNIT\\\\|PHILIPS\\\\|contact@morozov\\\\|office@drmorozov\\\\|sergemoroz[^v]\" /Users/sergemoroz/code/website/*.html)",
+      "Read(//Users/sergemoroz/.claude/skills/notebooklm/**)",
+      "Bash(python scripts/run.py auth_manager.py status)",
+      "Bash(python3 scripts/run.py auth_manager.py status)",
+      "Bash(python3 scripts/run.py notebook_manager.py list)",
+      "Bash(python3 scripts/run.py ask_question.py --question \"What is the content of this notebook? What topics are covered? Provide a complete overview briefly and concisely\" --notebook-url \"https://notebooklm.google.com/notebook/6fa1bde8-f897-4420-9306-03a2e77d29d7\")",
+      "Bash(python3 scripts/run.py notebook_manager.py add --url https://notebooklm.google.com/notebook/6fa1bde8-f897-4420-9306-03a2e77d29d7 --name 'AI in Clinical Radiology & Healthcare' --description 'Strategic implementation of AI in clinical radiology: workflow efficiency, AI monitoring/governance \\(Morozov Approach\\), Horizon Europe grant proposals \\(TWIN-X, OPTIMAL, STELLA\\), LLMs in healthcare, R&D performance reports' --topics 'AI,radiology,healthcare,digital twins,LLM,EU AI Act,Horizon Europe,PACS,clinical workflow,grant proposals')",
+      "Bash(du -sh /Users/sergemoroz/*)"
+    ]
+  }
+}
