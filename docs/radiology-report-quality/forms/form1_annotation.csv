@@ -1,3 +1,3 @@
-report_id,annotator_id,M1_clarte,M2_suivi,M3_completude,M3_slots_manquants,M4_discordance,M4_note,commentaire,litigieux
-RX-00412,A,1,oui,incomplet,"délai,modalité",non,,,non
-RX-00517,A,3,non,NA,,T3,base gauche vs droite,,oui
+report_id,annotator_id,Q1_ambiguity,Q2_followup,Q3_completeness,Q3_missing_slots,B1_order_in_scope,B1_reason,B2_eligible_finding,B2_finding_types,B2_body_region,B2_out_of_scope_finding,comment,litigious
+TXR-00412,A,ambiguous,yes,incomplete,"timeframe,modality",in,-,present,fracture,wrist,no,,no
+TXR-00517,A,unambiguous,no,NA,-,out,R_region,absent,-,-,no,cervical spine order,yes

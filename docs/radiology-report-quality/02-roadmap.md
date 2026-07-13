@@ -1,159 +1,89 @@
-# Этапы работы (Roadmap) · RRQ-FR
+# Roadmap · RRQ-FR (3 months)
 
-Дорожная карта из 7 фаз (0–6). Сроки — ориентировочные, для команды из
-1 ML-инженера + клинического лида + 1–2 разметчиков. Каждая фаза имеет вход,
-результат (deliverable) и критерий готовности (Definition of Done).
+A 12-week plan for a team of 1 ML engineer + clinical lead + 1–2 annotators. Because both
+pilots are **already done** (Q1/Q2 on ~100 trauma XR cases; B1/B2 on 888 reports), the plan
+starts from *consolidation*, not from scratch.
 
 ```
-Ф0 Определения ──▶ Ф1 Данные ──▶ Ф2 Золотой стандарт ──▶ Ф3 LLM-baseline
-                                                              │
-                        Ф6 MVP ◀── Ф5 Оценка ◀── Ф4 Спец.модели (M2,M3)
+Month 1  ──▶  Month 2  ──▶  Month 3
+Consolidate     Specialized      Evaluate + MVP
+gold + baseline  models           + human-in-the-loop
 ```
 
-Фазы 0 и 1 идут **параллельно**. Фаза 3 может стартовать, как только готова
-первая половина золотого набора.
+Dimensions: **Q1** ambiguity · **Q2** follow-up present · **Q3** follow-up completeness ·
+**B1** order in-scope · **B2** eligible finding.
 
 ---
 
-## Фаза 0 — Операционализация метрик · нед. 1–2
+## MONTH 1 — Consolidate gold + LLM baseline
 
-**Цель:** превратить 4 метрики из общих слов в письменный рубрикатор с
-однозначными правилами и якорными примерами.
+### Week 1 — Definitions & data hygiene
+- Freeze the rubric ([`05-annotation-guideline.md`](05-annotation-guideline.md)) against pilot experience.
+- Confirm RGPD legal basis with DPO (blocker). De-identify report + order corpus.
+- Section segmentation (Indication / Technique / Description / Conclusion).
+- **DoD:** rubric signed; ≥95% sections parsed; DPO ok.
 
-**Действия:**
-- Для каждой метрики M1–M4 описать: определение, шкалу, что считается «плохо/хорошо», пограничные случаи.
-- Собрать 15–20 реальных репортов, разобрать вручную на калибровочной сессии.
-- Зафиксировать якорные примеры на французском для каждого уровня шкалы.
+### Week 2 — Gold consolidation
+- Ingest pilot labels: ~100 trauma XR (Q1, Q2) and 888 reports (B1, B2).
+- Fill gaps: add Q3 (follow-up completeness) labels where Q2=yes; spot-relabel for consistency with the frozen rubric.
+- Second-annotator pass on a subset for **IAA (κ)** on every dimension.
+- **DoD:** IAA measured; disagreements adjudicated to consensus; test split frozen.
 
-**Deliverable:** [`05-annotation-guideline.md`](05-annotation-guideline.md) — утверждённый рубрикатор.
-
-**Definition of Done:** клинический лид и разметчики подписали рубрикатор;
-на 10 калибровочных репортах предварительное согласие приемлемо.
-
----
-
-## Фаза 1 — Данные и приватность · нед. 2–4 (параллельно с Ф0)
-
-**Цель:** получить чистый, де-идентифицированный, структурированный корпус.
-
-**Действия:**
-- Согласовать с DPO правовой базис обработки (RGPD). **Блокер — до данных.**
-- Экспорт рентгенологических репортов (приоритет — RX thorax).
-- **Де-идентификация:** удаление ФИО, дат рождения, идентификаторов, адресов.
-- **Сегментация секций:** Indication / Technique / Description (Findings) / Conclusion (Impression) — правилами по заголовкам + fallback-модель.
-- Профилирование корпуса: длины, доля с заголовками секций, распределение по врачам/центрам.
-
-**Deliverable:** де-идентифицированный корпус с размеченными секциями + отчёт-профиль.
-
-**Definition of Done:** ≥95% репортов корректно разбиты на секции (проверка на выборке);
-де-идентификация прошла ручной аудит на выборке; DPO дал добро.
+### Weeks 3–4 — LLM baseline (all dimensions)
+- Deploy open-weights LLM on-prem (vLLM/Ollama).
+- Judge prompts with **structured JSON output** for Q1, Q2, Q3.
+- B1: rule-first intended-use classifier (modality/region/age) + LLM fallback.
+- B2: LLM finding extraction (type + region) constrained to BoneView-eligible classes.
+- Score on dev vs gold; iterate prompts (version-controlled).
+- **Milestone M1:** baseline numbers for Q1–Q3, B1–B2 on dev.
 
 ---
 
-## Фаза 2 — Золотой стандарт · нед. 4–7
+## MONTH 2 — Specialized models
 
-**Цель:** эталонный размеченный набор для честной оценки всех подходов.
+### Weeks 5–6 — Weak labeling & data build
+- Run LLM baseline over the large unlabeled corpus → weak labels for Q2, Q3, B1, B2.
+- Sample-verify weak labels with an annotator; assemble train/dev.
+- **DoD:** clean training sets per hard dimension.
 
-**Действия:**
-- Отобрать 300–500 репортов (стратифицированно: по врачам, наличию/отсутствию патологии).
-- **Двойная независимая разметка** двумя радиологами по рубрикатору Ф0.
-- Замерить **согласие между разметчиками (IAA)**: Cohen's/Fleiss' κ по каждой метрике.
-- Разбор расхождений, арбитраж клинического лида → консенсус-метки.
-- При κ ниже цели по «мягким» метрикам — вернуться в Ф0, уточнить рубрикатор, переразметить.
-
-**Deliverable:** золотой набор (train/dev/test сплиты) + отчёт по IAA.
-
-**Definition of Done:** IAA достиг целей (§7 паспорта) или задокументирован
-обоснованный пересмотр порогов; консенсус-метки готовы; тестовый сплит заморожен.
-
----
-
-## Фаза 3 — LLM-baseline · нед. 6–9
-
-**Цель:** быстрый рабочий прототип по всем 4 метрикам без обучения.
-
-**Действия:**
-- Развернуть open-weights инструктивную LLM с сильным FR (Mistral / Qwen) on-prem (vLLM/Ollama).
-- Написать промпты-судьи по рубрикатору, со **structured output (JSON)** и обоснованием.
-- Для M4 — приём «строгое информационное сопоставление»: извлечь находки из
-  описания и из заключения, сравнить по пунктам (а не «оцени согласованность 1–5»).
-- Прогнать на dev-сплите, сравнить с золотым стандартом, итерации промптов.
-
-**Deliverable:** LLM-baseline пайплайн + таблица метрик против gold.
-
-**Definition of Done:** есть числа по M1–M4 на dev; для M2/M4 baseline не хуже
-разумного порога; промпты и версия модели зафиксированы.
+### Weeks 7–8 — Fine-tune encoders
+- `CamemBERT-bio` / `DrBERT`:
+  - **Q2** binary follow-up classifier.
+  - **Q3** slot extraction (modality/timeframe/region/condition) + completeness rule.
+  - **B1** in-scope classifier (region/modality/age) — hybrid with rules + reason codes.
+  - **B2** eligible-finding detector (fracture/dislocation/effusion/lesion) + region tagging.
+- Handle 512-token limit (per-section / long-context variant).
+- **Milestone M2:** Q2 F1 ≥ 0.90, Q3 F1 ≥ 0.80, B1 F1 ≥ 0.90, B2 F1 ≥ 0.85 on frozen test (or documented gap + plan).
 
 ---
 
-## Фаза 4 — Специализированные модели для M2, M3 · нед. 9–13
+## MONTH 3 — Evaluation + MVP
 
-**Цель:** заменить/усилить LLM на «жёстких» метриках дешёвым точным энкодером.
+### Weeks 9–10 — Evaluation & calibration
+- Final run on the **frozen test split**.
+- Metrics per task: F1/P/R (Q2, Q3, B1, B2), κ + MAE (Q1); B2 also region/type accuracy.
+- Calibrate the LLM judge (over-rating, paraphrase robustness, reproducibility).
+- Error analysis: FP/FN typology; where the system is weakest (e.g. rib-cage vs chest for B1).
+- **DoD:** quality report agreed with clinical lead.
 
-**Действия:**
-- **Weak labeling:** прогнать LLM (Ф3) по большому неразмеченному корпусу → черновые метки.
-- Дообучить `CamemBERT-bio` / `DrBERT`:
-  - M2 — бинарный классификатор «follow-up есть/нет».
-  - M3 — извлечение слотов (модальность, срок, зона, условие) + правило полноты.
-- Гибрид: правила ловят явные шаблоны, модель — перефразировки.
-- Учесть лимит 512 токенов (посекционно / long-context вариант).
-
-**Deliverable:** дообученные модели M2/M3 + правила полноты + метрики на test.
-
-**Definition of Done:** M2 F1 ≥ 0.90 и M3 F1 ≥ 0.80 на замороженном test (или
-задокументированный разрыв и план); инференс укладывается в бюджет времени.
+### Weeks 11–12 — Pipeline + human-in-the-loop
+- Single pipeline: de-identification → segmentation → {encoders Q2/Q3/B1/B2, LLM judge Q1} → aggregated report with flags.
+- BoneView cross-tab: B1 (should it run) × B2 (eligible finding) × BoneView output → appropriateness & concordance dashboard.
+- Review UI: radiologist sees flag + rationale → confirm/reject; confirmations grow the gold set.
+- **Milestone M3 (MVP):** run on a fresh stream; ≥ 70% of flags judged valid on audit; human-in-the-loop process documented.
 
 ---
 
-## Фаза 5 — Оценка и калибровка · нед. 13–15
+## Milestone summary
 
-**Цель:** честная сводная оценка системы против KPI.
+| Milestone | When | Key gate |
+|-----------|------|----------|
+| M1 · Gold + baseline | End of Month 1 | IAA measured; baseline numbers for all dimensions |
+| M2 · Models | End of Month 2 | F1 targets met (Q2/Q3/B1/B2) |
+| M3 · MVP | End of Month 3 | ≥ 70% flags valid; appropriateness/concordance dashboard |
 
-**Действия:**
-- Прогнать финальную конфигурацию на **замороженном test**.
-- Метрики по каждой задаче: F1/P/R (M2, M3), κ и MAE (M1), Recall/FP (M4).
-- Калибровка LLM-судьи: проверка на завышение, устойчивость к перефразировкам, воспроизводимость (fixed seed/temp).
-- Анализ ошибок: типология FP/FN, где система слабее всего.
+## Parallelization / fast path
 
-**Deliverable:** отчёт по качеству (KPI-таблица + анализ ошибок).
-
-**Definition of Done:** отчёт согласован с клиническим лидом; понятно, какие
-метрики готовы к пилоту, какие — нет.
-
----
-
-## Фаза 6 — Пайплайн и human-in-the-loop · нед. 15–18
-
-**Цель:** собрать MVP-конвейер с ревью радиологом и обратной связью.
-
-**Действия:**
-- Единый пайплайн: де-идентификация → сегментация → {энкодер M2/M3, LLM-судья M1/M4} → агрегированный отчёт качества с флагами.
-- Интерфейс ревью: радиолог видит флаг + обоснование, подтверждает/отклоняет.
-- Петля обратной связи: подтверждения копятся, расширяют золотой набор → плановое дообучение.
-- Мониторинг дрейфа (распределение оценок во времени).
-
-**Deliverable:** MVP-система + ревью-интерфейс + регламент дообучения.
-
-**Definition of Done:** прогон на новом потоке репортов; ≥70% флагов признаны
-обоснованными на аудите; регламент human-in-the-loop задокументирован.
-
----
-
-## Сводная таблица вех
-
-| Фаза | Веха | Ориентир | Ключевой критерий |
-|------|------|----------|-------------------|
-| 0 | Рубрикатор утверждён | Нед. 2 | Подписан лидом |
-| 1 | Корпус готов | Нед. 4 | ≥95% секций, DPO ok |
-| 2 | Золотой стандарт | Нед. 7 | IAA достигнут |
-| 3 | LLM-baseline | Нед. 9 | Числа по M1–M4 |
-| 4 | Модели M2/M3 | Нед. 13 | F1 M2≥0.90, M3≥0.80 |
-| 5 | Отчёт качества | Нед. 15 | KPI сведены |
-| 6 | MVP | Нед. 18 | ≥70% флагов валидны |
-
-## Что можно распараллелить / ускорить
-
-- Ф0 и Ф1 — параллельно.
-- Ф3 (LLM-baseline) — старт на первой половине gold, не дожидаясь всей Ф2.
-- Если нужен **самый быстрый результат** — Ф0→Ф1→Ф2(мини, 100 репортов)→Ф3 даёт
-  демонстрируемый прототип по всем метрикам за ~5–6 недель; Ф4–6 — усиление.
+- Report-quality (A) and BoneView (B) tracks run in parallel — different labels, shared pipeline.
+- If a demo is needed early: the LLM baseline (Weeks 3–4) already covers all five dimensions
+  end-to-end; encoders in Month 2 are the cost/robustness upgrade.

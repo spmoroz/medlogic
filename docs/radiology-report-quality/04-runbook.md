@@ -1,94 +1,89 @@
-# Порядок действий (Runbook) · RRQ-FR
+# Runbook (Order of actions) · RRQ-FR
 
-Пошаговый операционный ранбук. Каждый шаг: **кто → что → результат**.
-Отмечайте статус прямо в таблицах (☐ / ☑).
-
----
-
-## Блок A. Подготовка (до данных)
-
-| # | Действие | Ответственный | Результат | ☐ |
-|---|----------|---------------|-----------|---|
-| A1 | Kick-off, назначить роли (паспорт §4) | Спонсор | Роли закреплены | ☐ |
-| A2 | Согласовать правовой базис обработки (RGPD) | DPO + лид | Разрешение на де-идентиф. данные | ☐ |
-| A3 | Утвердить рубрикатор M1–M4 (Ф0) | Клин. лид | `05-annotation-guideline.md` подписан | ☐ |
-| A4 | Выделить on-prem GPU-инфраструктуру | ML-инженер | Среда для инференса/обучения | ☐ |
-| A5 | Определить пилотную выборку (RX thorax) | Лид + данные | Критерии отбора репортов | ☐ |
-
-> **A2 — блокер.** Не переходить к работе с данными без разрешения DPO.
-
-## Блок B. Данные (Фаза 1)
-
-| # | Действие | Ответственный | Результат | ☐ |
-|---|----------|---------------|-----------|---|
-| B1 | Экспорт репортов из RIS | Инженер данных | Сырой корпус | ☐ |
-| B2 | Де-идентификация (ФИО, даты, ID, адреса) | Инженер данных | Де-идентиф. корпус | ☐ |
-| B3 | Ручной аудит де-идентификации на выборке (n≥50) | Лид | Отчёт аудита, 0 утечек | ☐ |
-| B4 | Сегментация секций (Indication/Technique/Description/Conclusion) | ML-инженер | Структурированный корпус | ☐ |
-| B5 | Проверка сегментации на выборке (≥95% корректно) | ML-инженер | Метрика сегментации | ☐ |
-| B6 | Профиль корпуса (длины, доли, распределение по врачам) | ML-инженер | Отчёт-профиль | ☐ |
-
-## Блок C. Золотой стандарт (Фаза 2)
-
-| # | Действие | Ответственный | Результат | ☐ |
-|---|----------|---------------|-----------|---|
-| C1 | Стратифицированный отбор 300–500 репортов | ML-инженер | Набор для разметки | ☐ |
-| C2 | Калибровочная сессия на 10–15 репортах | Разметчики + лид | Сверка понимания рубрикатора | ☐ |
-| C3 | Двойная независимая разметка (форма из `06-working-forms.md`) | 2 радиолога | Две независимые разметки | ☐ |
-| C4 | Расчёт IAA (κ по M1–M4) | ML-инженер | Отчёт IAA | ☐ |
-| C5 | Разбор расхождений + арбитраж | Клин. лид | Консенсус-метки | ☐ |
-| C6 | Если κ (M1/M4) < цели → уточнить рубрикатор, вернуться в C2 | Лид | Обновлённый рубрикатор | ☐ |
-| C7 | Заморозить test-сплит | ML-инженер | train/dev/test | ☐ |
-
-## Блок D. LLM-baseline (Фаза 3)
-
-| # | Действие | Ответственный | Результат | ☐ |
-|---|----------|---------------|-----------|---|
-| D1 | Развернуть open-weights LLM on-prem (vLLM/Ollama) | ML-инженер | Рабочий инференс | ☐ |
-| D2 | Написать промпты-судьи M1–M4 (JSON output) | ML-инженер | Промпты v1 | ☐ |
-| D3 | M4: реализовать «извлечь находки → сопоставить по пунктам» | ML-инженер | Пайплайн M4 | ☐ |
-| D4 | Прогон на dev, сравнение с gold | ML-инженер | Таблица метрик v1 | ☐ |
-| D5 | Итерации промптов (фиксировать версии) | ML-инженер | Промпты vN + changelog | ☐ |
-
-## Блок E. Специализированные модели M2, M3 (Фаза 4)
-
-| # | Действие | Ответственный | Результат | ☐ |
-|---|----------|---------------|-----------|---|
-| E1 | LLM weak-labeling большого корпуса | ML-инженер | Черновые метки M2/M3 | ☐ |
-| E2 | Выборочная верификация weak labels | Разметчик | Очищенный train | ☐ |
-| E3 | Дообучить CamemBERT-bio/DrBERT (M2 бинарно) | ML-инженер | Модель M2 | ☐ |
-| E4 | Обучить slot-extraction + правило полноты (M3) | ML-инженер | Модель M3 + правила | ☐ |
-| E5 | Гибрид правил+модели, обработка лимита 512 токенов | ML-инженер | Финальные M2/M3 | ☐ |
-| E6 | Оценка на test | ML-инженер | F1 M2/M3 | ☐ |
-
-## Блок F. Оценка и MVP (Фазы 5–6)
-
-| # | Действие | Ответственный | Результат | ☐ |
-|---|----------|---------------|-----------|---|
-| F1 | Финальный прогон на замороженном test | ML-инженер | Сырые предсказания | ☐ |
-| F2 | Свести KPI (F1, κ, MAE, Recall/FP) | ML-инженер | Отчёт качества | ☐ |
-| F3 | Калибровка LLM-судьи (воспроизв., смещение) | ML-инженер | Отчёт калибровки | ☐ |
-| F4 | Анализ ошибок (типология FP/FN) | ML + лид | Список слабых мест | ☐ |
-| F5 | Собрать единый пайплайн + отчёт с флагами | ML-инженер | MVP-конвейер | ☐ |
-| F6 | Интерфейс ревью (флаг + обоснование → подтв./откл.) | ML-инженер | Ревью-инструмент | ☐ |
-| F7 | Аудит: ≥70% флагов обоснованы | Клин. лид | Приёмочный отчёт | ☐ |
-| F8 | Регламент human-in-the-loop и дообучения | Лид + ML | Регламент | ☐ |
+Step-by-step operational runbook for the 3-month plan. Each step: **who → what → output**.
+Mark status inline (☐ / ☑). Dimensions: Q1 ambiguity · Q2 follow-up present · Q3 completeness ·
+B1 order in-scope · B2 eligible finding.
 
 ---
 
-## Быстрый путь к демо (если нужен результат за ~5–6 недель)
+## Block A — Setup (before data)
 
-1. A2, A3 (правовой базис + рубрикатор).
-2. B1–B4 (данные + сегментация).
-3. C1–C5, но **мини-gold ~100 репортов**.
-4. D1–D4 (LLM-baseline по всем метрикам).
-5. → Демонстрируемый прототип по M1–M4. Блоки E–F — усиление после демо.
+| # | Action | Owner | Output | ☐ |
+|---|--------|-------|--------|---|
+| A1 | Kick-off, assign roles (passport §4) | Sponsor | Roles fixed | ☐ |
+| A2 | Confirm RGPD legal basis | DPO + lead | Approval to process de-identified data | ☐ |
+| A3 | Freeze rubric Q1–Q3, B1–B2 | Clinical lead | `05-annotation-guideline.md` signed | ☐ |
+| A4 | Provision on-prem GPU | ML engineer | Inference/training environment | ☐ |
+| A5 | Confirm trauma XR export (reports + orders) | Data + lead | Export spec | ☐ |
 
-## Контрольные точки для статуса (для встреч)
+> **A2 is a blocker.** No data work before DPO approval.
 
-- **CP1 (конец нед. 2):** рубрикатор + правовой базис готовы?
-- **CP2 (конец нед. 4):** корпус сегментирован, профиль есть?
-- **CP3 (конец нед. 7):** золотой стандарт + IAA?
-- **CP4 (конец нед. 9):** LLM-baseline числа?
-- **CP5 (конец нед. 13):** M2/M3 достигли F1-целей?
-- **CP6 (конец нед. 18):** MVP + аудит флагов?
+## Block B — Data (Week 1)
+
+| # | Action | Owner | Output | ☐ |
+|---|--------|-------|--------|---|
+| B1 | Export trauma XR reports + orders from RIS | Data engineer | Raw corpus | ☐ |
+| B2 | De-identify (names, DOB, IDs, addresses) | Data engineer | De-identified corpus | ☐ |
+| B3 | Manual de-id audit on a sample (n≥50) | Lead | Audit report, 0 leaks | ☐ |
+| B4 | Section segmentation | ML engineer | Structured corpus | ☐ |
+| B5 | Verify segmentation (≥95% correct) | ML engineer | Segmentation metric | ☐ |
+| B6 | Corpus profile (lengths, region mix, age availability) | ML engineer | Profile report | ☐ |
+
+## Block C — Gold consolidation (Week 2)
+
+| # | Action | Owner | Output | ☐ |
+|---|--------|-------|--------|---|
+| C1 | Ingest pilot labels: ~100 (Q1,Q2) + 888 (B1,B2) | ML engineer | Seed gold sets | ☐ |
+| C2 | Add Q3 labels where Q2=yes; relabel for rubric consistency | Annotators | Completed A-track labels | ☐ |
+| C3 | Second-annotator pass on a subset (all dimensions) | 2 radiologists | Double-labeled subset | ☐ |
+| C4 | Compute IAA (κ per dimension) | ML engineer | IAA report | ☐ |
+| C5 | Adjudicate disagreements | Clinical lead | Consensus labels | ☐ |
+| C6 | If κ(Q1) < target → refine rubric, re-label | Lead | Updated rubric | ☐ |
+| C7 | Freeze test split | ML engineer | train/dev/test | ☐ |
+
+## Block D — LLM baseline (Weeks 3–4)
+
+| # | Action | Owner | Output | ☐ |
+|---|--------|-------|--------|---|
+| D1 | Deploy open-weights LLM on-prem (vLLM/Ollama) | ML engineer | Working inference | ☐ |
+| D2 | Judge prompts Q1/Q2/Q3 (JSON output) | ML engineer | Prompts v1 | ☐ |
+| D3 | B1 intended-use classifier (rules + LLM fallback) | ML engineer | B1 baseline | ☐ |
+| D4 | B2 finding extraction constrained to eligible types + region | ML engineer | B2 baseline | ☐ |
+| D5 | Score on dev vs gold; iterate (version prompts) | ML engineer | Baseline metrics table | ☐ |
+
+## Block E — Specialized models (Weeks 5–8)
+
+| # | Action | Owner | Output | ☐ |
+|---|--------|-------|--------|---|
+| E1 | LLM weak-labeling of large corpus (Q2,Q3,B1,B2) | ML engineer | Weak labels | ☐ |
+| E2 | Sample-verify weak labels | Annotator | Clean train | ☐ |
+| E3 | Fine-tune encoder — Q2 (follow-up present) | ML engineer | Model Q2 | ☐ |
+| E4 | Train slot extraction + completeness rule — Q3 | ML engineer | Model Q3 + rules | ☐ |
+| E5 | Train B1 in-scope classifier + region mapping + reason codes | ML engineer | Model B1 | ☐ |
+| E6 | Train B2 eligible-finding detector + negation handling | ML engineer | Model B2 | ☐ |
+| E7 | Hybrid rules+model; handle 512-token limit | ML engineer | Final hard models | ☐ |
+| E8 | Evaluate on test | ML engineer | F1 Q2/Q3/B1/B2 | ☐ |
+
+## Block F — Evaluation & MVP (Weeks 9–12)
+
+| # | Action | Owner | Output | ☐ |
+|---|--------|-------|--------|---|
+| F1 | Final run on frozen test | ML engineer | Raw predictions | ☐ |
+| F2 | Compile KPI (F1, κ, MAE, type/region acc.) | ML engineer | Quality report | ☐ |
+| F3 | Calibrate LLM judge (reproducibility, bias) | ML engineer | Calibration report | ☐ |
+| F4 | Error analysis (FP/FN typology; rib vs chest, cervical) | ML + lead | Weak-spot list | ☐ |
+| F5 | Assemble pipeline + flagged quality report | ML engineer | MVP pipeline | ☐ |
+| F6 | BoneView appropriateness/concordance dashboard (B1×B2×BoneView) | ML engineer | Dashboard | ☐ |
+| F7 | Review UI (flag + rationale → confirm/reject) | ML engineer | Review tool | ☐ |
+| F8 | Acceptance audit: ≥70% flags valid | Clinical lead | Acceptance report | ☐ |
+| F9 | Human-in-the-loop + retraining process | Lead + ML | Process doc | ☐ |
+
+---
+
+## Status checkpoints (for standups)
+
+- **CP1 (end W1):** rubric + legal basis + segmentation ready?
+- **CP2 (end W2):** gold consolidated, IAA measured, test frozen?
+- **CP3 (end W4 · M1):** LLM baseline numbers for all five dimensions?
+- **CP4 (end W8 · M2):** encoders hit F1 targets (Q2/Q3/B1/B2)?
+- **CP5 (end W12 · M3):** MVP + appropriateness dashboard + audit?

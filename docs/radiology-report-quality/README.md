@@ -1,49 +1,58 @@
-# Проект: Система анализа качества радиологических репортов (FR)
+# Project: Radiology Report Quality Analysis (French) — RRQ-FR
 
-**Кодовое имя:** RRQ-FR (Radiology Report Quality — French)
-**Пилот:** рентгенологические репорты (стартовая модальность — рентген органов грудной клетки)
-**Язык данных:** французский · **Владелец:** MedLogic
-**Дата версии пакета:** 2026-07-13
+**Pilot modality:** Trauma X-ray (trauma XR)
+**Data language:** French · **Owner:** MedLogic
+**Timeline:** 3 months to a validated MVP
+**Package version:** 2026-07-13
 
 ---
 
-## Что это
+## What this is
 
-Пакет проектной документации для разработки NLP/LLM-системы, которая автоматически
-оценивает качество текстовых радиологических заключений на французском языке по
-набору клинически значимых метрик.
+A project documentation package for building an NLP/LLM system that automatically
+assesses the quality and appropriateness of French trauma X-ray reports across two
+workstreams that MedLogic has already piloted.
 
-### Оцениваемые метрики (v1)
+### Workstream A — Report quality *(piloted: ~100 trauma XR cases)*
 
-| Код | Метрика | Тип задачи | Сложность |
-|-----|---------|-----------|-----------|
-| M1 | Чёткость заключения (clarté de la conclusion) | Порядковая оценка 0–3 | Средне-высокая |
-| M2 | Наличие указания фолловапа (recommandation de suivi présente) | Бинарная классификация | Низкая |
-| M3 | Неполное указание фолловапа (suivi incomplet) | Извлечение слотов + проверка полноты | Средняя |
-| M4 | Несоответствие заключения описанию (discordance conclusion↔description) | Проверка согласованности (NLI) | Высокая |
+| Code | Dimension | Task type | Tool |
+|------|-----------|-----------|------|
+| Q1 | Ambiguity of the conclusion | Binary (+3-point option) | LLM-as-judge |
+| Q2 | Follow-up recommendation present | Binary classification | Encoder + rules |
+| Q3 | Follow-up completeness | Slot extraction + completeness | Encoder + rules |
 
-## Структура пакета
+### Workstream B — BoneView appropriateness *(piloted: 888 reports)*
 
-| Файл | Назначение | Для кого |
-|------|-----------|----------|
-| [`01-project-passport.md`](01-project-passport.md) | **Паспорт проекта**: цель, скоуп, стейкхолдеры, KPI, риски, критерии успеха | Руководитель, спонсор |
-| [`02-roadmap.md`](02-roadmap.md) | **Этапы работы**: фазы, вехи, сроки, результаты каждой фазы | Вся команда |
-| [`03-methodology.md`](03-methodology.md) | **Методологии**: тех. подход, модели, LLM-as-judge, метрики оценки | ML-инженеры, DS |
-| [`04-runbook.md`](04-runbook.md) | **Порядок действий**: пошаговый операционный ранбук | Исполнители |
-| [`05-annotation-guideline.md`](05-annotation-guideline.md) | **Рубрикатор разметки** с якорными примерами (FR) | Радиологи-разметчики |
-| [`06-working-forms.md`](06-working-forms.md) | **Рабочие формы** для коллег: шаблоны разметки, ревью, лог ошибок | Разметчики, куратор данных |
-| [`slides.html`](slides.html) | **Резюме на 5 слайдов** для руководства | Спонсор, стейкхолдеры |
-| [`references.md`](references.md) | Литература, на которой основан план | Все |
+| Code | Dimension | Task type | Tool |
+|------|-----------|-----------|------|
+| B1 | Order conformity to BoneView intended use | In-scope / out-of-scope classification | Rules + encoder |
+| B2 | BoneView-eligible finding in the conclusion | Finding presence + type + region | Encoder / LLM extraction |
 
-## Ключевой принцип
+> **BoneView (Gleamer) intended use** is the yardstick for Workstream B: conventional
+> radiographs of **limbs, pelvis, thoracic & lumbar spine, rib cage**, patients **≥ 2 years**,
+> detecting **fractures, dislocations, joint effusions, bone lesions**.
 
-> **Начинаем не с модели, а с определений и золотого стандарта.**
-> Пока радиологи между собой не согласны, что такое «чёткое заключение»,
-> ни одна модель не научится это измерять. Поэтому первые две фазы —
-> операционализация метрик и разметка эталона — а не выбор нейросети.
+## Package contents
 
-## Стек в одну строку
+| File | Purpose | Audience |
+|------|---------|----------|
+| [`01-project-passport.md`](01-project-passport.md) | **Project passport**: goal, scope, stakeholders, KPIs, risks, milestones | Lead, sponsor |
+| [`02-roadmap.md`](02-roadmap.md) | **Roadmap**: 3-month plan, phases, milestones, deliverables | Whole team |
+| [`03-methodology.md`](03-methodology.md) | **Methodology**: technical approach, models, LLM-as-judge, evaluation | ML engineers, DS |
+| [`04-runbook.md`](04-runbook.md) | **Order of actions**: step-by-step operational runbook | Doers |
+| [`05-annotation-guideline.md`](05-annotation-guideline.md) | **Annotation rubric** with trauma XR anchor examples (Q1–Q3, B1–B2) | Radiologist annotators |
+| [`06-working-forms.md`](06-working-forms.md) | **Working forms** for colleagues + ready-to-use CSV templates | Annotators, data curator |
+| [`slides.html`](slides.html) | **5-slide executive summary** (MedLogic brand) | Sponsor, stakeholders |
+| [`references.md`](references.md) | Literature and BoneView sources grounding the plan | All |
 
-- **Мягкие метрики (M1, M4):** LLM-as-judge на open-weights модели (Mistral / Qwen) со строгим рубрикатором и structured output.
-- **Жёсткие метрики (M2, M3):** дообученный энкодер `CamemBERT-bio` / `DrBERT` + правила.
-- **Приватность:** on-prem / open-weights (данные пациентов, RGPD/GDPR).
+## Key principle
+
+> **Definitions and the gold standard come before the model.** Both pilots have already
+> produced labeled data (Q1/Q2 on ~100 trauma XR cases; B1/B2 on 888 reports). The 3-month
+> plan consolidates those into frozen gold sets, then bootstraps models and evaluates.
+
+## Stack in one line
+
+- **Soft dimensions (Q1):** LLM-as-judge on open-weights model (Mistral / Qwen) with a strict rubric and structured output.
+- **Hard dimensions (Q2, Q3, B1, B2):** fine-tuned `CamemBERT-bio` / `DrBERT` + rules, bootstrapped from the pilot labels.
+- **Privacy:** on-prem / open-weights (patient data, RGPD/GDPR).

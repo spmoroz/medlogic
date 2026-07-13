@@ -1,143 +1,131 @@
-# Паспорт проекта · RRQ-FR
+# Project Passport · RRQ-FR
 
-**Система автоматического анализа качества радиологических репортов (французский язык)**
+**Automated quality & appropriateness analysis of French trauma X-ray reports**
 
-| Поле | Значение |
-|------|----------|
-| **Название** | RRQ-FR — Radiology Report Quality (French) |
-| **Владелец / спонсор** | MedLogic |
-| **Версия документа** | 1.0 · 2026-07-13 |
-| **Статус** | Инициация / планирование |
-| **Пилотная модальность** | Рентген (рекомендация: рентген органов грудной клетки, RX thorax) |
-| **Язык данных** | Французский |
-| **Горизонт пилота** | ~4–5 месяцев до валидированного MVP |
+| Field | Value |
+|-------|-------|
+| **Name** | RRQ-FR — Radiology Report Quality (French) |
+| **Owner / sponsor** | MedLogic |
+| **Document version** | 2.0 · 2026-07-13 |
+| **Status** | Pilots complete → scaling to MVP |
+| **Pilot modality** | Trauma X-ray (trauma XR) |
+| **Data language** | French |
+| **Timeline** | **3 months** to a validated MVP |
 
 ---
 
-## 1. Проблема и обоснование
+## 1. Problem & rationale
 
-Качество радиологического заключения напрямую влияет на клиническое решение и
-безопасность пациента. Нечёткое заключение, пропущенная или неполная рекомендация
-по наблюдению (follow-up), расхождение между описанием и выводом — известные
-источники диагностических ошибок и юридических рисков (незакрытые actionable
-findings — частая причина исков). Ручной аудит качества не масштабируется:
-радиолог не может перечитывать тысячи чужих репортов.
+Trauma X-ray report quality directly affects clinical decisions and patient safety. An
+ambiguous conclusion or a missing/incomplete follow-up recommendation is a known source
+of diagnostic error and litigation (unresolved actionable findings). In parallel, MedLogic
+deploys **Gleamer BoneView** (fracture/dislocation/effusion/bone-lesion AI); its value
+depends on being applied to the **right exams** (intended-use conformity) and on measuring
+**concordance** with the radiologist's report.
 
-**Гипотеза проекта:** NLP/LLM-система способна воспроизводимо флагировать
-проблемные репорты по 4 метрикам качества с согласием, близким к согласию между
-экспертами, и тем самым обеспечить сплошной (а не выборочный) контроль качества.
+**Hypothesis:** an NLP/LLM system can reproducibly flag quality issues and measure BoneView
+appropriateness at full volume (not sampled audit), with agreement close to expert-to-expert
+agreement, enabling continuous QA in a human-in-the-loop mode.
 
-## 2. Цель
+## 2. Goal
 
-Разработать и валидировать прототип (MVP), который на потоке французских
-рентгенологических репортов автоматически выставляет оценку по 4 метрикам
-(M1–M4) и выделяет репорты, требующие внимания, с качеством, пригодным для
-режима «человек в цикле».
+Deliver and validate an MVP that, on a stream of French trauma XR reports, scores the two
+workstreams below and flags reports needing attention, at a quality suitable for
+human-in-the-loop operation — **within 3 months**, building on the completed pilots.
 
-### Цели по SMART
+## 3. Scope
 
-- **S:** оценка 4 метрик качества для рентгенологических репортов на FR.
-- **M:** согласие модель↔эксперт не ниже целевого (см. §7 KPI).
-- **A:** на open-source моделях, без обучения с нуля, на де-идентифицированных данных.
-- **R:** снижает риск пропущенных follow-up и повышает единообразие заключений.
-- **T:** валидированный MVP за ~4–5 месяцев.
+### Workstream A — Report quality *(pilot: ~100 trauma XR cases labeled)*
+- **Q1** Ambiguity of the conclusion
+- **Q2** Follow-up recommendation present
+- **Q3** Follow-up completeness (missing slots)
 
-## 3. Скоуп
+### Workstream B — BoneView appropriateness *(pilot: 888 reports labeled)*
+- **B1** Order conformity to BoneView intended use (in-scope / out-of-scope)
+- **B2** BoneView-eligible finding present in the conclusion (type + region)
 
-### В скоупе (v1)
-- Одна модальность (рентген; желательно один тип — RX thorax).
-- Французский язык.
-- 4 метрики M1–M4.
-- Пакетная (batch) обработка исторических репортов.
-- Отчёт качества + флаги для ревью радиологом.
+### In scope (v1)
+Trauma XR modality; French; text only (not images); batch processing of reports & orders;
+a quality/appropriateness report with flags for radiologist review.
 
-### Вне скоупа (v1, кандидаты на v2+)
-- Другие модальности (КТ, МРТ, УЗИ, маммография).
-- Анализ изображений (только текст репорта).
-- Реал-тайм интеграция в RIS/PACS во время диктовки.
-- Автоматическое исправление/переписывание заключений.
-- Другие языки.
+### Out of scope (v1 — candidates for v2+)
+Other modalities (CT/MRI/US); image analysis; real-time RIS/PACS integration during
+dictation; auto-rewriting of conclusions; conclusion↔description discordance (optional
+extension, not in the pilots); other languages.
 
-## 4. Стейкхолдеры и роли
+## 4. Stakeholders & roles
 
-| Роль | Ответственность | Кто |
-|------|-----------------|-----|
-| Спонсор проекта | Решения, бюджет, приоритеты | MedLogic |
-| Продукт-владелец | Требования, приоритизация метрик, приёмка | — |
-| Клинический лид (радиолог) | Определения метрик, арбитраж разметки | — |
-| Разметчики (2+ радиолога) | Разметка золотого стандарта | — |
-| ML-инженер / DS | Модели, пайплайн, оценка | — |
-| Инженер данных | Экспорт, де-идентификация, хранилище | — |
-| DPO / комплаенс | RGPD/GDPR, правовой базис обработки | — |
+| Role | Responsibility | Who |
+|------|----------------|-----|
+| Sponsor | Decisions, budget, priorities | MedLogic |
+| Product owner | Requirements, prioritization, acceptance | — |
+| Clinical lead (radiologist) | Metric definitions, adjudication | — |
+| Annotators (2+ radiologists) | Gold-standard labeling | — |
+| ML engineer / DS | Models, pipeline, evaluation | — |
+| Data engineer | Export, de-identification, storage | — |
+| DPO / compliance | RGPD/GDPR, legal basis | — |
 
-> Поля «кто» заполняются на kick-off. Минимально жизнеспособная команда:
-> клинический лид + 1 доп. радиолог-разметчик + 1 ML-инженер + инженер данных (part-time).
+## 5. Data
 
-## 5. Данные
+- **Source:** historical trauma XR reports + imaging orders/prescriptions (RIS export).
+- **Already available (pilots):** ~100 trauma XR reports labeled for Q1/Q2; 888 reports
+  labeled for B1/B2. These seed the gold sets.
+- **Scale-up:** thousands of unlabeled reports available for weak-labeling and encoder training.
+- **Privacy:** patient data → mandatory de-identification before processing; on-prem /
+  open-weights inference; RGPD legal basis confirmed with DPO **before** data work.
 
-- **Источник:** исторические рентгенологические репорты (RIS/экспорт).
-- **Объём пилота:** для золотого стандарта — 300–500 репортов двойной разметки;
-  для weak-labeling и обучения энкодеров — тысячи (доступны по условию).
-- **Приватность:** данные пациентов → обязательна де-идентификация до обработки;
-  обработка на on-prem / open-weights инфраструктуре; правовой базис по RGPD
-  согласуется с DPO **до** старта работы с данными.
+## 6. Technical approach (short)
 
-## 6. Технический подход (кратко)
+- **Q2, Q3, B1, B2** (hard): fine-tune `CamemBERT-bio` / `DrBERT` + rules, bootstrapped from pilot labels.
+- **Q1** (soft): LLM-as-judge (open-weights) with a structured rubric.
+- LLM weak-labeling to scale annotation; distill hard dimensions into a cheap encoder.
+- Details — [`03-methodology.md`](03-methodology.md).
 
-- **M2, M3** (жёсткие): дообучение `CamemBERT-bio` / `DrBERT` + правила полноты.
-- **M1, M4** (мягкие): LLM-as-judge (open-weights) со структурированным рубрикатором.
-- Bootstrap: LLM генерирует черновую разметку (weak labels) → верификация людьми →
-  дистилляция в дешёвый энкодер там, где оправдано объёмом.
-- Подробности — [`03-methodology.md`](03-methodology.md).
+## 7. Success criteria (KPI)
 
-## 7. Критерии успеха (KPI)
+| Project metric | MVP target | How measured |
+|----------------|-----------|--------------|
+| Inter-annotator agreement (IAA) | κ ≥ 0.6 (Q1), κ ≥ 0.75 (Q2, Q3, B1, B2) | On gold set, before modeling |
+| Q1 (ambiguity) | κ model↔expert ≥ 0.6 | Agreement vs consensus |
+| Q2 (follow-up present) | F1 ≥ 0.90 | vs gold |
+| Q3 (follow-up completeness) | F1 ≥ 0.80 | vs gold |
+| B1 (order in-scope) | F1 ≥ 0.90 | vs gold |
+| B2 (eligible finding) | F1 ≥ 0.85; region/type accuracy reported | vs gold |
+| Usefulness | ≥ 70% of flags judged valid on review | Radiologist audit of a sample |
 
-| Метрика проекта | Целевой ориентир MVP | Как измеряем |
-|-----------------|----------------------|--------------|
-| Согласие между разметчиками (IAA) | κ ≥ 0.6 (M1, M4), κ ≥ 0.75 (M2, M3) | На золотом наборе, до моделирования |
-| M2 (follow-up есть/нет) | F1 ≥ 0.90 | Против золотого стандарта |
-| M3 (неполный follow-up) | F1 ≥ 0.80 | Против золотого стандарта |
-| M4 (несоответствие) | Recall ≥ 0.80 при контролируемом FP | Против золотого стандарта |
-| M1 (чёткость) | κ модель↔эксперт ≥ 0.6; MAE ≤ 0.5 | Порядковое согласие |
-| Полезность | ≥ 70% флагов признаны обоснованными на ревью | Аудит выборки радиологом |
+> Thresholds are starting targets, finalized after IAA is measured (model ceiling is bounded
+> by human agreement).
 
-> Пороги — стартовые ориентиры, финализируются после замера IAA (если люди
-> согласны хуже порога — цель по модели опускается вместе с ним).
+## 8. Risks & mitigations
 
-## 8. Риски и меры
+| Risk | Impact | Mitigation |
+|------|--------|-----------|
+| Low IAA on "ambiguity" | High | Rubric iteration; calibration sessions; lead adjudication |
+| 3-month timeline tight | Medium | Pilots already done; reuse labels; narrow to trauma XR |
+| Privacy / legal basis | High (blocker) | DPO sign-off before data; de-identification; on-prem |
+| LLM judge over-rates / unstable | Medium | Rubric-anchored scoring; fixed seed/temp; calibration |
+| BoneView intended-use edge cases (rib cage vs chest, cervical) | Medium | Explicit reason codes + anchor examples in rubric |
+| 512-token limit (CamemBERT-bio/DrBERT) | Low-med | Per-section processing; long-context variant (ModernCamemBERT-bio) |
 
-| Риск | Влияние | Мера |
-|------|---------|------|
-| Низкое согласие разметчиков по «чёткости»/«несоответствию» | Высокое | Итерации рубрикатора на этапе 0; калибровочные сессии; арбитраж лида |
-| Мало размеченных данных | Среднее | LLM weak-labeling + активное обучение; сузить скоуп до RX thorax |
-| Приватность/правовой базис | Высокое (блокер) | Согласование с DPO до данных; де-идентификация; on-prem |
-| LLM-судья завышает/нестабилен | Среднее | Строгое информационное сопоставление вместо «оцени 1–5»; калибровка; фиксированный seed/temp |
-| Лимит 512 токенов у CamemBERT-bio/DrBERT | Низко-среднее | Посекционная обработка; long-context варианты (ModernCamemBERT-bio) |
-| Дрейф формулировок между центрами/врачами | Среднее | Фиксировать распределение источников; мониторинг после деплоя |
+## 9. High-level plan & milestones (3 months)
 
-## 9. Верхнеуровневый план и вехи
+| Month | Milestone | Deliverable |
+|-------|-----------|-------------|
+| **M1** | Gold consolidated, definitions frozen, LLM baseline | Frozen gold sets (A+B), IAA report, baseline metrics |
+| **M2** | Specialized models trained | Q2/Q3 + B1/B2 encoders + rules, test metrics |
+| **M3** | Evaluation + MVP | KPI report, MVP pipeline, review UI, acceptance audit |
 
-| Фаза | Результат (веха) | Ориентир |
-|------|------------------|----------|
-| 0. Операционализация метрик | Утверждённый рубрикатор M1–M4 | Нед. 1–2 |
-| 1. Данные и приватность | Де-идентиф. корпус + сегментация секций | Нед. 2–4 |
-| 2. Золотой стандарт | 300–500 репортов, IAA замерен | Нед. 4–7 |
-| 3. LLM-baseline | Прототип по всем метрикам, оценён на gold | Нед. 6–9 |
-| 4. Спец. модели (M2, M3) | Дообученный энкодер + правила | Нед. 9–13 |
-| 5. Оценка и калибровка | Отчёт качества по KPI | Нед. 13–15 |
-| 6. Пайплайн + human-in-the-loop | MVP-конвейер, ревью-интерфейс | Нед. 15–18 |
+Detail — [`02-roadmap.md`](02-roadmap.md).
 
-Детализация — [`02-roadmap.md`](02-roadmap.md).
+## 10. Resource budget (rough)
 
-## 10. Бюджет ресурсов (укрупнённо)
+- **People:** clinical lead (part-time), 1–2 radiologist annotators (part-time), ML engineer (core), data engineer (part-time).
+- **Infra:** on-prem GPU for open-weights LLM inference + encoder fine-tuning (1× 24–48 GB GPU is enough for the pilot).
+- **Software:** open-source (HuggingFace, PyTorch, vLLM/Ollama, labeling tool). No license cost.
 
-- **Люди:** клинический лид (part-time), 1–2 радиолога-разметчика (part-time, ~40–60 ч на золотой набор), ML-инженер (core), инженер данных (part-time).
-- **Инфраструктура:** on-prem GPU для инференса open-weights LLM и дообучения энкодера (1×24–48 GB GPU достаточно для пилота).
-- **ПО:** open-source (HuggingFace, PyTorch, vLLM/Ollama, label-tool). Лицензионных затрат нет.
+## 11. Assumptions & dependencies
 
-## 11. Допущения и зависимости
-
-- Доступ к достаточному объёму репортов согласован юридически.
-- Есть ≥2 радиолога для разметки и арбитр.
-- Инфраструктура для on-prem инференса выделена.
-- Форматы экспорта из RIS известны и стабильны.
+- Access to sufficient reports **and orders** is legally cleared.
+- ≥ 2 radiologists for labeling + an adjudicator.
+- On-prem inference infrastructure provisioned.
+- RIS export formats for reports and orders are known and stable.
