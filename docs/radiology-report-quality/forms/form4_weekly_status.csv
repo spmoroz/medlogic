@@ -1,0 +1,2 @@
+semaine,phase_courante,checkpoint,fait,bloquant,metriques_actuelles,prochaines_etapes,risques
+S1,Ф0/Ф1,CP1,"rubricateur v1; export lancé","attente accord DPO",-,"calibration; segmentation","accès données"

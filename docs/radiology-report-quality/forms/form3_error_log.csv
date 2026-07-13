@@ -1,0 +1,2 @@
+report_id,metrique,predit,gold,type_erreur,cause_probable,exemple_fragment,idee_correction
+RX-01033,M2,non,oui,FN,"formulation rare du suivi","contrôle à prévoir",ajouter règle/synonyme
