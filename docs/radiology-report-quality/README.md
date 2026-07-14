@@ -1,59 +1,76 @@
-# Project: Radiology Report Quality Analysis (French) - RRQ-FR
+# Radiology Report Intelligence (French trauma XR) - RRQ-FR
 
 **Pilot modality:** Trauma X-ray (trauma XR)
 **Data language:** French · **Owner:** the group
-**Timeline:** 3 months to a validated MVP
-**Package version:** 2026-07-13
+**Rules source of truth:** Groupe 3R "Checklist Comptes Rendus Radiologiques" (Mars 2013)
+**Package version:** 2026-07-14
 
 ---
 
 ## What this is
 
-A project documentation package for building an NLP/LLM system that automatically
-assesses the quality and appropriateness of French trauma X-ray reports across two
-workstreams that the group has already piloted.
+Documentation for an LLM-based system that (1) adjudicates a commercial fracture AI
+(Gleamer BoneView) against the radiologist report and (2) peer-reviews report quality, on
+French trauma X-ray reports.
 
-### Workstream A - Report quality *(piloted: 50 trauma XR reports (single radiologist))*
+### Two projects
+- **Project 1 - AI vs report concordance (BoneView adjudication).** LLM applies an arbitrated rule set (intended-use fit from Indications; ground truth from Conclusion). Canonical pilot: **888 doubt alerts**, scaling to **> 10k** incl. AI-positive/negative. Metrics: **B1, B2, ARDR**.
+- **Project 2 - LLM peer-review (report QC).** LLM scores report-form quality against the Groupe 3R checklist. Dimensions **Q1-Q3** plus the checklist metric set **SRC, SGE, SEF, AMI, CQA, CCS, CPZ** (+ **QCS**). Pilot: **50 reports, single radiologist**.
 
-| Code | Dimension | Task type | Tool |
-|------|-----------|-----------|------|
-| Q1 | Ambiguity of the conclusion | Binary (+3-point option) | LLM-as-judge |
-| Q2 | Follow-up recommendation present | Binary classification | Encoder + rules |
-| Q3 | Follow-up completeness | Slot extraction + completeness | Encoder + rules |
+### Two goals
+1. **Operations** - deploy both tools in routine use.
+2. **Publication** - two papers: LLM adjudication of BoneView; LLM-based report QC.
 
-### Workstream B - BoneView appropriateness *(piloted: 888 reports)*
+> **BoneView intended use** (yardstick): conventional radiographs of **limbs, pelvis,
+> thoracic & lumbar spine, rib cage**, patients **≥ 2 years**, detecting **fractures,
+> dislocations, joint effusions, bone lesions**. No image-based reference is available, so
+> Project 1 results are **report-concordance**, not standalone accuracy.
 
-| Code | Dimension | Task type | Tool |
-|------|-----------|-----------|------|
-| B1 | Order conformity to BoneView intended use | In-scope / out-of-scope classification | Rules + encoder |
-| B2 | BoneView-eligible finding in the conclusion | Finding presence + type + region | Encoder / LLM extraction |
+## Quality dimensions & metrics
 
-> **BoneView (Gleamer) intended use** is the yardstick for Workstream B: conventional
-> radiographs of **limbs, pelvis, thoracic & lumbar spine, rib cage**, patients **≥ 2 years**,
-> detecting **fractures, dislocations, joint effusions, bone lesions**.
+| Code | Dimension / metric | Project | Tier |
+|------|--------------------|---------|------|
+| Q1 | Ambiguity of the conclusion | 2 | pilot |
+| Q2 | Follow-up present | 2 | pilot |
+| Q3 | Follow-up completeness (délai/modalité/attendu, §7) | 2 | pilot |
+| SRC | Structured report compliance | 2 | pilot |
+| SGE | Spelling / grammar | 2 | pilot |
+| SEF | Semantic error (laterality; discordance §8) | 2 | pilot / next |
+| AMI | Ambiguity index | 2 | pilot |
+| MFR | Missing follow-up rate | 2 | pilot |
+| CQA | Clinical question addressed | 2 | next |
+| CCS | Conclusion completeness (0-5, §6) | 2 | next |
+| CPZ | Conclusion prioritization | 2 | next |
+| QCS | Quality composite score (internal ranking) | 2 | next |
+| B1 | Order conformity to BoneView intended use | 1 | pilot |
+| B2 | BoneView-eligible finding in conclusion | 1 | pilot |
+| ARDR | AI-report discrepancy (region-level) | 1 | pilot |
 
 ## Package contents
 
-| File | Purpose | Audience |
-|------|---------|----------|
-| [`01-project-passport.md`](01-project-passport.md) | **Project passport**: goal, scope, stakeholders, KPIs, risks, milestones | Lead, sponsor |
-| [`02-roadmap.md`](02-roadmap.md) | **Roadmap**: 3-month plan, phases, milestones, deliverables | Whole team |
-| [`03-methodology.md`](03-methodology.md) | **Methodology**: technical approach, models, LLM-as-judge, evaluation | ML engineers, DS |
-| [`04-runbook.md`](04-runbook.md) | **Order of actions**: step-by-step operational runbook | Doers |
-| [`05-annotation-guideline.md`](05-annotation-guideline.md) | **Annotation rubric** with trauma XR anchor examples (Q1–Q3, B1–B2) | Radiologist annotators |
-| [`06-working-forms.md`](06-working-forms.md) | **Working forms** for colleagues + ready-to-use CSV templates | Annotators, data curator |
-| [`qc-metrics-spec.md`](qc-metrics-spec.md) | **QC metrics specification** (Project 2): SRC, SGE, SEF, CQA, CCS, CPZ, AMI, MFR, ARDR, QCS, with slicing model, computation, and risks | ML engineers, clinical lead |
-| [`slides.html`](slides.html) | **5-slide executive summary** (house style) | Sponsor, stakeholders |
-| [`references.md`](references.md) | Literature and BoneView sources grounding the plan | All |
+| File | Purpose |
+|------|---------|
+| [`01-project-passport.md`](01-project-passport.md) | Project passport: two projects/goals, scope, KPIs, risks, milestones |
+| [`02-roadmap.md`](02-roadmap.md) | Roadmap: 3-month plan, phases, deliverables |
+| [`03-methodology.md`](03-methodology.md) | Methodology: two tracks, QC metrics, slicing/ranking, evaluation |
+| [`04-runbook.md`](04-runbook.md) | Step-by-step operational runbook |
+| [`05-annotation-guideline.md`](05-annotation-guideline.md) | Annotation rubric, Parts A/B/C (checklist-grounded) |
+| [`06-working-forms.md`](06-working-forms.md) | Working forms + CSV templates (incl. Part C fields) |
+| [`qc-metrics-spec.md`](qc-metrics-spec.md) | QC metrics spec: definitions, checklist mapping, slicing, ranking, risks |
+| [`program-deck.html`](program-deck.html) | Joint 13-slide program deck (both projects + method + adjustments) |
+| [`llm-projects-critical-review.html`](llm-projects-critical-review.html) | 8-slide critical review of the two projects |
+| [`slides.html`](slides.html) | Earlier 5-slide summary (superseded by the program deck) |
+| [`references.md`](references.md) | Literature, BoneView sources, and the Groupe 3R checklist |
 
 ## Key principle
 
-> **Definitions and the gold standard come before the model.** Both pilots have already
-> produced labeled data (Q1/Q2 on 50 trauma XR reports (single radiologist); B1/B2 on 888 reports). The 3-month
-> plan consolidates those into frozen gold sets, then bootstraps models and evaluates.
+> **Definitions and the gold standard come before the model**, and QC rules trace to the
+> **Groupe 3R checklist** (source of truth). Pilots already produced labeled data (50 QC
+> reports, single radiologist; 888 BoneView doubt alerts). A second radiologist reader is
+> required to establish inter-annotator agreement before any operational QC ranking.
 
 ## Stack in one line
 
-- **Soft dimensions (Q1):** LLM-as-judge on open-weights model (Mistral / Qwen) with a strict rubric and structured output.
-- **Hard dimensions (Q2, Q3, B1, B2):** fine-tuned `CamemBERT-bio` / `DrBERT` + rules, bootstrapped from the pilot labels.
+- **Soft (Q1, SEF, CQA, CCS, CPZ):** LLM-as-judge, rubric-anchored, judge-grade model.
+- **Hard (Q2, Q3, B1, B2, SRC, SGE, MFR, ARDR):** fine-tuned `CamemBERT-bio` / `DrBERT` + rules.
 - **Privacy:** on-prem / open-weights (patient data, RGPD/GDPR).

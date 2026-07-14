@@ -41,10 +41,16 @@ The plan is grounded in the following work (PubMed + web, 2026-07).
 - LLMs in Radiology Reporting - Systematic Review. [ScienceDirect](https://www.sciencedirect.com/science/article/pii/S2666521225000912)
 - Known LLM-judge radiology metrics: **RadFact, GREEN, FineRadScore** (RadEval, RaTE-Eval).
 
+## Governing QC rubric (source of truth)
+
+- **Groupe 3R "Checklist Comptes Rendus Radiologiques"** (Cellule Quality Improvement, Mars 2013).
+  All Project 2 QC *rules* derive from it; reproduced in Appendix A of [`qc-metrics-spec.md`](qc-metrics-spec.md).
+  Follow-up completeness follows checklist §7: **délai / modalité / ce qu'on attend**.
+
 ## Key methodological takeaways used in the plan
 
-1. **Follow-up detection** - *action term* near an *imaging term*; incompleteness is
-   flagged by the absence of accompanying elements (timeframe, modality, region). → Q2, Q3.
+1. **Follow-up detection** - *action term* near an *imaging term*; per the checklist (§7) a
+   follow-up proposal is complete only with **délai + modalité + attendu**. → Q2, Q3.
 2. **LLM judging is more reliable** as strict information matching (binary verification vs
    ground truth) than open-ended "rate 1–5". → Q1 rubric-anchored scoring.
 3. **Ready French encoders** (CamemBERT-bio, DrBERT) remove the need to train from scratch;
