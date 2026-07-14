@@ -5,10 +5,11 @@
 This is the labeling manual for annotators. Goal: label reports **reproducibly** -
 two annotators reading the same report should assign the same labels.
 
-The rubric covers two workstreams that the group has already piloted:
+The rubric covers three parts:
 
 - **Part A - Report quality** (piloted: 50 trauma XR reports (single radiologist), dimensions *ambiguity* + *follow-up*)
 - **Part B - BoneView appropriateness** (piloted: 888 reports - order conformity + eligible findings)
+- **Part C - Report-form QC metrics** grounded in the Groupe 3R checklist (SRC, SGE, SEF, AMI, CQA, CCS, CPZ; ARDR is device-linked), tiered existing-pilot vs next-level
 
 > Rubric text is in English (project working language). Reports are in **French**,
 > so anchor examples are given in English with representative **French cues** in
@@ -98,21 +99,23 @@ it leave the key trauma question unresolved?
 
 **Required slots** (mark presence of each):
 
+> **Slots per the Groupe 3R checklist §7** ("Si proposition d'examen supplémentaire faite"):
+> the three required slots are **délai**, **modalité**, and **ce qu'on attend** (expected purpose).
+> (This replaces the earlier region/condition slots; the checklist is the source of truth.)
+
 | Slot | Meaning | Example (FR) |
 |------|---------|--------------|
-| `modality` | Which exam | *radiographie, TDM/scanner, IRM, échographie* |
-| `timeframe` | When | *à 10 jours, à 6 semaines, à 3 mois* |
-| `body_region` / target | Where / what | *poignet, la fracture, cheville* |
-| `condition` | Conditional trigger (if applicable) | *si persistance des symptômes* |
+| `delai` (timeframe) | Within what delay | *à 10 jours, à 6 semaines, à 3 mois* |
+| `modalite` (modality) | By which exam | *radiographie, TDM/scanner, IRM, échographie* |
+| `attendu` (expected purpose) | What is expected of the exam | *pour confirmer la fracture, pour évaluer l'extension* |
 
-**Rule:** any missing **required** slot (`modality`, `timeframe`, `body_region`) ⇒
-**incomplete**. `condition` is situational.
+**Rule:** any missing **required** slot (`delai`, `modalite`, `attendu`) ⇒ **incomplete**.
 
 | Label | Example (EN · FR) | Missing |
 |-------|-------------------|---------|
-| **Complete** | "Wrist radiograph in 2 weeks." (*Radiographie du poignet à 2 semaines.*) | - |
-| **Incomplete** | "Follow-up recommended." (*Contrôle recommandé.*) | modality, timeframe, region |
-| **Incomplete** | "Repeat CT advised." (*Nouveau scanner conseillé.*) | timeframe |
+| **Complete** | "CT in 2 weeks to confirm the fracture." (*Scanner à 2 semaines pour confirmer la fracture.*) | - |
+| **Incomplete** | "Follow-up recommended." (*Contrôle recommandé.*) | delai, modalite, attendu |
+| **Incomplete** | "Repeat CT advised." (*Nouveau scanner conseillé.*) | delai, attendu |
 
 Record **which slots are missing** - it is actionable feedback for the reporting physician.
 
@@ -180,17 +183,53 @@ appropriateness and concordance of the deployment.
 
 ---
 
+# PART C - Report-form QC metrics (Groupe 3R checklist)
+
+> **Source of truth:** the Groupe 3R "Checklist Comptes Rendus Radiologiques" (Mars 2013).
+> Label only what the checklist asks. Items gated by *si applicable / si nécessaire* are
+> marked **NA** when not applicable (not "fail"). Full metric spec: [`qc-metrics-spec.md`](qc-metrics-spec.md).
+> **Tier** shows which metrics are already piloted vs next level.
+
+| Metric | Gold field | What to label (checklist rule) | Tier |
+|--------|-----------|--------------------------------|------|
+| SRC (structure) | `src_compliant` (yes/no) | All expected sections/headings present, layout respected (§10) | pilot |
+| SGE (spelling) | `sge_band` (none/minor/moderate/major) | Uncorrected typos / speech-recognition / grammar, ignoring medical jargon (§10) | pilot |
+| SEF laterality | `sef_laterality` (none/mismatch) | Droite/gauche consistent across Titre / Contenu / Conclusion (§2,§5,§6) | pilot |
+| SEF discordance | `sef_discordance` (none/within/vs_prior) | Contradiction within report, or vs a prior report same patient (§8) | next |
+| AMI (ambiguity) | `ami_clear_conclusion` (yes/no) | Is there a clear conclusion / diagnosis or differential? (§6) | pilot |
+| CQA (question) | `cqa` (answered/partial/not/NA) | Was the referring question answered? (§3 + §6) | next |
+| CCS (completeness) | `ccs` (0-5) + `ccs_missing` | Share of applicable §6 conclusion items satisfied (see below) | next |
+| CPZ (prioritization) | `cpz` (pass/fail/NA) | Conclusions prioritized: answer first, then decreasing importance (§6) | next |
+
+**CCS (0-5) - applicable §6 items** (mark each yes/no/NA, then `CCS = round(5 × satisfied / applicable)`):
+size · localisation · side · quantification (arthrosis degree / effusion importance) · comparison with prior ·
+stability vs prior · date of prior · question answered · clear conclusion (diagnosis/differential) ·
+prioritized · adequate proposal to clinician.
+
+> **Not in the checklist** (do NOT label as defects): "one line per diagnosis / no verbosity", and any
+> forbidden-phrase blacklist ("à corréler", "sans changement") - these are heuristics, not checklist rules.
+
+**ARDR** is computed from BoneView output + report text (region-level), not pure annotation; the human
+label needed is only whether the report mentions a finding in the flagged **region** (`ardr_region_mentioned`).
+
+---
+
 ## Per-report record (all dimensions)
 
 Minimum fields per report (see [`06-working-forms.md`](06-working-forms.md)):
 
 ```
 report_id, annotator_id,
+# Part A
 ambiguity (0/1/2 or unambiguous/ambiguous),
 followup_present (yes/no),
-followup_completeness (complete/incomplete/NA), followup_missing_slots,
+followup_completeness (complete/incomplete/NA), followup_missing_slots (delai/modalite/attendu),
+# Part B
 order_in_scope (in/out), order_reason (R_modality/R_region/R_age/-),
 eligible_finding (present/absent), finding_types, body_region, out_of_scope_finding,
+# Part C (checklist QC)
+src_compliant, sge_band, sef_laterality, sef_discordance, ami_clear_conclusion,
+cqa, ccs (0-5), ccs_missing, cpz, ardr_region_mentioned,
 comment, litigious (yes/no)
 ```
 

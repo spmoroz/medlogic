@@ -4,7 +4,9 @@ Ready-to-use templates for day-to-day work. CSV versions are in [`forms/`](forms
 import into Excel / Google Sheets / a labeling tool.
 
 Dimensions: **Q1** ambiguity · **Q2** follow-up present · **Q3** completeness ·
-**B1** order in-scope · **B2** eligible finding.
+**B1** order in-scope · **B2** eligible finding · **Part C** checklist QC (SRC, SGE, SEF,
+AMI, CQA, CCS, CPZ, ARDR). Part C rules follow the Groupe 3R checklist; see
+[`qc-metrics-spec.md`](qc-metrics-spec.md).
 
 ---
 
@@ -19,22 +21,32 @@ Each annotator fills this **independently**. One report = one row.
 | `Q1_ambiguity` | unambiguous / ambiguous (or 0/1/2) | Conclusion clarity |
 | `Q2_followup` | yes / no | Follow-up recommendation present |
 | `Q3_completeness` | complete / incomplete / NA | NA if Q2=no |
-| `Q3_missing_slots` | modality,timeframe,region,condition | Comma-sep; empty if complete |
+| `Q3_missing_slots` | delai,modalite,attendu | Checklist §7 slots; empty if complete |
 | `B1_order_in_scope` | in / out | Order vs BoneView intended use |
 | `B1_reason` | R_modality / R_region / R_age / - | Reason if out-of-scope |
 | `B2_eligible_finding` | present / absent | Eligible finding in conclusion |
 | `B2_finding_types` | fracture,dislocation,effusion,lesion | One or more; empty if absent |
 | `B2_body_region` | text | e.g. wrist, ankle, pelvis |
 | `B2_out_of_scope_finding` | yes / no | Eligible-type finding but out-of-scope region |
+| `src_compliant` | yes / no | Part C - structure/layout ok (§10) [pilot] |
+| `sge_band` | none/minor/moderate/major | Spelling/grammar (§10) [pilot] |
+| `sef_laterality` | none / mismatch | Droite/gauche consistent (§2,§5,§6) [pilot] |
+| `sef_discordance` | none/within/vs_prior | Discordance (§8) [next] |
+| `ami_clear_conclusion` | yes / no | Clear conclusion present (§6) [pilot] |
+| `cqa` | answered/partial/not/NA | Question answered (§3,§6) [next] |
+| `ccs` | 0-5 | Conclusion completeness (§6 applicable) [next] |
+| `ccs_missing` | text | Which §6 items missed |
+| `cpz` | pass/fail/NA | Conclusions prioritized (§6) [next] |
+| `ardr_region_mentioned` | yes/no/NA | Report mentions finding in BoneView-flagged region |
 | `comment` | text | Any notes |
 | `litigious` | yes / no | Borderline → adjudication |
 
-**Filled example:**
+**Filled example (Part A/B/C shown compactly):**
 
-| report_id | annotator | Q1 | Q2 | Q3 | Q3_missing | B1 | B1_reason | B2 | B2_types | B2_region | litigious |
-|-----------|-----------|----|----|----|-----------|----|-----------|----|----------|-----------|-----------|
-| TXR-00412 | A | ambiguous | yes | incomplete | timeframe,modality | in | - | present | fracture | wrist | no |
-| TXR-00517 | A | unambiguous | no | NA | - | out | R_region | absent | - | - | yes |
+| report_id | Q1 | Q2 | Q3 | B1 | B2 | src | sge | sef_lat | ami_clear | cqa | ccs | cpz |
+|-----------|----|----|----|----|----|-----|-----|---------|-----------|-----|-----|-----|
+| TXR-00412 | ambiguous | yes | incomplete | in | present | yes | minor | none | no | partial | 3 | fail |
+| TXR-00517 | unambiguous | no | NA | out | absent | yes | none | none | yes | answered | 5 | pass |
 
 ---
 

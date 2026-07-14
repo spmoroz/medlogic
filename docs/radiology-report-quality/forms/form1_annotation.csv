@@ -1,3 +1,3 @@
-report_id,annotator_id,Q1_ambiguity,Q2_followup,Q3_completeness,Q3_missing_slots,B1_order_in_scope,B1_reason,B2_eligible_finding,B2_finding_types,B2_body_region,B2_out_of_scope_finding,comment,litigious
-TXR-00412,A,ambiguous,yes,incomplete,"timeframe,modality",in,-,present,fracture,wrist,no,,no
-TXR-00517,A,unambiguous,no,NA,-,out,R_region,absent,-,-,no,cervical spine order,yes
+report_id,annotator_id,Q1_ambiguity,Q2_followup,Q3_completeness,Q3_missing_slots,B1_order_in_scope,B1_reason,B2_eligible_finding,B2_finding_types,B2_body_region,B2_out_of_scope_finding,src_compliant,sge_band,sef_laterality,sef_discordance,ami_clear_conclusion,cqa,ccs,ccs_missing,cpz,ardr_region_mentioned,comment,litigious
+TXR-00412,A,ambiguous,yes,incomplete,"delai,attendu",in,-,present,fracture,wrist,no,yes,minor,none,none,no,partial,3,"comparison,date",fail,yes,,no
+TXR-00517,A,unambiguous,no,NA,-,out,R_region,absent,-,-,no,yes,none,none,none,yes,answered,5,-,pass,NA,cervical spine order,yes
