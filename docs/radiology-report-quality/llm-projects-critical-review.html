@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Two LLM Projects — Critical Review &amp; Method Adjustments</title>
+<title>Two LLM Projects - Critical Review &amp; Method Adjustments</title>
 <style>
   :root{
     --navy:#0d2137; --navy2:#112240; --navy3:#1a3a5c;
@@ -76,7 +76,7 @@
 </head>
 <body>
 <div class="brandbar">
-  <div class="b">Med<span>Logic</span> · LLM Projects Review</div>
+  <div class="b">LLM Projects Review</div>
   <div class="dots"><a href="#s1"></a><a href="#s2"></a><a href="#s3"></a><a href="#s4"></a><a href="#s5"></a><a href="#s6"></a><a href="#s7"></a><a href="#s8"></a></div>
 </div>
 
@@ -85,11 +85,11 @@
   <div class="inner">
     <div class="eyebrow"><span class="n">01 / 08</span> Critical review</div>
     <span class="pill">French trauma XR · BoneView · on-prem LLMs</span>
-    <h1 style="margin-top:1rem">Two LLM projects on report intelligence — <span class="hl">a critical review</span></h1>
-    <p class="lead">Where each project stands, what holds up, what does not — and the specific method adjustments needed before either result is submission- or deployment-grade.</p>
+    <h1 style="margin-top:1rem">Two LLM projects on report intelligence - <span class="hl">a critical review</span></h1>
+    <p class="lead">Where each project stands, what holds up, what does not - and the specific method adjustments needed before either result is submission- or deployment-grade.</p>
     <div class="grid g2">
       <div class="card accent"><div class="tag">Project 1</div><h3>AI vs report concordance</h3><p>Do BoneView "doubt" alerts correspond to intended-use findings in the radiologist report? 888 alerts, LLM-applied rule set.</p></div>
-      <div class="card accent c"><div class="tag">Project 2</div><h3>LLM peer-review</h3><p>Automated quality review of reports — structure, spelling, laterality, ambiguity, missing follow-up. 217 reports, Mistral 7B local.</p></div>
+      <div class="card accent c"><div class="tag">Project 2</div><h3>LLM peer-review</h3><p>Automated quality review of reports - structure, spelling, laterality, ambiguity, missing follow-up. 217 reports, Mistral 7B local.</p></div>
     </div>
   </div>
 </section>
@@ -98,28 +98,28 @@
 <section class="slide" id="s2">
   <div class="inner">
     <div class="eyebrow"><span class="n">02 / 08</span> Shared foundation &amp; divergences</div>
-    <h2>One domain, <span class="hl">two setups</span> — not yet aligned</h2>
+    <h2>One domain, <span class="hl">two setups</span> - not yet aligned</h2>
     <div class="two">
       <div>
         <div class="split-head good">Common ground</div>
         <ul class="clean good">
           <li><b>Domain:</b> French trauma X-ray reports, section-structured (Indication / Description / Conclusion)</li>
-          <li><b>Yardstick:</b> BoneView intended use — fracture, dislocation, effusion, bone lesion; limbs, pelvis, thoraco-lumbar spine, rib cage; ≥2 y</li>
-          <li><b>Privacy:</b> on-prem / local inference, no cloud egress — RGPD-aligned</li>
+          <li><b>Yardstick:</b> BoneView intended use - fracture, dislocation, effusion, bone lesion; limbs, pelvis, thoraco-lumbar spine, rib cage; ≥2 y</li>
+          <li><b>Privacy:</b> on-prem / local inference, no cloud egress - RGPD-aligned</li>
           <li><b>Approach:</b> an LLM applies an explicit, versioned rule set to free text</li>
         </ul>
       </div>
       <div>
         <div class="split-head bad">Divergences to reconcile</div>
         <ul class="clean bad">
-          <li><b>Different models:</b> Claude Opus 4.8 (P1) vs Mistral 7B (P2) — not comparable, very different capability</li>
+          <li><b>Different models:</b> Claude Opus 4.8 (P1) vs Mistral 7B (P2) - not comparable, very different capability</li>
           <li><b>Different "ambiguity"/"doubt" definitions</b> across the two pipelines</li>
           <li><b>Follow-up</b> is a standalone metric in P1's world but is <b>gated on ambiguity</b> in P2</li>
           <li><b>No human-validation (κ)</b> executed yet for either project's LLM labels</li>
         </ul>
       </div>
     </div>
-    <p class="foot">Both projects are promising and mutually reinforcing — but they must share a model tier, a scope definition, and a validation protocol to be comparable.</p>
+    <p class="foot">Both projects are promising and mutually reinforcing - but they must share a model tier, a scope definition, and a validation protocol to be comparable.</p>
   </div>
 </section>
 
@@ -127,13 +127,13 @@
 <section class="slide p1" id="s3">
   <div class="inner">
     <div class="eyebrow"><span class="n">03 / 08</span> Project 1 · Summary</div>
-    <h2>AI vs report <span class="hl">concordance</span> — context sets the value of a doubt alert</h2>
+    <h2>AI vs report <span class="hl">concordance</span> - context sets the value of a doubt alert</h2>
     <div class="two">
       <div>
         <div class="split-head" style="color:var(--blue3)">Design</div>
         <ul class="clean">
           <li><b>Cohort:</b> 888 BoneView <b>DOUBT</b> alerts, randomly sampled from 2025, 20-site network (Romandie), mature deployment</li>
-          <li><b>Method:</b> LLM (Claude Opus 4.8) applies an arbitrated rule set — <b>Intended-use fit</b> from Indications; <b>ground truth</b> (Anomaly / Doubt / Negative) from Conclusion</li>
+          <li><b>Method:</b> LLM (Claude Opus 4.8) applies an arbitrated rule set - <b>Intended-use fit</b> from Indications; <b>ground truth</b> (Anomaly / Doubt / Negative) from Conclusion</li>
           <li><b>Primary metric:</b> confirmation rate = Anomaly / (Anomaly + Negative)</li>
           <li><b>Reference:</b> the radiologist report (no image re-read)</li>
         </ul>
@@ -143,12 +143,12 @@
         <div class="grid g2">
           <div class="card stat"><span class="num red">66.2%</span><div class="lbl">of doubt alerts fired with <b>no</b> trauma/fracture question (588/888)</div></div>
           <div class="card stat"><span class="num">50.6%</span><div class="lbl">confirmation when in-scope vs <b>27.6%</b> when not (OR 2.58, 1.88–3.54)</div></div>
-          <div class="card stat"><span class="num cyan">18 vs 5%</span><div class="lbl">radiologist itself indeterminate — in-scope vs not</div></div>
+          <div class="card stat"><span class="num cyan">18 vs 5%</span><div class="lbl">radiologist itself indeterminate - in-scope vs not</div></div>
           <div class="card stat"><span class="num amber">68→13%</span><div class="lbl">confirmation by anatomy: foot → hip/pelvis</div></div>
         </div>
       </div>
     </div>
-    <p class="foot"><b>Take-away:</b> the value of a doubt alert is set by context the AI never sees — pass the referral indication to the AI and calibrate the doubt band by indication &amp; anatomy.</p>
+    <p class="foot"><b>Take-away:</b> the value of a doubt alert is set by context the AI never sees - pass the referral indication to the AI and calibrate the doubt band by indication &amp; anatomy.</p>
   </div>
 </section>
 
@@ -170,16 +170,16 @@
       <div>
         <div class="split-head bad">Needs fixing</div>
         <ul class="clean bad">
-          <li><b>Incorporation bias:</b> report = reference, yet AI output was available before/during reporting in 93% — reference not independent of the index test</li>
+          <li><b>Incorporation bias:</b> report = reference, yet AI output was available before/during reporting in 93% - reference not independent of the index test</li>
           <li><b>Doubt-only cohort:</b> no sensitivity/specificity possible; only confirmation-among-resolved</li>
           <li><b>GT from free text, unvalidated:</b> no LLM-vs-radiologist κ yet; case-level only, no localisation</li>
-          <li><b>Effusion scope conflict:</b> effusion-without-fracture coded Negative, but it is within BoneView intended use — systematic GT misalignment</li>
+          <li><b>Effusion scope conflict:</b> effusion-without-fracture coded Negative, but it is within BoneView intended use - systematic GT misalignment</li>
         </ul>
       </div>
     </div>
     <div class="flag">
-      <div class="tag">⚠ Data-integrity flag — numbers diverge across source documents</div>
-      <p>MICCAI camera-ready: <b>N=888</b>, in-scope 300, confirmation <b>50.6%</b>. IAD analysis sheet: N=888, Fit 305, confirmed-among-resolved <b>48.2%</b>. RSNA Abstract v1: <b>N=925</b>, eligible 322, confirmation <b>47.0%</b>. Three cuts, three numbers — lock one frozen dataset before any submission.</p>
+      <div class="tag">⚠ Data-integrity flag - numbers diverge across source documents</div>
+      <p>MICCAI camera-ready: <b>N=888</b>, in-scope 300, confirmation <b>50.6%</b>. IAD analysis sheet: N=888, Fit 305, confirmed-among-resolved <b>48.2%</b>. RSNA Abstract v1: <b>N=925</b>, eligible 322, confirmation <b>47.0%</b>. Three cuts, three numbers - lock one frozen dataset before any submission.</p>
     </div>
   </div>
 </section>
@@ -188,7 +188,7 @@
 <section class="slide p2" id="s5">
   <div class="inner">
     <div class="eyebrow c"><span class="n">05 / 08</span> Project 2 · Summary</div>
-    <h2>LLM <span class="hlc">peer-review</span> — an automated report-quality pipeline</h2>
+    <h2>LLM <span class="hlc">peer-review</span> - an automated report-quality pipeline</h2>
     <div class="two">
       <div>
         <div class="split-head" style="color:var(--cyan)">Stack &amp; data</div>
@@ -196,7 +196,7 @@
           <li><b>Model:</b> Mistral 7B Instruct, temperature 0.0, deployed locally via Ollama</li>
           <li><b>Pipeline:</b> Python / Pandas; data never leaves the internal network</li>
           <li><b>Sample:</b> 217 reports</li>
-          <li><b>Gate:</b> Structural Standard Compliance — 4 mandatory sections must be present</li>
+          <li><b>Gate:</b> Structural Standard Compliance - 4 mandatory sections must be present</li>
         </ul>
       </div>
       <div>
@@ -212,7 +212,7 @@
         <p class="foot">* Missing-follow-up runs <b>only if ambiguity was detected</b> in the prior step.</p>
       </div>
     </div>
-    <p class="foot"><b>Take-away:</b> a working, privacy-safe pipeline that flags structural, linguistic and safety issues — laterality mismatch being the highest-value patient-safety check.</p>
+    <p class="foot"><b>Take-away:</b> a working, privacy-safe pipeline that flags structural, linguistic and safety issues - laterality mismatch being the highest-value patient-safety check.</p>
   </div>
 </section>
 
@@ -225,7 +225,7 @@
       <div>
         <div class="split-head good">Holds up</div>
         <ul class="clean good">
-          <li>Fully local, deterministic setup (temp 0) — strong privacy posture</li>
+          <li>Fully local, deterministic setup (temp 0) - strong privacy posture</li>
           <li>Clinically meaningful metric set; laterality &amp; structure are high-value safety checks</li>
           <li>Structural gate before semantic checks is sound engineering</li>
         </ul>
@@ -233,15 +233,15 @@
       <div>
         <div class="split-head bad">Needs fixing</div>
         <ul class="clean bad">
-          <li><b>No ground truth:</b> no precision/recall vs the ~100-case annotated gold; accuracy unknown</li>
-          <li><b>Mistral 7B is too small</b> for cross-section laterality reasoning &amp; nuanced ambiguity — error-prone, and inconsistent with P1's Opus-class model</li>
+          <li><b>No ground truth:</b> no precision/recall vs the 50-report single-radiologist gold; accuracy unknown</li>
+          <li><b>Mistral 7B is too small</b> for cross-section laterality reasoning &amp; nuanced ambiguity - error-prone, and inconsistent with P1's Opus-class model</li>
           <li><b>Follow-up gated on ambiguity</b> misses missing-follow-up on <b>definite</b> actionable findings; decouple presence (Q2) from completeness (Q3)</li>
-          <li><b>Ambiguity by vague-word spotting</b> over-flags clear negatives with cautious wording — needs rubric-anchored "hedge resolved by action = not ambiguous"</li>
+          <li><b>Ambiguity by vague-word spotting</b> over-flags clear negatives with cautious wording - needs rubric-anchored "hedge resolved by action = not ambiguous"</li>
           <li><b>Over-flag risk:</b> "missing laterality for paired organs" &amp; spelling-vs-jargon are false-positive magnets at 7B</li>
         </ul>
       </div>
     </div>
-    <p class="foot">The earlier ~100-case ambiguity + follow-up annotations are exactly the gold set needed to measure this pipeline — currently unused for validation.</p>
+    <p class="foot">The earlier 50-report single-radiologist ambiguity + follow-up annotations are exactly the gold set needed to measure this pipeline - currently unused for validation.</p>
   </div>
 </section>
 
@@ -253,7 +253,7 @@
     <div class="grid g3">
       <div class="card accent r"><div class="tag r">1 · Trust</div><h3>Labels are unvalidated</h3><p>Both rely on LLM-derived labels from free text with no human-agreement study. A two-radiologist κ protocol is drafted but not run. Until then, every downstream number inherits unknown measurement error.</p></div>
       <div class="card accent r"><div class="tag r">2 · Consistency</div><h3>Definitions &amp; models diverge</h3><p>"Ambiguity/doubt", intended-use scope (esp. effusion), and the model tier differ between projects. Same construct must mean the same thing and be judged by the same-strength model to be comparable.</p></div>
-      <div class="card accent r"><div class="tag r">3 · Claims vs design</div><h3>Metric ≠ study design</h3><p>A doubt-enriched, report-referenced cohort supports concordance/appropriateness claims — <b>not</b> diagnostic accuracy. Accuracy needs device-output-balanced sampling + image-based adjudication.</p></div>
+      <div class="card accent r"><div class="tag r">3 · Claims vs design</div><h3>Metric ≠ study design</h3><p>A doubt-enriched, report-referenced cohort supports concordance/appropriateness claims - <b>not</b> diagnostic accuracy. Accuracy needs device-output-balanced sampling + image-based adjudication.</p></div>
     </div>
     <div class="flag">
       <div class="tag">Governance</div>
@@ -273,7 +273,7 @@
       <li><span><b>Fix the reference-standard bias.</b> State incorporation bias explicitly; for any accuracy claim move to a device-output-balanced cohort (add ~+80 AI-positive, ~+85 AI-negative) with image-based (Level-2) adjudication; report PPV/NPV per output, not sens/spec.<span class="p">P1</span></span></li>
       <li><span><b>Align ground truth with true BoneView intended use.</b> Decide effusion / dislocation / bone-lesion handling once; stop coding in-scope effusion as Negative. One scope definition shared by both projects.<span class="p">Both</span></span></li>
       <li><span><b>Unify model &amp; rubric.</b> Use one judge-grade model (validate Mistral 7B against Opus-class or upgrade); one rubric-anchored ambiguity definition; <b>decouple follow-up presence from ambiguity</b>; share the intended-use lexicon.<span class="p">P2</span></span></li>
-      <li><span><b>Power &amp; report properly.</b> Enrich thin arms to ~100–170/arm; validate P2 on the ~100-case gold with per-metric precision/recall; fix provenance, seed, and rule-set version for reproducibility.<span class="p">Both</span></span></li>
+      <li><span><b>Power &amp; report properly.</b> Enrich thin arms to ~100–170/arm; validate P2 on the 50-report single-radiologist gold with per-metric precision/recall; fix provenance, seed, and rule-set version for reproducibility.<span class="p">Both</span></span></li>
     </ol>
   </div>
 </section>

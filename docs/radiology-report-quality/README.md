@@ -1,7 +1,7 @@
-# Project: Radiology Report Quality Analysis (French) — RRQ-FR
+# Project: Radiology Report Quality Analysis (French) - RRQ-FR
 
 **Pilot modality:** Trauma X-ray (trauma XR)
-**Data language:** French · **Owner:** MedLogic
+**Data language:** French · **Owner:** the group
 **Timeline:** 3 months to a validated MVP
 **Package version:** 2026-07-13
 
@@ -11,9 +11,9 @@
 
 A project documentation package for building an NLP/LLM system that automatically
 assesses the quality and appropriateness of French trauma X-ray reports across two
-workstreams that MedLogic has already piloted.
+workstreams that the group has already piloted.
 
-### Workstream A — Report quality *(piloted: ~100 trauma XR cases)*
+### Workstream A - Report quality *(piloted: 50 trauma XR reports (single radiologist))*
 
 | Code | Dimension | Task type | Tool |
 |------|-----------|-----------|------|
@@ -21,7 +21,7 @@ workstreams that MedLogic has already piloted.
 | Q2 | Follow-up recommendation present | Binary classification | Encoder + rules |
 | Q3 | Follow-up completeness | Slot extraction + completeness | Encoder + rules |
 
-### Workstream B — BoneView appropriateness *(piloted: 888 reports)*
+### Workstream B - BoneView appropriateness *(piloted: 888 reports)*
 
 | Code | Dimension | Task type | Tool |
 |------|-----------|-----------|------|
@@ -42,13 +42,13 @@ workstreams that MedLogic has already piloted.
 | [`04-runbook.md`](04-runbook.md) | **Order of actions**: step-by-step operational runbook | Doers |
 | [`05-annotation-guideline.md`](05-annotation-guideline.md) | **Annotation rubric** with trauma XR anchor examples (Q1–Q3, B1–B2) | Radiologist annotators |
 | [`06-working-forms.md`](06-working-forms.md) | **Working forms** for colleagues + ready-to-use CSV templates | Annotators, data curator |
-| [`slides.html`](slides.html) | **5-slide executive summary** (MedLogic brand) | Sponsor, stakeholders |
+| [`slides.html`](slides.html) | **5-slide executive summary** (house style) | Sponsor, stakeholders |
 | [`references.md`](references.md) | Literature and BoneView sources grounding the plan | All |
 
 ## Key principle
 
 > **Definitions and the gold standard come before the model.** Both pilots have already
-> produced labeled data (Q1/Q2 on ~100 trauma XR cases; B1/B2 on 888 reports). The 3-month
+> produced labeled data (Q1/Q2 on 50 trauma XR reports (single radiologist); B1/B2 on 888 reports). The 3-month
 > plan consolidates those into frozen gold sets, then bootstraps models and evaluates.
 
 ## Stack in one line

@@ -1,6 +1,6 @@
 # Working forms for colleagues · RRQ-FR
 
-Ready-to-use templates for day-to-day work. CSV versions are in [`forms/`](forms/) —
+Ready-to-use templates for day-to-day work. CSV versions are in [`forms/`](forms/) -
 import into Excel / Google Sheets / a labeling tool.
 
 Dimensions: **Q1** ambiguity · **Q2** follow-up present · **Q3** completeness ·
@@ -8,7 +8,7 @@ Dimensions: **Q1** ambiguity · **Q2** follow-up present · **Q3** completeness 
 
 ---
 
-## Form 1 — Report annotation (for radiologists)
+## Form 1 - Report annotation (for radiologists)
 
 Each annotator fills this **independently**. One report = one row.
 
@@ -38,7 +38,7 @@ Each annotator fills this **independently**. One report = one row.
 
 ---
 
-## Form 2 — Adjudication / consensus (for the clinical lead)
+## Form 2 - Adjudication / consensus (for the clinical lead)
 
 For reports where A and B disagree.
 
@@ -57,7 +57,7 @@ For reports where A and B disagree.
 
 ---
 
-## Form 3 — Model error log (for ML + lead, evaluation phase)
+## Form 3 - Model error log (for ML + lead, evaluation phase)
 
 For FP/FN analysis during system evaluation.
 
@@ -74,7 +74,7 @@ For FP/FN analysis during system evaluation.
 
 ---
 
-## Form 4 — Weekly status (for standups)
+## Form 4 - Weekly status (for standups)
 
 | Field | Value |
 |-------|-------|

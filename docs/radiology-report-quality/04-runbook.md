@@ -6,7 +6,7 @@ B1 order in-scope · B2 eligible finding.
 
 ---
 
-## Block A — Setup (before data)
+## Block A - Setup (before data)
 
 | # | Action | Owner | Output | ☐ |
 |---|--------|-------|--------|---|
@@ -18,7 +18,7 @@ B1 order in-scope · B2 eligible finding.
 
 > **A2 is a blocker.** No data work before DPO approval.
 
-## Block B — Data (Week 1)
+## Block B - Data (Week 1)
 
 | # | Action | Owner | Output | ☐ |
 |---|--------|-------|--------|---|
@@ -29,11 +29,11 @@ B1 order in-scope · B2 eligible finding.
 | B5 | Verify segmentation (≥95% correct) | ML engineer | Segmentation metric | ☐ |
 | B6 | Corpus profile (lengths, region mix, age availability) | ML engineer | Profile report | ☐ |
 
-## Block C — Gold consolidation (Week 2)
+## Block C - Gold consolidation (Week 2)
 
 | # | Action | Owner | Output | ☐ |
 |---|--------|-------|--------|---|
-| C1 | Ingest pilot labels: ~100 (Q1,Q2) + 888 (B1,B2) | ML engineer | Seed gold sets | ☐ |
+| C1 | Ingest pilot labels: 50 single-radiologist (Q1,Q2) + 888 (B1,B2) | ML engineer | Seed gold sets | ☐ |
 | C2 | Add Q3 labels where Q2=yes; relabel for rubric consistency | Annotators | Completed A-track labels | ☐ |
 | C3 | Second-annotator pass on a subset (all dimensions) | 2 radiologists | Double-labeled subset | ☐ |
 | C4 | Compute IAA (κ per dimension) | ML engineer | IAA report | ☐ |
@@ -41,7 +41,7 @@ B1 order in-scope · B2 eligible finding.
 | C6 | If κ(Q1) < target → refine rubric, re-label | Lead | Updated rubric | ☐ |
 | C7 | Freeze test split | ML engineer | train/dev/test | ☐ |
 
-## Block D — LLM baseline (Weeks 3–4)
+## Block D - LLM baseline (Weeks 3–4)
 
 | # | Action | Owner | Output | ☐ |
 |---|--------|-------|--------|---|
@@ -51,20 +51,20 @@ B1 order in-scope · B2 eligible finding.
 | D4 | B2 finding extraction constrained to eligible types + region | ML engineer | B2 baseline | ☐ |
 | D5 | Score on dev vs gold; iterate (version prompts) | ML engineer | Baseline metrics table | ☐ |
 
-## Block E — Specialized models (Weeks 5–8)
+## Block E - Specialized models (Weeks 5–8)
 
 | # | Action | Owner | Output | ☐ |
 |---|--------|-------|--------|---|
 | E1 | LLM weak-labeling of large corpus (Q2,Q3,B1,B2) | ML engineer | Weak labels | ☐ |
 | E2 | Sample-verify weak labels | Annotator | Clean train | ☐ |
-| E3 | Fine-tune encoder — Q2 (follow-up present) | ML engineer | Model Q2 | ☐ |
-| E4 | Train slot extraction + completeness rule — Q3 | ML engineer | Model Q3 + rules | ☐ |
+| E3 | Fine-tune encoder - Q2 (follow-up present) | ML engineer | Model Q2 | ☐ |
+| E4 | Train slot extraction + completeness rule - Q3 | ML engineer | Model Q3 + rules | ☐ |
 | E5 | Train B1 in-scope classifier + region mapping + reason codes | ML engineer | Model B1 | ☐ |
 | E6 | Train B2 eligible-finding detector + negation handling | ML engineer | Model B2 | ☐ |
 | E7 | Hybrid rules+model; handle 512-token limit | ML engineer | Final hard models | ☐ |
 | E8 | Evaluate on test | ML engineer | F1 Q2/Q3/B1/B2 | ☐ |
 
-## Block F — Evaluation & MVP (Weeks 9–12)
+## Block F - Evaluation & MVP (Weeks 9–12)
 
 | # | Action | Owner | Output | ☐ |
 |---|--------|-------|--------|---|

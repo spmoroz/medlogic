@@ -2,13 +2,13 @@
 
 **Pilot scope: Trauma X-ray (trauma XR) reports · Source language: French**
 
-This is the labeling manual for annotators. Goal: label reports **reproducibly** —
+This is the labeling manual for annotators. Goal: label reports **reproducibly** -
 two annotators reading the same report should assign the same labels.
 
-The rubric covers two workstreams that MedLogic has already piloted:
+The rubric covers two workstreams that the group has already piloted:
 
-- **Part A — Report quality** (piloted: ~100 trauma XR cases, dimensions *ambiguity* + *follow-up*)
-- **Part B — BoneView appropriateness** (piloted: 888 reports — order conformity + eligible findings)
+- **Part A - Report quality** (piloted: 50 trauma XR reports (single radiologist), dimensions *ambiguity* + *follow-up*)
+- **Part B - BoneView appropriateness** (piloted: 888 reports - order conformity + eligible findings)
 
 > Rubric text is in English (project working language). Reports are in **French**,
 > so anchor examples are given in English with representative **French cues** in
@@ -24,11 +24,11 @@ The rubric covers two workstreams that MedLogic has already piloted:
 - Score the **Conclusion / Impression** unless a dimension states otherwise.
 - When torn between two levels, pick the **worse** one and flag `litigious = yes`.
 - Trauma XR context: the central clinical question is usually **"is there a fracture
-  (or dislocation/effusion/eligible bone finding) or not?"** — keep that lens.
+  (or dislocation/effusion/eligible bone finding) or not?"** - keep that lens.
 
 ---
 
-# PART A — Report quality
+# PART A - Report quality
 
 ## Q1 · Ambiguity of the conclusion (`ambiguity`) · primary: unambiguous / ambiguous
 
@@ -39,7 +39,7 @@ it leave the key trauma question unresolved?
 - It hedges on the presence of an eligible finding **without resolving it** and
   **without an actionable next step** (e.g. "possible fracture" with no recommendation).
 - It defers entirely to clinic without committing ("to be correlated clinically" as the
-  *only* content — see Q2 note).
+  *only* content - see Q2 note).
 - It is internally inconsistent (description vs conclusion, or self-contradiction).
 - It is empty / non-informative.
 
@@ -65,7 +65,7 @@ it leave the key trauma question unresolved?
 - "*Doute sur une fracture, avis spécialisé recommandé*" → hedge **with** action →
   **unambiguous (1)** (uncertainty is resolved by a next step).
 - "*Pas d'argument formel pour une fracture*" with no further guidance → borderline;
-  usually **minor ambiguity (1)** — flag if unsure.
+  usually **minor ambiguity (1)** - flag if unsure.
 
 ---
 
@@ -110,17 +110,17 @@ it leave the key trauma question unresolved?
 
 | Label | Example (EN · FR) | Missing |
 |-------|-------------------|---------|
-| **Complete** | "Wrist radiograph in 2 weeks." (*Radiographie du poignet à 2 semaines.*) | — |
+| **Complete** | "Wrist radiograph in 2 weeks." (*Radiographie du poignet à 2 semaines.*) | - |
 | **Incomplete** | "Follow-up recommended." (*Contrôle recommandé.*) | modality, timeframe, region |
 | **Incomplete** | "Repeat CT advised." (*Nouveau scanner conseillé.*) | timeframe |
 
-Record **which slots are missing** — it is actionable feedback for the reporting physician.
+Record **which slots are missing** - it is actionable feedback for the reporting physician.
 
 ---
 
-# PART B — BoneView appropriateness
+# PART B - BoneView appropriateness
 
-> BoneView (Gleamer) intended use — the yardstick for Part B:
+> BoneView (Gleamer) intended use - the yardstick for Part B:
 >
 > | Attribute | In scope |
 > |-----------|----------|
@@ -144,8 +144,8 @@ BoneView is intended to run on?
 
 | Label | Example order (EN · FR cue) | Reason |
 |-------|------------------------------|--------|
-| **In-scope** | "XR left ankle, trauma" (*Radiographie cheville gauche, traumatisme*) | — |
-| **In-scope** | "XR pelvis after fall" (*Bassin, chute*) | — |
+| **In-scope** | "XR left ankle, trauma" (*Radiographie cheville gauche, traumatisme*) | - |
+| **In-scope** | "XR pelvis after fall" (*Bassin, chute*) | - |
 | **Out-of-scope** | "XR cervical spine" (*Rachis cervical*) | R_region (cervical excluded) |
 | **Out-of-scope** | "XR skull" (*Crâne*) | R_region |
 | **Out-of-scope** | "Chest XR, dyspnea" (*Thorax, dyspnée*) | R_region (soft-tissue chest, not rib trauma) |
@@ -171,7 +171,7 @@ to detect, in an **in-scope region**?
 | **Present** | "Non-displaced fracture of the distal radius." (*Fracture non déplacée du radius distal.*) | fracture / wrist |
 | **Present** | "Lipohemarthrosis of the knee, suggesting occult fracture." (*Épanchement/lipohémarthrose du genou.*) | effusion (±fracture) / knee |
 | **Present** | "Anterior shoulder dislocation." (*Luxation antérieure de l'épaule.*) | dislocation / shoulder |
-| **Absent** | "No fracture, no dislocation." (*Pas de fracture ni luxation.*) | — |
+| **Absent** | "No fracture, no dislocation." (*Pas de fracture ni luxation.*) | - |
 | **Absent (note)** | "Undisplaced skull fracture." | out-of-scope region → `out_of_scope_finding=yes` |
 
 **Why B1 and B2 together:** B1 says *should BoneView have run*; B2 says *was there an
@@ -200,7 +200,7 @@ Run a joint session on 10–15 trauma XR reports: each annotator labels independ
 then reconcile disagreements and refine this rubric. Re-measure agreement (κ) per
 dimension. Freeze the test split before any modeling.
 
-## Appendix — French lexical cues (for the NLP pipeline, not exhaustive)
+## Appendix - French lexical cues (for the NLP pipeline, not exhaustive)
 
 - **Fracture:** *fracture, trait de fracture, fêlure, arrachement osseux, tassement*
 - **Dislocation:** *luxation, subluxation, déboîtement*

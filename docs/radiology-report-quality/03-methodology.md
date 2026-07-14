@@ -19,19 +19,19 @@ dimensions are distilled into a cheap encoder on the frozen gold.
 
 ## 2. Preprocessing (shared)
 
-1. **De-identification** — before any processing (RGPD): names, DOB, IDs, addresses.
-2. **Section segmentation** — split into `Indication / Renseignements`, `Technique`,
+1. **De-identification** - before any processing (RGPD): names, DOB, IDs, addresses.
+2. **Section segmentation** - split into `Indication / Renseignements`, `Technique`,
    `Description / Résultats`, `Conclusion / Impression`, via header regex (French) + a
    fallback line classifier. Q1/Q2/Q3 read the Conclusion; B2 reads the Conclusion; B1
    reads the **order/prescription** + exam metadata.
-3. **Normalization** — units, abbreviations, lowercasing for rules.
+3. **Normalization** - units, abbreviations, lowercasing for rules.
 
 ## 3. Models
 
 ### 3.1 Encoders (hard track)
-- **CamemBERT-bio** (`almanach/camembert-bio-base`) — French biomedical, +2.54 F1 avg on 5 biomedical NER tasks vs camembert-base.
-- **DrBERT** (`qanastek/DrBERT`) — French RoBERTa on the NACHOS medical corpus.
-- ⚠️ **512-token limit** — process per section (Conclusion/order text is short) or use a long-context variant (**ModernCamemBERT-bio**).
+- **CamemBERT-bio** (`almanach/camembert-bio-base`) - French biomedical, +2.54 F1 avg on 5 biomedical NER tasks vs camembert-base.
+- **DrBERT** (`qanastek/DrBERT`) - French RoBERTa on the NACHOS medical corpus.
+- ⚠️ **512-token limit** - process per section (Conclusion/order text is short) or use a long-context variant (**ModernCamemBERT-bio**).
 - CamemBERT-bio vs DrBERT decided empirically on dev.
 
 ### 3.2 LLM (soft track)
@@ -42,21 +42,21 @@ dimensions are distilled into a cheap encoder on the frozen gold.
 
 ## 4. Method per dimension
 
-### Q1 — Ambiguity (ordinal/binary) · LLM-as-judge
+### Q1 - Ambiguity (ordinal/binary) · LLM-as-judge
 - Rubric-anchored scoring: the judge must mark concrete signals (definite result? hedge
   resolved by an action? contradiction?) rather than a gut "score".
 - Trauma lens: is the fracture/eligible-finding question answered or left open?
-- Validate with κ + MAE vs consensus labels from the ~100-case pilot (extended).
+- Validate with κ + MAE vs consensus labels from the 50-report single-radiologist pilot (extended).
 
-### Q2 — Follow-up present (binary) · encoder + rules
+### Q2 - Follow-up present (binary) · encoder + rules
 - Rule baseline: an *action term* near an *imaging/next-step term* (see rubric FR cues).
 - Model: fine-tuned CamemBERT-bio/DrBERT. Hybrid rules+model usually beats either alone.
 
-### Q3 — Follow-up completeness (slots) · encoder + rules
+### Q3 - Follow-up completeness (slots) · encoder + rules
 - If Q2 = yes, extract slots (`modality`, `timeframe`, `body_region`, `condition`).
 - Missing required slot ⇒ incomplete. Output which slots are missing (actionable feedback).
 
-### B1 — Order conformity to BoneView intended use · rules + encoder
+### B1 - Order conformity to BoneView intended use · rules + encoder
 - Inputs: order/prescription text + exam metadata (modality, body region, patient age).
 - Decision = modality is XR **and** region ∈ {limbs, pelvis, thoraco-lumbar spine, rib cage}
   **and** age ≥ 2 y. Emit reason code on out-of-scope (`R_modality`/`R_region`/`R_age`).
@@ -64,7 +64,7 @@ dimensions are distilled into a cheap encoder on the frozen gold.
   an encoder classifier handles messy free-text orders.
 - Watch the **rib cage vs chest** and **cervical spine** edge cases (in the rubric).
 
-### B2 — Eligible finding in the conclusion · encoder / LLM extraction
+### B2 - Eligible finding in the conclusion · encoder / LLM extraction
 - Detect BoneView-eligible finding types (**fracture, dislocation, effusion, bone lesion**)
   in the Conclusion, with body region.
 - Negation handling is essential ("*pas de fracture*"). Region check reuses B1's mapping to
@@ -104,9 +104,9 @@ by IAA; error analysis + LLM-judge calibration in the report.
 
 ## 8. Why this design
 
-- **No training from scratch** — ready French biomedical encoders.
-- **Open-weights + on-prem** — patient data, RGPD.
-- **LLM first, distill later** — pilots already provide gold; LLM scales weak labels.
-- **Rubric-anchored judging** for Q1 — reproducibility over free-form scoring.
-- **BoneView intended use as an explicit, coded yardstick** — B1/B2 are auditable, not vibes.
-- **Trauma XR narrow scope** — smaller vocabulary → higher accuracy on limited data.
+- **No training from scratch** - ready French biomedical encoders.
+- **Open-weights + on-prem** - patient data, RGPD.
+- **LLM first, distill later** - pilots already provide gold; LLM scales weak labels.
+- **Rubric-anchored judging** for Q1 - reproducibility over free-form scoring.
+- **BoneView intended use as an explicit, coded yardstick** - B1/B2 are auditable, not vibes.
+- **Trauma XR narrow scope** - smaller vocabulary → higher accuracy on limited data.

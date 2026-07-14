@@ -4,8 +4,8 @@
 
 | Field | Value |
 |-------|-------|
-| **Name** | RRQ-FR — Radiology Report Quality (French) |
-| **Owner / sponsor** | MedLogic |
+| **Name** | RRQ-FR - Radiology Report Quality (French) |
+| **Owner / sponsor** | the group |
 | **Document version** | 2.0 · 2026-07-13 |
 | **Status** | Pilots complete → scaling to MVP |
 | **Pilot modality** | Trauma X-ray (trauma XR) |
@@ -18,7 +18,7 @@
 
 Trauma X-ray report quality directly affects clinical decisions and patient safety. An
 ambiguous conclusion or a missing/incomplete follow-up recommendation is a known source
-of diagnostic error and litigation (unresolved actionable findings). In parallel, MedLogic
+of diagnostic error and litigation (unresolved actionable findings). In parallel, the group
 deploys **Gleamer BoneView** (fracture/dislocation/effusion/bone-lesion AI); its value
 depends on being applied to the **right exams** (intended-use conformity) and on measuring
 **concordance** with the radiologist's report.
@@ -31,16 +31,16 @@ agreement, enabling continuous QA in a human-in-the-loop mode.
 
 Deliver and validate an MVP that, on a stream of French trauma XR reports, scores the two
 workstreams below and flags reports needing attention, at a quality suitable for
-human-in-the-loop operation — **within 3 months**, building on the completed pilots.
+human-in-the-loop operation - **within 3 months**, building on the completed pilots.
 
 ## 3. Scope
 
-### Workstream A — Report quality *(pilot: ~100 trauma XR cases labeled)*
+### Workstream A - Report quality *(pilot: 50 trauma XR reports (single radiologist) labeled)*
 - **Q1** Ambiguity of the conclusion
 - **Q2** Follow-up recommendation present
 - **Q3** Follow-up completeness (missing slots)
 
-### Workstream B — BoneView appropriateness *(pilot: 888 reports labeled)*
+### Workstream B - BoneView appropriateness *(pilot: 888 reports labeled)*
 - **B1** Order conformity to BoneView intended use (in-scope / out-of-scope)
 - **B2** BoneView-eligible finding present in the conclusion (type + region)
 
@@ -48,7 +48,7 @@ human-in-the-loop operation — **within 3 months**, building on the completed p
 Trauma XR modality; French; text only (not images); batch processing of reports & orders;
 a quality/appropriateness report with flags for radiologist review.
 
-### Out of scope (v1 — candidates for v2+)
+### Out of scope (v1 - candidates for v2+)
 Other modalities (CT/MRI/US); image analysis; real-time RIS/PACS integration during
 dictation; auto-rewriting of conclusions; conclusion↔description discordance (optional
 extension, not in the pilots); other languages.
@@ -57,18 +57,18 @@ extension, not in the pilots); other languages.
 
 | Role | Responsibility | Who |
 |------|----------------|-----|
-| Sponsor | Decisions, budget, priorities | MedLogic |
-| Product owner | Requirements, prioritization, acceptance | — |
-| Clinical lead (radiologist) | Metric definitions, adjudication | — |
-| Annotators (2+ radiologists) | Gold-standard labeling | — |
-| ML engineer / DS | Models, pipeline, evaluation | — |
-| Data engineer | Export, de-identification, storage | — |
-| DPO / compliance | RGPD/GDPR, legal basis | — |
+| Sponsor | Decisions, budget, priorities | the group |
+| Product owner | Requirements, prioritization, acceptance | - |
+| Clinical lead (radiologist) | Metric definitions, adjudication | - |
+| Annotators (2+ radiologists) | Gold-standard labeling | - |
+| ML engineer / DS | Models, pipeline, evaluation | - |
+| Data engineer | Export, de-identification, storage | - |
+| DPO / compliance | RGPD/GDPR, legal basis | - |
 
 ## 5. Data
 
 - **Source:** historical trauma XR reports + imaging orders/prescriptions (RIS export).
-- **Already available (pilots):** ~100 trauma XR reports labeled for Q1/Q2; 888 reports
+- **Already available (pilots):** 50 trauma XR reports (single radiologist) labeled for Q1/Q2; 888 reports
   labeled for B1/B2. These seed the gold sets.
 - **Scale-up:** thousands of unlabeled reports available for weak-labeling and encoder training.
 - **Privacy:** patient data → mandatory de-identification before processing; on-prem /
@@ -79,7 +79,7 @@ extension, not in the pilots); other languages.
 - **Q2, Q3, B1, B2** (hard): fine-tune `CamemBERT-bio` / `DrBERT` + rules, bootstrapped from pilot labels.
 - **Q1** (soft): LLM-as-judge (open-weights) with a structured rubric.
 - LLM weak-labeling to scale annotation; distill hard dimensions into a cheap encoder.
-- Details — [`03-methodology.md`](03-methodology.md).
+- Details - [`03-methodology.md`](03-methodology.md).
 
 ## 7. Success criteria (KPI)
 
@@ -115,7 +115,7 @@ extension, not in the pilots); other languages.
 | **M2** | Specialized models trained | Q2/Q3 + B1/B2 encoders + rules, test metrics |
 | **M3** | Evaluation + MVP | KPI report, MVP pipeline, review UI, acceptance audit |
 
-Detail — [`02-roadmap.md`](02-roadmap.md).
+Detail - [`02-roadmap.md`](02-roadmap.md).
 
 ## 10. Resource budget (rough)
 

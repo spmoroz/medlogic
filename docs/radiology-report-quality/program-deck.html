@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MedLogic · Radiology Report Intelligence — Program Deck</title>
+<title>Radiology Report Intelligence · Program Deck</title>
 <style>
   :root{
     --navy:#0d2137; --navy2:#112240; --navy3:#1a3a5c;
@@ -86,7 +86,7 @@
 </head>
 <body>
 <div class="brandbar">
-  <div class="b">Med<span>Logic</span> · Report Intelligence Program</div>
+  <div class="b">Report Intelligence Program</div>
   <div class="dots"><a href="#s1"></a><a href="#s2"></a><a href="#s3"></a><a href="#s4"></a><a href="#s5"></a><a href="#s6"></a><a href="#s7"></a><a href="#s8"></a><a href="#s9"></a><a href="#s10"></a><a href="#s11"></a><a href="#s12"></a></div>
 </div>
 
@@ -95,11 +95,15 @@
   <div class="inner">
     <div class="eyebrow"><span class="n">01 / 12</span> Program deck</div>
     <span class="pill">French trauma XR · BoneView · on-prem LLMs</span>
-    <h1 style="margin-top:1rem">Radiology report <span class="hl">intelligence</span> — two LLM projects, one method</h1>
-    <p class="lead">A single program: measure how a commercial fracture AI concords with the radiologist report, and peer-review report quality — then the validated method to make both submission- and deployment-grade.</p>
+    <h1 style="margin-top:1rem">Radiology report <span class="hl">intelligence</span> - two LLM projects, one method</h1>
+    <p class="lead">A single program: measure how a commercial fracture AI concords with the radiologist report, and peer-review report quality - then the validated method to make both submission- and deployment-grade.</p>
     <div class="grid g2">
       <div class="card accent"><div class="tag">Project 1</div><h3>AI vs report concordance</h3><p>Do BoneView alerts correspond to intended-use findings in the report? Canonical 888 doubt alerts → extending to &gt;10k incl. AI-positive/negative.</p></div>
-      <div class="card accent c"><div class="tag">Project 2</div><h3>LLM peer-review</h3><p>Automated report-quality review — structure, spelling, laterality, ambiguity, follow-up. 217 reports, Mistral 7B local.</p></div>
+      <div class="card accent c"><div class="tag">Project 2</div><h3>LLM peer-review</h3><p>Automated report-quality review - structure, spelling, laterality, ambiguity, follow-up. 217 reports processed, Mistral 7B local.</p></div>
+    </div>
+    <div class="grid g2" style="margin-top:.85rem">
+      <div class="card accent g"><div class="tag g">Goal 1 · Operations</div><h3>Deploy both tools in routine use</h3><p>Context-aware BoneView alerting and automated report QC, running inside the reporting workflow.</p></div>
+      <div class="card accent g"><div class="tag g">Goal 2 · Publication</div><h3>Two papers</h3><p>(1) LLM adjudication of BoneView (Project 1); (2) LLM-based report QC (Project 2).</p></div>
     </div>
   </div>
 </section>
@@ -121,7 +125,7 @@
         <div class="split-head b">Common ground</div>
         <ul class="clean good">
           <li>French trauma X-ray reports, section-structured (Indication / Description / Conclusion)</li>
-          <li>On-prem / local inference — no cloud egress, RGPD-aligned</li>
+          <li>On-prem / local inference - no cloud egress, RGPD-aligned</li>
           <li>An LLM applies an explicit, versioned rule set / rubric to free text</li>
         </ul>
       </div>
@@ -130,7 +134,7 @@
         <ul class="clean">
           <li><b>Project 2 → Project 1:</b> peer-review quality (Q1–Q3) feeds concordance interpretation (B1–B2)</li>
           <li><b>Shared yardstick:</b> one BoneView intended-use scope for both</li>
-          <li><b>Shared gold set:</b> the ~100-case ambiguity + follow-up labels validate Q-metrics</li>
+          <li><b>Shared gold set:</b> the 50-report single-radiologist ambiguity + follow-up labels validate Q-metrics</li>
         </ul>
       </div>
     </div>
@@ -141,13 +145,13 @@
 <section class="slide p1" id="s3">
   <div class="inner">
     <div class="eyebrow"><span class="n">03 / 12</span> Project 1 · Summary</div>
-    <h2>AI vs report <span class="hl">concordance</span> — context sets the value of an alert</h2>
+    <h2>AI vs report <span class="hl">concordance</span> - context sets the value of an alert</h2>
     <div class="two">
       <div>
         <div class="split-head b">Design (canonical cohort)</div>
         <ul class="clean">
           <li><b>888 BoneView DOUBT alerts</b>, 2025, 20-site network, mature deployment</li>
-          <li>LLM (Claude Opus 4.8) applies an arbitrated rule set — <b>intended-use fit</b> from Indications; <b>ground truth</b> (Anomaly / Doubt / Negative) from Conclusion</li>
+          <li>LLM (Claude Opus 4.8) applies an arbitrated rule set - <b>intended-use fit</b> from Indications; <b>ground truth</b> (Anomaly / Doubt / Negative) from Conclusion</li>
           <li>Confirmation rate = Anomaly / (Anomaly + Negative); reference = radiologist report</li>
           <li><b>Effusion counts as an intended-use anomaly</b> (in scope)</li>
         </ul>
@@ -162,7 +166,7 @@
         </div>
       </div>
     </div>
-    <p class="foot"><b>Take-away:</b> value is set by context the AI never sees — pass the referral indication to the AI and calibrate the doubt band by indication &amp; anatomy.</p>
+    <p class="foot"><b>Take-away:</b> value is set by context the AI never sees - pass the referral indication to the AI and calibrate the doubt band by indication &amp; anatomy.</p>
   </div>
 </section>
 
@@ -170,7 +174,7 @@
 <section class="slide p1" id="s4">
   <div class="inner">
     <div class="eyebrow"><span class="n">04 / 12</span> Project 1 · Critical review</div>
-    <h2>Strong thesis — the honest ceiling is the <span class="hl">report reference</span></h2>
+    <h2>Strong thesis - the honest ceiling is the <span class="hl">report reference</span></h2>
     <div class="two">
       <div>
         <div class="split-head good">Holds up</div>
@@ -185,13 +189,13 @@
         <div class="split-head bad">Limits the claim</div>
         <ul class="clean bad">
           <li><b>Incorporation bias:</b> report = reference, AI on-screen in 93% of reads → reference not independent. <b>Image truth is unavailable</b>, so this is a permanent ceiling, not a fixable gap</li>
-          <li><b>Doubt-only cohort:</b> no sensitivity/specificity — only confirmation-among-resolved</li>
+          <li><b>Doubt-only cohort:</b> no sensitivity/specificity - only confirmation-among-resolved</li>
           <li><b>GT from free text, not yet human-validated</b> (no κ); case-level, no localisation</li>
         </ul>
       </div>
     </div>
     <div class="flag res">
-      <div class="tag">✓ Resolved — dataset locked, being scaled</div>
+      <div class="tag">✓ Resolved - dataset locked, being scaled</div>
       <p>The MICCAI camera-ready <b>N=888 / 50.6%</b> is the canonical cut (earlier 925 / 48.2% figures superseded). Next: <b>extend to &gt;10k</b> including AI-<b>positive</b> and AI-<b>negative</b> cases, converting a doubt-only sample into a device-output-balanced cohort.</p>
     </div>
   </div>
@@ -201,15 +205,15 @@
 <section class="slide p2" id="s5">
   <div class="inner">
     <div class="eyebrow c"><span class="n">05 / 12</span> Project 2 · Summary</div>
-    <h2>LLM <span class="hlc">peer-review</span> — an automated report-quality pipeline</h2>
+    <h2>LLM <span class="hlc">peer-review</span> - an automated report-quality pipeline</h2>
     <div class="two">
       <div>
         <div class="split-head c">Stack &amp; data</div>
         <ul class="clean">
           <li><b>Model:</b> Mistral 7B Instruct, temperature 0.0, local via Ollama</li>
           <li><b>Pipeline:</b> Python / Pandas; data never leaves the network</li>
-          <li><b>Sample:</b> 217 reports</li>
-          <li><b>Gate:</b> Structural compliance — 4 mandatory sections present</li>
+          <li><b>Sample:</b> 217 reports processed; <b>50</b> with a single-radiologist reference annotation</li>
+          <li><b>Gate:</b> Structural compliance - 4 mandatory sections present</li>
         </ul>
       </div>
       <div>
@@ -225,7 +229,7 @@
         <p class="foot">* Runs <b>only if</b> ambiguity was detected in the prior step.</p>
       </div>
     </div>
-    <p class="foot"><b>Take-away:</b> a working, privacy-safe pipeline flagging structural, linguistic &amp; safety issues — laterality mismatch being the highest-value safety check.</p>
+    <p class="foot"><b>Take-away:</b> a working, privacy-safe pipeline flagging structural, linguistic &amp; safety issues - laterality mismatch being the highest-value safety check.</p>
   </div>
 </section>
 
@@ -238,7 +242,7 @@
       <div>
         <div class="split-head good">Holds up</div>
         <ul class="clean good">
-          <li>Fully local, deterministic (temp 0) — strong privacy posture</li>
+          <li>Fully local, deterministic (temp 0) - strong privacy posture</li>
           <li>Clinically meaningful set; laterality &amp; structure are high-value</li>
           <li>Structural gate before semantic checks is sound engineering</li>
         </ul>
@@ -246,14 +250,14 @@
       <div>
         <div class="split-head bad">Needs fixing</div>
         <ul class="clean bad">
-          <li><b>No ground truth:</b> no precision/recall vs the ~100-case gold — accuracy unknown</li>
+          <li><b>Single-radiologist gold (50 reports):</b> no precision/recall reported yet, and one rater means <b>no inter-annotator agreement</b> - a 2nd reader is required to establish κ</li>
           <li><b>Mistral 7B too small</b> for laterality reasoning &amp; nuanced ambiguity; inconsistent with P1's Opus-class model</li>
-          <li><b>Follow-up gated on ambiguity</b> misses missing-follow-up on <b>definite</b> findings — decouple presence (Q2) from completeness (Q3)</li>
-          <li><b>Vague-word ambiguity</b> over-flags cautiously-worded clear negatives — needs rubric-anchored "hedge resolved by action = not ambiguous"</li>
+          <li><b>Follow-up gated on ambiguity</b> misses missing-follow-up on <b>definite</b> findings - decouple presence (Q2) from completeness (Q3)</li>
+          <li><b>Vague-word ambiguity</b> over-flags cautiously-worded clear negatives - needs rubric-anchored "hedge resolved by action = not ambiguous"</li>
         </ul>
       </div>
     </div>
-    <p class="foot">The ~100-case ambiguity + follow-up annotations are exactly the gold set to measure this pipeline — currently unused for validation.</p>
+    <p class="foot">The 50-report single-radiologist ambiguity + follow-up annotations are exactly the gold set to measure this pipeline - currently unused for validation.</p>
   </div>
 </section>
 
@@ -263,11 +267,11 @@
     <div class="eyebrow g"><span class="n">07 / 12</span> The method, done properly</div>
     <h2>Two tracks by the <span class="hlg">nature</span> of each dimension</h2>
     <div class="grid g2">
-      <div class="card accent"><div class="tag">Hard · Q2, Q3, B1, B2</div><h3>Fine-tuned French encoder + rules</h3><p><b>CamemBERT-bio / DrBERT</b> — ready open-source French medical models, bootstrapped from pilot labels. Cheap, reproducible classification &amp; slot extraction.</p></div>
-      <div class="card accent c"><div class="tag">Soft · Q1 ambiguity</div><h3>LLM-as-judge, rubric-anchored</h3><p>One judge-grade LLM scores explicit signals — definite result? hedge resolved by action? — not a free-form "rate 1–5". Reproducible over gut scoring.</p></div>
+      <div class="card accent"><div class="tag">Hard · Q2, Q3, B1, B2</div><h3>Fine-tuned French encoder + rules</h3><p><b>CamemBERT-bio / DrBERT</b> - ready open-source French medical models, bootstrapped from pilot labels. Cheap, reproducible classification &amp; slot extraction.</p></div>
+      <div class="card accent c"><div class="tag">Soft · Q1 ambiguity</div><h3>LLM-as-judge, rubric-anchored</h3><p>One judge-grade LLM scores explicit signals - definite result? hedge resolved by action? - not a free-form "rate 1–5". Reproducible over gut scoring.</p></div>
     </div>
     <div class="yard">
-      <div class="tag">BoneView intended use — one shared yardstick for B1 / B2 (and P1 ground truth)</div>
+      <div class="tag">BoneView intended use - one shared yardstick for B1 / B2 (and P1 ground truth)</div>
       <p>Radiographs of <b>limbs, pelvis, thoracic &amp; lumbar spine, rib cage</b> · patients <b>≥ 2 y</b> · <b>fractures, dislocations, effusions, bone lesions</b>. Out: skull, face, cervical spine, chest/abdomen soft-tissue, CT/MRI/US. <b>Effusion is in scope.</b></p>
     </div>
     <p class="foot">Strategy: LLM bootstraps weak labels at scale → distil hard dimensions into a cheap encoder → human-in-the-loop confirmations grow the gold set.</p>
@@ -278,13 +282,13 @@
 <section class="slide plan" id="s8">
   <div class="inner">
     <div class="eyebrow g"><span class="n">08 / 12</span> Validation &amp; data plan</div>
-    <h2>Make the LLM labels <span class="hlg">trustworthy</span> — and honest about the reference</h2>
+    <h2>Make the LLM labels <span class="hlg">trustworthy</span> - and honest about the reference</h2>
     <div class="two">
       <div>
         <div class="split-head good">Label validation (both projects)</div>
         <ul class="clean">
           <li><b>Two-radiologist κ study:</b> blinded, seeded, stratified subset (~150); target κ ≥ 0.61, goal ≥ 0.81; report confusion matrix</li>
-          <li>Validates the LLM's <b>rule application</b> (Indications→fit, Conclusion→GT / Q-metrics) against humans</li>
+          <li>Validates the LLM's <b>rule application</b> (Indications→fit, Conclusion→GT / Q-metrics) against humans, and gives Project 2 its first inter-rater agreement (currently single-radiologist)</li>
           <li>Feed systematic mismatches back into a <b>versioned</b> rule set; re-run only when rules change</li>
         </ul>
       </div>
@@ -311,7 +315,7 @@
     <h2>One model tier, one rubric, <span class="hlg">one scope</span></h2>
     <div class="grid g3">
       <div class="card accent g"><div class="tag g">Model</div><h3>Consistent judge tier</h3><p>Validate Mistral 7B against the Opus-class model used in P1, or upgrade P2's judge. Same-strength model → comparable labels across projects.</p></div>
-      <div class="card accent g"><div class="tag g">Rubric</div><h3>Shared definitions</h3><p>One rubric-anchored ambiguity definition. <b>Decouple follow-up presence (Q2) from completeness (Q3)</b> — stop gating follow-up on ambiguity. Shared intended-use lexicon.</p></div>
+      <div class="card accent g"><div class="tag g">Rubric</div><h3>Shared definitions</h3><p>One rubric-anchored ambiguity definition. <b>Decouple follow-up presence (Q2) from completeness (Q3)</b> - stop gating follow-up on ambiguity. Shared intended-use lexicon.</p></div>
       <div class="card accent g"><div class="tag g">Scope</div><h3>One BoneView scope</h3><p>Effusion / dislocation / lesion handled identically in P1 GT and P2/B-metrics. <b>Sync the workbook auto-classifier</b> to the paper (effusion = anomaly).</p></div>
     </div>
     <p class="foot">Result: the peer-review quality signal (Q1–Q3) and the concordance signal (B1–B2) speak the same language and can be cross-tabulated per exam.</p>
@@ -326,9 +330,9 @@
     <div class="track">
       <div class="ph"><span class="m">Month 1</span><span class="name">Consolidate gold + LLM baseline<small>Freeze rubric &amp; the 888 cohort · run two-radiologist κ · baseline all 5 dimensions</small></span><span class="gate">κ + baseline</span></div>
       <div class="ph"><span class="m c">Month 2</span><span class="name">Scale + specialized models<small>Extend P1 to &gt;10k (AI+/AI−/doubt) · fine-tune encoders for Q2/Q3/B1/B2 · validate P2 on gold</small></span><span class="gate">F1 targets + PPV/NPV</span></div>
-      <div class="ph"><span class="m r">Month 3</span><span class="name">Evaluate + MVP<small>Frozen-test KPIs · calibration · unified pipeline · appropriateness dashboard · review UI</small></span><span class="gate">≥70% flags valid</span></div>
+      <div class="ph"><span class="m r">Month 3</span><span class="name">Deploy + publish<small>Operations pilot in the reporting workflow · appropriateness dashboard &amp; review UI · two paper drafts (BoneView adjudication; report QC)</small></span><span class="gate">ops pilot + 2 drafts</span></div>
     </div>
-    <p class="foot">Both tracks run in parallel on shared infrastructure; the LLM baseline already covers all five dimensions end-to-end while encoders and the &gt;10k extension mature.</p>
+    <p class="foot">The two goals converge here: both tools running in routine use, and two submittable papers. Tracks run in parallel on shared infrastructure while the encoders and the &gt;10k extension mature.</p>
   </div>
 </section>
 
@@ -362,9 +366,9 @@
       <li><span><b>Frame to the reference you have.</b> Image truth unavailable → report-concordance, not accuracy; per-output PPV/NPV; keep incorporation-bias caveat.<span class="p">P1</span></span></li>
       <li><span><b>Lock one BoneView scope.</b> Effusion = anomaly (confirmed); sync the workbook auto-classifier to the paper across both projects.<span class="p">Both</span></span></li>
       <li><span><b>Unify model &amp; rubric.</b> One judge-grade model; rubric-anchored ambiguity; decouple follow-up from ambiguity; shared lexicon.<span class="p">P2</span></span></li>
-      <li><span><b>Power, validate &amp; version.</b> Validate P2 on the ~100-case gold (precision/recall); enrich thin arms; fix provenance, seed &amp; rule-set version.<span class="p">Both</span></span></li>
+      <li><span><b>Power, validate &amp; version.</b> Validate P2 on the 50-report single-radiologist gold (precision/recall); enrich thin arms; fix provenance, seed &amp; rule-set version.<span class="p">Both</span></span></li>
     </ol>
-    <p class="foot">Effusion scope and the dataset discrepancy are now <b>resolved</b>; image-based adjudication is <b>off the table</b> — the plan above reflects both.</p>
+    <p class="foot">Effusion scope and the dataset discrepancy are now <b>resolved</b>; image-based adjudication is <b>off the table</b> - the plan above reflects both.</p>
   </div>
 </section>
 </body>
