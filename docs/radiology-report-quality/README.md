@@ -42,6 +42,7 @@ workstreams that the group has already piloted.
 | [`04-runbook.md`](04-runbook.md) | **Order of actions**: step-by-step operational runbook | Doers |
 | [`05-annotation-guideline.md`](05-annotation-guideline.md) | **Annotation rubric** with trauma XR anchor examples (Q1–Q3, B1–B2) | Radiologist annotators |
 | [`06-working-forms.md`](06-working-forms.md) | **Working forms** for colleagues + ready-to-use CSV templates | Annotators, data curator |
+| [`qc-metrics-spec.md`](qc-metrics-spec.md) | **QC metrics specification** (Project 2): SRC, SGE, SEF, CQA, CCS, CPZ, AMI, MFR, ARDR, QCS, with slicing model, computation, and risks | ML engineers, clinical lead |
 | [`slides.html`](slides.html) | **5-slide executive summary** (house style) | Sponsor, stakeholders |
 | [`references.md`](references.md) | Literature and BoneView sources grounding the plan | All |
 
