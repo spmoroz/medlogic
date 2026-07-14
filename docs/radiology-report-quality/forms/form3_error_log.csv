@@ -1,3 +1,0 @@
-report_id,dimension,predicted,gold,error_type,likely_cause,example_fragment,fix_idea
-TXR-01033,B2,absent,present,FN,negation,"pas d'argument contre une fracture",improve negation scope
-TXR-01090,B1,in,out,FP,region-mapping,"gril costal vs thorax",refine rib-cage-vs-chest rule
